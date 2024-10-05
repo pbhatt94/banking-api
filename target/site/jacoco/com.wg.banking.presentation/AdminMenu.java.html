@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.presentation</a> &gt; <span class="el_source">AdminMenu.java</span></div><h1>AdminMenu.java</h1><pre class="source lang-java linenums">package com.wg.banking.presentation;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import com.wg.banking.constants.AccountConstants;
+import com.wg.banking.constants.NotificationConstants;
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.constants.TransactionConstants;
+import com.wg.banking.constants.UserConstants;
+import com.wg.banking.controller.AccountController;
+import com.wg.banking.controller.BranchController;
+import com.wg.banking.controller.ClosedAccountsController;
+import com.wg.banking.controller.IssueController;
+import com.wg.banking.controller.NotificationController;
+import com.wg.banking.controller.TransactionController;
+import com.wg.banking.controller.UserController;
+import com.wg.banking.dao.AccountDAO;
+import com.wg.banking.dao.AccountDetailsDAO;
+import com.wg.banking.dao.BranchDAO;
+import com.wg.banking.dao.ClosedAccountsDAO;
+import com.wg.banking.dao.IssueDAO;
+import com.wg.banking.dao.NotificationDAO;
+import com.wg.banking.dao.impl.AccountDAOImpl;
+import com.wg.banking.dao.impl.AccountDetailsDAOImpl;
+import com.wg.banking.dao.impl.BranchDAOImpl;
+import com.wg.banking.dao.impl.IssueDAOImpl;
+import com.wg.banking.dao.impl.NotificationDAOImpl;
+import com.wg.banking.dao.impl.TransactionDAOImpl;
+import com.wg.banking.dao.TransactionDAO;
+import com.wg.banking.dao.UserDAO;
+import com.wg.banking.dao.impl.UserDAOImpl;
+import com.wg.banking.helper.AccountNumberGenerator;
+import com.wg.banking.helper.GetUserInput;
+import com.wg.banking.helper.LoggingUtil;
+import com.wg.banking.helper.PasswordUtil;
+import com.wg.banking.helper.UniqueIdGenerator;
+import com.wg.banking.helper.ValidateInputs;
+import com.wg.banking.helper.printer.AccountDetailsPrinter;
+import com.wg.banking.helper.printer.BranchPrinter;
+import com.wg.banking.helper.printer.IssuePrinter;
+import com.wg.banking.helper.printer.NotificationDetailsPrinter;
+import com.wg.banking.helper.printer.TransactionPrinter;
+import com.wg.banking.helper.printer.UserPrinter;
+import com.wg.banking.model.Account;
+import com.wg.banking.model.AccountDetails;
+import com.wg.banking.model.Branch;
+import com.wg.banking.model.ClosedAccounts;
+import com.wg.banking.model.Issue;
+import com.wg.banking.model.NotificationDetails;
+import com.wg.banking.model.Transaction;
+import com.wg.banking.model.User;
+import com.wg.banking.service.AccountDetailsService;
+import com.wg.banking.service.AccountService;
+import com.wg.banking.service.BranchService;
+import com.wg.banking.service.ClosedAccountsService;
+import com.wg.banking.service.IssueService;
+import com.wg.banking.service.NotificationService;
+import com.wg.banking.service.TransactionService;
+import com.wg.banking.service.UserService;
+
+<span class="nc" id="L69">public class AdminMenu {</span>
+
+<span class="nc" id="L71">	private static UserDAO userDAO = new UserDAOImpl();</span>
+<span class="nc" id="L72">	private static UserService userService = new UserService(userDAO);</span>
+<span class="nc" id="L73">	private static UserController userController = new UserController(userService);</span>
+
+<span class="nc" id="L75">	private static BranchDAO branchDAO = new BranchDAOImpl();</span>
+<span class="nc" id="L76">	private static BranchService branchService = new BranchService(branchDAO);</span>
+<span class="nc" id="L77">	private static BranchController branchController = new BranchController(branchService);</span>
+
+<span class="nc" id="L79">	private static AccountDAO accountDAO = new AccountDAOImpl();</span>
+<span class="nc" id="L80">	private static AccountService accountService = new AccountService(accountDAO);</span>
+<span class="nc" id="L81">	private static AccountController accountController = new AccountController(accountService);</span>
+
+<span class="nc" id="L83">	private static TransactionDAO transactionDAO = new TransactionDAOImpl();</span>
+<span class="nc" id="L84">	private static TransactionService transactionService = new TransactionService(transactionDAO);</span>
+<span class="nc" id="L85">	private static TransactionController transactionController = new TransactionController(transactionService);</span>
+
+<span class="nc" id="L87">	private static IssueDAO issueDAO = new IssueDAOImpl();</span>
+<span class="nc" id="L88">	private static IssueService issueService = new IssueService(issueDAO);</span>
+<span class="nc" id="L89">	private static IssueController issueController = new IssueController(issueService);</span>
+
+<span class="nc" id="L91">	private static ClosedAccountsDAO closedAccountsDAO = new ClosedAccountsDAO();</span>
+<span class="nc" id="L92">	private static ClosedAccountsService closedAccountsService = new ClosedAccountsService(closedAccountsDAO);</span>
+<span class="nc" id="L93">	private static ClosedAccountsController closedAccountsController = new ClosedAccountsController(</span>
+			closedAccountsService);
+
+<span class="nc" id="L96">	private static AccountDetailsDAO accountDetailsDAO = new AccountDetailsDAOImpl();</span>
+<span class="nc" id="L97">	private static AccountDetailsService accountDetailsService = new AccountDetailsService(accountDetailsDAO);</span>
+
+<span class="nc" id="L99">	private static NotificationDAO notificationDAO = new NotificationDAOImpl();</span>
+<span class="nc" id="L100">	private static NotificationService notificationService = new NotificationService(notificationDAO, userService,</span>
+			branchService, accountService);
+<span class="nc" id="L102">	private static NotificationController notificationController = new NotificationController(notificationService);</span>
+//	private static TransactionService transactionService2 = new TransactionService(transactionDAO, accountService, notificationService); 
+<span class="nc" id="L104">	private static Logger logger = LoggingUtil.getLogger(Menu.class);</span>
+
+<span class="nc" id="L106">	private static Scanner scanner = new Scanner(System.in);</span>
+
+	public static void showAdminMenu(User user) {
+		int choice;
+		while (true) {
+<span class="nc" id="L111">			System.out.println(StringConstants.ADMIN_MENU);</span>
+
+<span class="nc" id="L113">			choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L115" title="All 9 branches missed.">			switch (choice) {</span>
+			case 1:
+<span class="nc" id="L117">				displayManageUsers(user);</span>
+<span class="nc" id="L118">				break;</span>
+			case 2:
+<span class="nc" id="L120">				displayManageAccounts(user);</span>
+<span class="nc" id="L121">				break;</span>
+			case 3:
+<span class="nc" id="L123">				displayManageBranches(user);</span>
+<span class="nc" id="L124">				break;</span>
+			case 4:
+<span class="nc" id="L126">				displayManageNotifications(user);</span>
+<span class="nc" id="L127">				break;</span>
+			case 5:
+<span class="nc" id="L129">				displayManageIssues(user);</span>
+<span class="nc" id="L130">				break;</span>
+			case 6:
+<span class="nc" id="L132">				displayTransactionsSubMenu(user);</span>
+<span class="nc" id="L133">				break;</span>
+			case 7:
+<span class="nc" id="L135">				StartMenu.showStartMenu();</span>
+<span class="nc" id="L136">				break;</span>
+			case 8:
+<span class="nc" id="L138">				System.exit(0);</span>
+			default:
+<span class="nc" id="L140">				System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+			}
+		}
+	}
+
+	public static void displayManageUsers(User user) {
+		while (true) {
+<span class="nc" id="L147">			System.out.println(StringConstants.MANAGE_USER_SUB_MENU);</span>
+<span class="nc" id="L148">			int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L150" title="All 8 branches missed.">			switch (choice) {</span>
+			case 1:
+<span class="nc" id="L152">				List&lt;User&gt; users = userController.getAllUsers();</span>
+<span class="nc" id="L153">				UserPrinter.printUsers(users);</span>
+<span class="nc" id="L154">				break;</span>
+			case 2:
+<span class="nc" id="L156">				User newUser = null;</span>
+				do {
+<span class="nc" id="L158">					newUser = getInputForNewUser();</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">					if (newUser != null)</span>
+<span class="nc" id="L160">						break;</span>
+<span class="nc" id="L161">					System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">				} while (newUser == null);</span>
+<span class="nc" id="L163">				userController.addUser(newUser);</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">				if (!newUser.getRole().toString().equalsIgnoreCase(UserConstants.CUSTOMER))</span>
+<span class="nc" id="L165">					break;</span>
+
+<span class="nc" id="L167">				Account account = getInputForAccount(newUser);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">				if (account == null) {</span>
+<span class="nc" id="L169">					System.out.println(StringConstants.FAILED_CUSTOMER_ACCOUNT_CREATION);</span>
+<span class="nc" id="L170">					break;</span>
+				}
+
+<span class="nc" id="L173">				accountController.addAccount(account);</span>
+<span class="nc" id="L174">				System.out.println(StringConstants.SUCCESSFUL_CUSTOMER_ACCOUNT_CREATION);</span>
+<span class="nc" id="L175">				break;</span>
+			case 3:
+<span class="nc" id="L177">				updateUser();</span>
+<span class="nc" id="L178">				break;</span>
+			case 4:
+<span class="nc" id="L180">				List&lt;User&gt; inactiveUsers = userController.getAllInactiveUsers();</span>
+<span class="nc" id="L181">				UserPrinter.printUsers(inactiveUsers);</span>
+<span class="nc" id="L182">				break;</span>
+			case 5:
+<span class="nc" id="L184">				showAdminMenu(user);</span>
+<span class="nc" id="L185">				break;</span>
+			case 6:
+<span class="nc" id="L187">				StartMenu.showStartMenu();</span>
+<span class="nc" id="L188">				break;</span>
+			case 7:
+<span class="nc" id="L190">				System.exit(0);</span>
+			default:
+<span class="nc" id="L192">				System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+			}
+<span class="nc" id="L194">		}</span>
+	}
+
+	public static void displayManageAccounts(User user) {
+		while (true) {
+<span class="nc" id="L199">			System.out.println(StringConstants.MANAGE_ACCOUNT_SUB_MENU);</span>
+<span class="nc" id="L200">			int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L202" title="All 7 branches missed.">			switch (choice) {</span>
+			case 1:
+<span class="nc" id="L204">				displayAccountDetails(user);</span>
+<span class="nc" id="L205">				break;</span>
+			case 2:
+<span class="nc" id="L207">				accountController.updateAccount();</span>
+<span class="nc" id="L208">				break;</span>
+			case 3:
+<span class="nc" id="L210">				closeAccount();</span>
+<span class="nc" id="L211">				break;</span>
+			case 4:
+<span class="nc" id="L213">				showAdminMenu(user);</span>
+<span class="nc" id="L214">				break;</span>
+			case 5:
+<span class="nc" id="L216">				StartMenu.showStartMenu();</span>
+<span class="nc" id="L217">				break;</span>
+			case 6:
+<span class="nc" id="L219">				System.exit(0);</span>
+			default:
+<span class="nc" id="L221">				System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+			}
+<span class="nc" id="L223">		}</span>
+	}
+
+	public static void displayManageBranches(User user) {
+		while (true) {
+<span class="nc" id="L228">			System.out.println(StringConstants.MANAGE_BRANCH_SUB_MENU);</span>
+<span class="nc" id="L229">			int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L231" title="All 8 branches missed.">			switch (choice) {</span>
+			case 1:
+<span class="nc" id="L233">				System.out.println(StringConstants.AVAILABLE_BRANCHES_MESSAGE);</span>
+<span class="nc" id="L234">				List&lt;Branch&gt; branches = branchController.getAllBranches();</span>
+<span class="nc" id="L235">				BranchPrinter.printBranches(branches);</span>
+<span class="nc" id="L236">				break;</span>
+			case 2:
+<span class="nc" id="L238">				String branchId = UniqueIdGenerator.generateUniqueId();</span>
+
+<span class="nc" id="L240">				System.out.print(StringConstants.ENTER_BRANCH_NAME_MESSAGE);</span>
+<span class="nc" id="L241">				String branchName = scanner.nextLine();</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">				while (!ValidateInputs.isValidString(branchName)) {</span>
+<span class="nc" id="L243">					System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L244">					System.out.print(StringConstants.ENTER_BRANCH_NAME_MESSAGE);</span>
+<span class="nc" id="L245">					branchName = scanner.nextLine();</span>
+				}
+
+<span class="nc" id="L248">				System.out.print(StringConstants.ENTER_BRANCH_ADDRESS_MESSAGE);</span>
+<span class="nc" id="L249">				String branchAddress = scanner.nextLine();</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">				while (!ValidateInputs.isValidString(branchAddress)) {</span>
+<span class="nc" id="L251">					System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L252">					System.out.print(StringConstants.ENTER_BRANCH_ADDRESS_MESSAGE);</span>
+<span class="nc" id="L253">					branchAddress = scanner.nextLine();</span>
+				}
+
+<span class="nc" id="L256">				List&lt;User&gt; managers = userController.getAvailableManagers();</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">				if (managers.size() == 0) {</span>
+<span class="nc" id="L258">					System.out.println(StringConstants.NO_AVAILABLE_MANAGERS_MESSAGE);</span>
+<span class="nc" id="L259">					return;</span>
+				}
+
+<span class="nc" id="L262">				UserPrinter.printUsers(managers);</span>
+<span class="nc" id="L263">				System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L264">				int index = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L266" title="All 4 branches missed.">				while (index &lt;= 0 || index &gt; managers.size()) {</span>
+<span class="nc" id="L267">					System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L268">					System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L269">					index = GetUserInput.getUserChoice();</span>
+				}
+
+<span class="nc" id="L272">				String branchManagerId = managers.get(index - 1).getUserId();</span>
+
+<span class="nc" id="L274">				Date now = new Date(System.currentTimeMillis());</span>
+
+<span class="nc" id="L276">				Branch branch = new Branch(branchId, branchName, branchAddress, branchManagerId, now, now);</span>
+<span class="nc" id="L277">				branchController.addBranch(branch);</span>
+<span class="nc" id="L278">				break;</span>
+			case 3:
+<span class="nc" id="L280">				branchController.updateBranch();</span>
+<span class="nc" id="L281">				break;</span>
+			case 4:
+<span class="nc" id="L283">				branchController.deleteBranch();</span>
+<span class="nc" id="L284">				break;</span>
+			case 5:
+<span class="nc" id="L286">				showAdminMenu(user);</span>
+<span class="nc" id="L287">				break;</span>
+			case 6:
+<span class="nc" id="L289">				StartMenu.showStartMenu();</span>
+<span class="nc" id="L290">				break;</span>
+			case 7:
+<span class="nc" id="L292">				System.exit(0);</span>
+			default:
+<span class="nc" id="L294">				System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+			}
+<span class="nc" id="L296">		}</span>
+	}
+
+	public static void displayManageNotifications(User user) {
+		while (true) {
+<span class="nc" id="L301">			System.out.println(StringConstants.MANAGE_NOTIFICATION_SUB_MENU);</span>
+<span class="nc" id="L302">			int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L304" title="All 6 branches missed.">			switch (choice) {</span>
+			case 1:
+<span class="nc" id="L306">				displayNotificationsSubMenu(user);</span>
+<span class="nc" id="L307">				break;</span>
+			case 2:
+<span class="nc" id="L309">				notificationController.addNotification();</span>
+<span class="nc" id="L310">				break;</span>
+			case 3:
+<span class="nc" id="L312">				showAdminMenu(user);</span>
+<span class="nc" id="L313">				break;</span>
+			case 4:
+<span class="nc" id="L315">				StartMenu.showStartMenu();</span>
+<span class="nc" id="L316">				break;</span>
+			case 5:
+<span class="nc" id="L318">				System.exit(0);</span>
+			default:
+<span class="nc" id="L320">				System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+			}
+<span class="nc" id="L322">		}</span>
+	}
+
+	public static void displayNotificationsSubMenu(User user) {
+<span class="nc" id="L326">		System.out.println(StringConstants.GET_ALL_NOTIFICATIONS_SUB_MENU);</span>
+<span class="nc" id="L327">		int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L329" title="All 4 branches missed.">		while (choice &lt;= 0 || choice &gt; 3) {</span>
+<span class="nc" id="L330">			System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L331">			System.out.println(StringConstants.GET_ALL_NOTIFICATIONS_SUB_MENU);</span>
+<span class="nc" id="L332">			choice = GetUserInput.getUserChoice();</span>
+		}
+
+<span class="nc" id="L335">		List&lt;NotificationDetails&gt; allNotifications = notificationController.getAllNotificationDetails();</span>
+<span class="nc" id="L336">		List&lt;NotificationDetails&gt; notifications = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L337" title="All 4 branches missed.">		switch (choice) {</span>
+		case 1:
+<span class="nc bnc" id="L339" title="All 2 branches missed.">			for (NotificationDetails notificationDetail : allNotifications) {</span>
+<span class="nc" id="L340">				String notificationType = notificationDetail.getNotification().getNotificationType().toString();</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">				if (notificationType.equalsIgnoreCase(NotificationConstants.SYSTEM_ALERT_TYPE)) {</span>
+<span class="nc" id="L342">					notifications.add(notificationDetail);</span>
+				}
+<span class="nc" id="L344">			}</span>
+<span class="nc" id="L345">			break;</span>
+		case 2:
+<span class="nc bnc" id="L347" title="All 2 branches missed.">			for (NotificationDetails notificationDetail : allNotifications) {</span>
+<span class="nc" id="L348">				String notificationType = notificationDetail.getNotification().getNotificationType().toString();</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">				if (notificationType.equalsIgnoreCase(NotificationConstants.ACCOUNT_ACTIVITY_TYPE)) {</span>
+<span class="nc" id="L350">					notifications.add(notificationDetail);</span>
+				}
+<span class="nc" id="L352">			}</span>
+<span class="nc" id="L353">			break;</span>
+		case 3:
+<span class="nc" id="L355">			displayManageNotifications(user);</span>
+<span class="nc" id="L356">			break;</span>
+		default:
+<span class="nc" id="L358">			System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+		}
+<span class="nc" id="L360">		NotificationDetailsPrinter.printNotifications(notifications);</span>
+<span class="nc" id="L361">	}</span>
+
+	public static void displayManageIssues(User user) {
+		while (true) {
+<span class="nc" id="L365">			System.out.println(StringConstants.MANAGE_ISSUE_SUB_MENU);</span>
+<span class="nc" id="L366">			int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L368" title="All 6 branches missed.">			switch (choice) {</span>
+			case 1:
+<span class="nc" id="L370">				List&lt;Issue&gt; issues = issueController.getAllIssues();</span>
+<span class="nc" id="L371">				IssuePrinter.printIssues(issues);</span>
+<span class="nc" id="L372">				break;</span>
+			case 2:
+<span class="nc" id="L374">				List&lt;Issue&gt; allPendingIssues = issueController.getAllIssues().stream()</span>
+<span class="nc bnc" id="L375" title="All 2 branches missed.">						.filter(issue -&gt; issue.getStatus() == Issue.Status.PENDING).collect(Collectors.toList());</span>
+<span class="nc bnc" id="L376" title="All 4 branches missed.">				if (allPendingIssues == null || allPendingIssues.size() == 0) {</span>
+<span class="nc" id="L377">					System.out.println(StringConstants.NO_ISSUES_PRESENT_MESSAGE);</span>
+<span class="nc" id="L378">					break;</span>
+				}
+<span class="nc" id="L380">				IssuePrinter.printIssues(allPendingIssues);</span>
+<span class="nc" id="L381">				System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L382">				int index = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L384" title="All 4 branches missed.">				while (index &lt;= 0 || index &gt; allPendingIssues.size()) {</span>
+<span class="nc" id="L385">					System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L386">					System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L387">					index = GetUserInput.getUserChoice();</span>
+				}
+
+<span class="nc" id="L390">				Issue issueToResolve = allPendingIssues.get(index - 1);</span>
+<span class="nc" id="L391">				issueController.resolveIssue(issueToResolve);</span>
+
+<span class="nc" id="L393">				break;</span>
+			case 3:
+<span class="nc" id="L395">				showAdminMenu(user);</span>
+<span class="nc" id="L396">				break;</span>
+			case 4:
+<span class="nc" id="L398">				StartMenu.showStartMenu();</span>
+<span class="nc" id="L399">				break;</span>
+			case 5:
+<span class="nc" id="L401">				System.exit(0);</span>
+			default:
+<span class="nc" id="L403">				System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+			}
+<span class="nc" id="L405">		}</span>
+	}
+
+	public static void displayTransactionsSubMenu(User user) {
+		try {
+			while (true) {
+<span class="nc" id="L411">				System.out.println(StringConstants.MANAGE_TRANSACTION_SUB_MENU);</span>
+<span class="nc" id="L412">				int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L414" title="All 7 branches missed.">				switch (choice) {</span>
+				case 1:
+<span class="nc" id="L416">					TransactionPrinter.printTransactions(transactionController.getAllTransactions());</span>
+<span class="nc" id="L417">					break;</span>
+				case 2:
+<span class="nc" id="L419">					List&lt;Transaction&gt; transactions = transactionController.getAllTransactions();</span>
+<span class="nc" id="L420">					filterTransactionByType(transactions, user);</span>
+<span class="nc" id="L421">					break;</span>
+				case 3:
+<span class="nc" id="L423">					List&lt;Transaction&gt; allTransactions = transactionController.getAllTransactions();</span>
+<span class="nc" id="L424">					filterTransactionByAmount(allTransactions, user);</span>
+<span class="nc" id="L425">					break;</span>
+				case 4:
+<span class="nc" id="L427">					showAdminMenu(user);</span>
+				case 5:
+<span class="nc" id="L429">					StartMenu.showStartMenu();</span>
+				case 6:
+<span class="nc" id="L431">					System.exit(0);</span>
+				default:
+<span class="nc" id="L433">					System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+				}
+<span class="nc" id="L435">			}</span>
+<span class="nc" id="L436">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L437">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L438">			e.printStackTrace();</span>
+<span class="nc" id="L439">			scanner.next();</span>
+<span class="nc" id="L440">		} catch (Exception e) {</span>
+<span class="nc" id="L441">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L442">			e.printStackTrace();</span>
+<span class="nc" id="L443">		}</span>
+<span class="nc" id="L444">	}</span>
+
+	public static void displayAccountDetails(User user) {
+		try {
+<span class="nc" id="L448">			System.out.println(StringConstants.GET_ACCOUNT_DETAILS_SUB_MENU);</span>
+<span class="nc" id="L449">			int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc" id="L451">			List&lt;AccountDetails&gt; accounts = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L452" title="All 7 branches missed.">			switch (choice) {</span>
+			case 1:
+<span class="nc" id="L454">				System.out.println(StringConstants.AVAILABLE_BRANCHES_MESSAGE);</span>
+<span class="nc" id="L455">				List&lt;Branch&gt; branches = branchController.getAllBranches();</span>
+<span class="nc" id="L456">				int index = 1;</span>
+<span class="nc bnc" id="L457" title="All 2 branches missed.">				for (Branch branch : branches) {</span>
+<span class="nc" id="L458">					System.out.println(index + &quot;     &quot; + branch.getBranchName());</span>
+<span class="nc" id="L459">					index++;</span>
+<span class="nc" id="L460">				}</span>
+<span class="nc" id="L461">				System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L462">				index = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L464" title="All 4 branches missed.">				while (index &lt;= 0 || index &gt; branches.size()) {</span>
+<span class="nc" id="L465">					System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L466">					System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L467">					index = GetUserInput.getUserChoice();</span>
+				}
+
+<span class="nc" id="L470">				String selectedBranch = branches.get(index - 1).getBranchName();</span>
+<span class="nc" id="L471">				accounts = accountDetailsService.getAllAccountDetails(selectedBranch);</span>
+<span class="nc" id="L472">				break;</span>
+			case 2:
+<span class="nc" id="L474">				accounts = accountDetailsService.getAllAccountDetails();</span>
+<span class="nc" id="L475">				System.out.println(StringConstants.GET_ACCOUNT_DETAILS_FILTER_BY_BALANCE_SUB_MENU);</span>
+<span class="nc" id="L476">				int filterChoice = GetUserInput.getUserChoice();</span>
+<span class="nc bnc" id="L477" title="All 7 branches missed.">				switch (filterChoice) {</span>
+				case 1:
+<span class="nc" id="L479">					System.out.println(StringConstants.ENTER_THE_MINIMUM_BALANCE);</span>
+<span class="nc" id="L480">					double minimumBalance = GetUserInput.getDoubleInput();</span>
+<span class="nc" id="L481">					accounts = accountDetailsService.getAllAccountDetailsByMinimumBalance(accounts, minimumBalance);</span>
+<span class="nc" id="L482">					break;</span>
+				case 2:
+<span class="nc" id="L484">					System.out.println(StringConstants.ENTER_THE_MAXIMUM_BALANCE);</span>
+<span class="nc" id="L485">					double maximumBalance = GetUserInput.getDoubleInput();</span>
+<span class="nc" id="L486">					accounts = accountDetailsService.getAllAccountDetailsByMaximumBalance(accounts, maximumBalance);</span>
+<span class="nc" id="L487">					break;</span>
+				case 3:
+<span class="nc" id="L489">					System.out.println(StringConstants.ENTER_THE_MINIMUM_BALANCE);</span>
+<span class="nc" id="L490">					double minBalance = GetUserInput.getDoubleInput();</span>
+<span class="nc" id="L491">					System.out.println(StringConstants.ENTER_THE_MAXIMUM_BALANCE);</span>
+<span class="nc" id="L492">					double maxBalance = GetUserInput.getDoubleInput();</span>
+<span class="nc" id="L493">					accounts = accountDetailsService.getAllAccountDetailsByBalanceWithinRange(accounts, minBalance,</span>
+							maxBalance);
+<span class="nc" id="L495">					break;</span>
+				case 4:
+<span class="nc" id="L497">					displayAccountDetails(user);</span>
+				case 5:
+<span class="nc" id="L499">					StartMenu.showStartMenu();</span>
+				case 6:
+<span class="nc" id="L501">					System.exit(0);</span>
+				default:
+<span class="nc" id="L503">					System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+				}
+<span class="nc" id="L505">				break;</span>
+			case 3:
+<span class="nc" id="L507">				accounts = accountDetailsService.getAllAccountDetails();</span>
+<span class="nc" id="L508">				break;</span>
+			case 4:
+<span class="nc" id="L510">				displayManageAccounts(user);</span>
+			case 5:
+<span class="nc" id="L512">				StartMenu.showStartMenu();</span>
+			case 6:
+<span class="nc" id="L514">				System.exit(0);</span>
+			default:
+<span class="nc" id="L516">				System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+			}
+
+<span class="nc" id="L519">			AccountDetailsPrinter.printAccountDetails(accounts);</span>
+<span class="nc" id="L520">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L521">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L522">			e.printStackTrace();</span>
+<span class="nc" id="L523">			scanner.next();</span>
+<span class="nc" id="L524">		} catch (Exception e) {</span>
+<span class="nc" id="L525">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L526">			e.printStackTrace();</span>
+<span class="nc" id="L527">		}</span>
+<span class="nc" id="L528">	}</span>
+
+	private static User getInputForNewUser() {
+		try {
+<span class="nc" id="L532">			String userId = UniqueIdGenerator.generateUniqueId();</span>
+
+<span class="nc" id="L534">			System.out.print(StringConstants.ENTER_NAME);</span>
+<span class="nc" id="L535">			String name = scanner.nextLine();</span>
+<span class="nc bnc" id="L536" title="All 2 branches missed.">			while (!ValidateInputs.isValidName(name)) {</span>
+<span class="nc" id="L537">				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L538">				System.out.print(StringConstants.ENTER_NAME);</span>
+<span class="nc" id="L539">				name = scanner.next();</span>
+			}
+
+<span class="nc" id="L542">			System.out.print(StringConstants.ENTER_EMAIL);</span>
+<span class="nc" id="L543">			String email = scanner.nextLine();</span>
+<span class="nc bnc" id="L544" title="All 2 branches missed.">			while (!ValidateInputs.isValidEmail(email)) {</span>
+<span class="nc" id="L545">				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L546">				System.out.print(StringConstants.ENTER_EMAIL);</span>
+<span class="nc" id="L547">				email = scanner.next();</span>
+			}
+
+<span class="nc" id="L550">			System.out.print(StringConstants.ENTER_USERNAME);</span>
+<span class="nc" id="L551">			String username = scanner.nextLine();</span>
+<span class="nc bnc" id="L552" title="All 2 branches missed.">			while (!ValidateInputs.isValidUsername(username)) {</span>
+<span class="nc" id="L553">				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L554">				System.out.print(StringConstants.ENTER_USERNAME);</span>
+<span class="nc" id="L555">				username = scanner.nextLine();</span>
+			}
+
+<span class="nc" id="L558">			System.out.print(StringConstants.ENTER_PASSWORD);</span>
+<span class="nc" id="L559">			String password = scanner.nextLine();</span>
+<span class="nc bnc" id="L560" title="All 2 branches missed.">			while (!PasswordUtil.isPasswordStrong(password)) {</span>
+<span class="nc" id="L561">				System.out.println(StringConstants.PASSWORD_NOT_STRONG_ENOUGH);</span>
+<span class="nc" id="L562">				System.out.print(StringConstants.ENTER_PASSWORD);</span>
+<span class="nc" id="L563">				password = scanner.next();</span>
+			}
+<span class="nc" id="L565">			password = PasswordUtil.hashPassword(password);</span>
+
+<span class="nc" id="L567">			System.out.print(StringConstants.ENTER_AGE);</span>
+<span class="nc" id="L568">			int age = GetUserInput.getUserChoice();</span>
+<span class="nc bnc" id="L569" title="All 2 branches missed.">			while (!ValidateInputs.isValidAge(age)) {</span>
+<span class="nc" id="L570">				System.out.println(StringConstants.ENTER_A_VALID_AGE);</span>
+<span class="nc" id="L571">				System.out.print(StringConstants.ENTER_AGE);</span>
+<span class="nc" id="L572">				age = GetUserInput.getUserChoice();</span>
+			}
+
+<span class="nc" id="L575">			System.out.print(StringConstants.ENTER_GENDER);</span>
+<span class="nc" id="L576">			String genderString = scanner.nextLine().toUpperCase();</span>
+<span class="nc bnc" id="L577" title="All 2 branches missed.">			while (!ValidateInputs.isValidGender(genderString)) {</span>
+<span class="nc" id="L578">				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L579">				System.out.print(StringConstants.ENTER_GENDER);</span>
+<span class="nc" id="L580">				genderString = scanner.next();</span>
+			}
+
+<span class="nc" id="L583">			User.Gender gender = User.Gender.valueOf(genderString.toUpperCase());</span>
+
+<span class="nc" id="L585">			System.out.print(StringConstants.ENTER_PHONE_NUMBER);</span>
+<span class="nc" id="L586">			String phoneNo = scanner.nextLine();</span>
+<span class="nc bnc" id="L587" title="All 2 branches missed.">			while (!ValidateInputs.isValidPhoneNo(phoneNo)) {</span>
+<span class="nc" id="L588">				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L589">				System.out.print(StringConstants.ENTER_PHONE_NUMBER);</span>
+<span class="nc" id="L590">				phoneNo = scanner.next();</span>
+			}
+
+<span class="nc" id="L593">			System.out.print(StringConstants.ENTER_ADDRESS);</span>
+<span class="nc" id="L594">			String address = scanner.nextLine();</span>
+<span class="nc bnc" id="L595" title="All 2 branches missed.">			while (!ValidateInputs.isValidString(address)) {</span>
+<span class="nc" id="L596">				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L597">				System.out.print(StringConstants.ENTER_ADDRESS);</span>
+<span class="nc" id="L598">				address = scanner.nextLine();</span>
+			}
+
+<span class="nc" id="L601">			System.out.print(StringConstants.ENTER_ROLE);</span>
+<span class="nc" id="L602">			String roleString = scanner.nextLine().toUpperCase();</span>
+<span class="nc bnc" id="L603" title="All 2 branches missed.">			while (!ValidateInputs.isValidRole(roleString)) {</span>
+<span class="nc" id="L604">				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L605">				System.out.print(StringConstants.ENTER_ROLE);</span>
+<span class="nc" id="L606">				roleString = scanner.next();</span>
+			}
+<span class="nc" id="L608">			roleString = roleString.toUpperCase();</span>
+<span class="nc" id="L609">			User.Role role = User.Role.valueOf(roleString);</span>
+<span class="nc" id="L610">			Date now = new Date();</span>
+
+<span class="nc" id="L612">			User newUser = new User(userId, name, email, username, password, age, gender, phoneNo, address, role, now,</span>
+					now);
+
+<span class="nc" id="L615">			boolean isValidUser = ValidateInputs.validateUser(newUser);</span>
+
+<span class="nc bnc" id="L617" title="All 2 branches missed.">			if (!isValidUser) {</span>
+<span class="nc" id="L618">				return null;</span>
+			}
+
+<span class="nc" id="L621">			return newUser;</span>
+<span class="nc" id="L622">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L623">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L624">			e.printStackTrace();</span>
+<span class="nc" id="L625">			scanner.next();</span>
+<span class="nc" id="L626">		} catch (Exception e) {</span>
+<span class="nc" id="L627">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L628">			e.printStackTrace();</span>
+<span class="nc" id="L629">		}</span>
+<span class="nc" id="L630">		return null;</span>
+	}
+
+	private static Account getInputForAccount(User user) {
+<span class="nc" id="L634">		String accountNo = AccountNumberGenerator.generateAccountNumber();</span>
+
+<span class="nc" id="L636">		String ownerId = user.getUserId();</span>
+
+<span class="nc" id="L638">		System.out.println(StringConstants.AVAILABLE_BRANCHES_MESSAGE);</span>
+<span class="nc" id="L639">		List&lt;Branch&gt; branches = branchController.getAllBranches();</span>
+<span class="nc" id="L640">		int index = 1;</span>
+<span class="nc bnc" id="L641" title="All 2 branches missed.">		for (Branch branch : branches) {</span>
+<span class="nc" id="L642">			System.out.println(index + &quot;     &quot; + branch.getBranchName());</span>
+<span class="nc" id="L643">			index++;</span>
+<span class="nc" id="L644">		}</span>
+<span class="nc" id="L645">		System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L646">		index = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L648" title="All 4 branches missed.">		while (index &lt;= 0 || index &gt; branches.size()) {</span>
+<span class="nc" id="L649">			System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L650">			System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L651">			index = GetUserInput.getUserChoice();</span>
+		}
+
+<span class="nc" id="L654">		String branchId = branches.get(index - 1).getBranchId();</span>
+
+<span class="nc" id="L656">		Date now = new Date(System.currentTimeMillis());</span>
+
+<span class="nc" id="L658">		Account account = new Account(accountNo, AccountConstants.DEFAULT_ACCOUNT_BALANCE, ownerId, branchId, now, now);</span>
+<span class="nc" id="L659">		return account;</span>
+	}
+
+	public static void filterTransactionByType(List&lt;Transaction&gt; transactions, User user) {
+		try {
+			while (true) {
+<span class="nc" id="L665">				System.out.println(StringConstants.MANAGE_TRANSACTION_FILTER_BY_TYPE_SUB_MENU);</span>
+<span class="nc" id="L666">				int choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L668" title="All 7 branches missed.">				switch (choice) {</span>
+				case 1:
+<span class="nc" id="L670">					List&lt;Transaction&gt; withdrawals = transactions.stream()</span>
+<span class="nc" id="L671">							.filter(transaction -&gt; transaction.getTransactionType().toString()</span>
+<span class="nc" id="L672">									.equalsIgnoreCase(TransactionConstants.WITHDRAWAL_TYPE))</span>
+<span class="nc" id="L673">							.collect(Collectors.toList());</span>
+<span class="nc" id="L674">					TransactionPrinter.printTransactions(withdrawals);</span>
+<span class="nc" id="L675">					break;</span>
+				case 2:
+<span class="nc" id="L677">					List&lt;Transaction&gt; deposits = transactions.stream().filter(transaction -&gt; transaction</span>
+<span class="nc" id="L678">							.getTransactionType().toString().equalsIgnoreCase(TransactionConstants.DEPOSIT_TYPE))</span>
+<span class="nc" id="L679">							.collect(Collectors.toList());</span>
+
+<span class="nc" id="L681">					TransactionPrinter.printTransactions(deposits);</span>
+<span class="nc" id="L682">					break;</span>
+				case 3:
+<span class="nc" id="L684">					List&lt;Transaction&gt; transfers = transactions.stream().filter(transaction -&gt; transaction</span>
+<span class="nc" id="L685">							.getTransactionType().toString().equalsIgnoreCase(TransactionConstants.TRANSFER_TYPE))</span>
+<span class="nc" id="L686">							.collect(Collectors.toList());</span>
+
+<span class="nc" id="L688">					TransactionPrinter.printTransactions(transfers);</span>
+<span class="nc" id="L689">					break;</span>
+				case 4:
+<span class="nc" id="L691">					displayTransactionsSubMenu(user);</span>
+				case 5:
+<span class="nc" id="L693">					StartMenu.showStartMenu();</span>
+				case 6:
+<span class="nc" id="L695">					System.exit(0);</span>
+				default:
+<span class="nc" id="L697">					System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+				}
+<span class="nc" id="L699">			}</span>
+<span class="nc" id="L700">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L701">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L702">			e.printStackTrace();</span>
+<span class="nc" id="L703">			scanner.next();</span>
+		}
+<span class="nc" id="L705">	}</span>
+
+	public static void filterTransactionByAmount(List&lt;Transaction&gt; transactions, User user) {
+<span class="nc" id="L708">		System.out.println(StringConstants.MANAGE_TRANSACTION_FILTER_BY_AMOUNT_SUB_MENU);</span>
+<span class="nc" id="L709">		int choice = GetUserInput.getUserChoice();</span>
+<span class="nc" id="L710">		List&lt;Transaction&gt; requiredTransactions = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L711" title="All 7 branches missed.">		switch (choice) {</span>
+		case 1:
+<span class="nc" id="L713">			System.out.println(StringConstants.ENTER_MINIMUM_AMOUNT_TO_FILTER_BY);</span>
+<span class="nc" id="L714">			double minAmount = GetUserInput.getDoubleInput();</span>
+<span class="nc bnc" id="L715" title="All 2 branches missed.">			requiredTransactions = transactions.stream().filter(transaction -&gt; transaction.getAmount() &gt;= minAmount)</span>
+<span class="nc" id="L716">					.collect(Collectors.toList());</span>
+<span class="nc" id="L717">			break;</span>
+		case 2:
+<span class="nc" id="L719">			System.out.println(StringConstants.ENTER_MAXIMUM_AMOUNT_TO_FILTER_BY);</span>
+<span class="nc" id="L720">			double maxAmount = GetUserInput.getDoubleInput();</span>
+<span class="nc bnc" id="L721" title="All 2 branches missed.">			requiredTransactions = transactions.stream().filter(transaction -&gt; transaction.getAmount() &lt;= maxAmount)</span>
+<span class="nc" id="L722">					.collect(Collectors.toList());</span>
+<span class="nc" id="L723">			break;</span>
+		case 3:
+<span class="nc" id="L725">			System.out.println(StringConstants.ENTER_MINIMUM_AMOUNT_TO_FILTER_BY);</span>
+<span class="nc" id="L726">			double miniAmount = GetUserInput.getDoubleInput();</span>
+
+<span class="nc" id="L728">			System.out.println(StringConstants.ENTER_MAXIMUM_AMOUNT_TO_FILTER_BY);</span>
+<span class="nc" id="L729">			double maxiAmount = GetUserInput.getDoubleInput();</span>
+
+<span class="nc" id="L731">			requiredTransactions = transactions.stream().filter(</span>
+<span class="nc bnc" id="L732" title="All 4 branches missed.">					transaction -&gt; transaction.getAmount() &gt;= miniAmount &amp;&amp; transaction.getAmount() &lt;= maxiAmount)</span>
+<span class="nc" id="L733">					.collect(Collectors.toList());</span>
+<span class="nc" id="L734">			break;</span>
+		case 4:
+<span class="nc" id="L736">			displayTransactionsSubMenu(user);</span>
+		case 5:
+<span class="nc" id="L738">			StartMenu.showStartMenu();</span>
+		case 6:
+<span class="nc" id="L740">			System.exit(0);</span>
+		default:
+<span class="nc" id="L742">			System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+		}
+<span class="nc" id="L744">		TransactionPrinter.printTransactions(requiredTransactions);</span>
+<span class="nc" id="L745">	}</span>
+
+	private static void closeAccount() {
+<span class="nc" id="L748">		List&lt;AccountDetails&gt; accounts = accountDetailsService.getAllAccountDetails();</span>
+<span class="nc" id="L749">		AccountDetailsPrinter.printAccountDetails(accounts);</span>
+<span class="nc" id="L750">		System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L751">		int index = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L753" title="All 4 branches missed.">		while (index &lt;= 0 || index &gt; accounts.size()) {</span>
+<span class="nc" id="L754">			System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L755">			System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L756">			index = GetUserInput.getUserChoice();</span>
+		}
+
+<span class="nc" id="L759">		String accountNo = accounts.get(index - 1).getAccountNo();</span>
+<span class="nc" id="L760">		String userId = accountController.getUser(accountNo).getOwnerId();</span>
+<span class="nc" id="L761">		User user = userController.getUserById(userId);</span>
+
+<span class="nc" id="L763">		String closedAccountId = UniqueIdGenerator.generateUniqueId();</span>
+<span class="nc" id="L764">		String username = user.getUsername();</span>
+<span class="nc" id="L765">		Timestamp timestamp = new Timestamp(System.currentTimeMillis());</span>
+<span class="nc" id="L766">		ClosedAccounts closedAccount = new ClosedAccounts();</span>
+<span class="nc" id="L767">		closedAccount.setId(closedAccountId);</span>
+<span class="nc" id="L768">		closedAccount.setUsername(username);</span>
+<span class="nc" id="L769">		closedAccount.setClosedAt(timestamp);</span>
+<span class="nc" id="L770">		boolean flag = closedAccountsController.addClosedAccounts(closedAccount);</span>
+<span class="nc bnc" id="L771" title="All 2 branches missed.">		if (flag == true) {</span>
+<span class="nc" id="L772">			System.out.println(StringConstants.ACCOUNT_CLOSED_SUCCESSFULLY);</span>
+		}
+<span class="nc" id="L774">	}</span>
+
+	private static void updateUser() {
+<span class="nc" id="L777">		List&lt;User&gt; users = userController.getAllUsers();</span>
+<span class="nc" id="L778">		UserPrinter.printUsers(users);</span>
+
+<span class="nc" id="L780">		System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L781">		int index = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L783" title="All 4 branches missed.">		while (index &lt;= 0 || index &gt; users.size()) {</span>
+<span class="nc" id="L784">			System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L785">			System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L786">			index = GetUserInput.getUserChoice();</span>
+		}
+
+<span class="nc" id="L789">		boolean flag = userController.updateUser(users.get(index - 1).getUserId());</span>
+<span class="nc bnc" id="L790" title="All 2 branches missed.">		if (flag == true) {</span>
+<span class="nc" id="L791">			System.out.println(StringConstants.USER_UPDATION_SUCCESS);</span>
+		} else {
+<span class="nc" id="L793">			System.out.println(StringConstants.USER_UPDATION_UNSUCCESSFUL);</span>
+		}
+<span class="nc" id="L795">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

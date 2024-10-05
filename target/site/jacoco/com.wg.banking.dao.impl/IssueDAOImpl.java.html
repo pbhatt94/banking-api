@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IssueDAOImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.dao.impl</a> &gt; <span class="el_source">IssueDAOImpl.java</span></div><h1>IssueDAOImpl.java</h1><pre class="source lang-java linenums">package com.wg.banking.dao.impl;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import com.wg.banking.constants.IssueConstants;
+import com.wg.banking.dao.GenericDAO;
+import com.wg.banking.dao.IssueDAO;
+import com.wg.banking.model.Issue;
+
+public class IssueDAOImpl extends GenericDAO&lt;Issue&gt; implements IssueDAO {
+
+
+	public IssueDAOImpl() {
+<span class="fc" id="L16">		super();</span>
+<span class="fc" id="L17">	}</span>
+
+	@Override
+	protected Issue mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+<span class="fc" id="L21">		Issue issue = new Issue();</span>
+		
+<span class="fc" id="L23">		issue.setIssueID(resultSet.getString(IssueConstants.ISSUE_ID_COLUMN));</span>
+<span class="fc" id="L24">		issue.setMessage(resultSet.getString(IssueConstants.MESSAGE_COLUMN));</span>
+<span class="fc" id="L25">		issue.setUserId(resultSet.getString(IssueConstants.USER_ID_COLUMN));</span>
+<span class="fc" id="L26">		String status = resultSet.getString(IssueConstants.STATUS_COLUMN);</span>
+<span class="fc" id="L27">		issue.setStatus(Issue.Status.valueOf(status));</span>
+<span class="fc" id="L28">		issue.setCreatedAt(resultSet.getDate(IssueConstants.CREATED_AT_COLUMN));		</span>
+<span class="fc" id="L29">		return issue;</span>
+	}
+
+	public Issue getIssueById(String issueId) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L33">		String query = String.format(&quot;SELECT * FROM %s WHERE %s = '%s'&quot;, IssueConstants.ISSUE_TABLE_NAME,</span>
+				IssueConstants.ISSUE_ID_COLUMN, issueId);
+<span class="fc" id="L35">		return get(query);</span>
+	}
+
+	public List&lt;Issue&gt; getAllIssues() throws ClassNotFoundException, SQLException {
+<span class="fc" id="L39">		String query = String.format(&quot;SELECT * FROM %s&quot;, IssueConstants.ISSUE_TABLE_NAME);</span>
+<span class="fc" id="L40">		return getAll(query);</span>
+	}
+
+	public List&lt;Issue&gt; getAllIssues(String userId) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L44">		String query = String.format(&quot;SELECT * FROM %s WHERE %s = '%s'&quot;, IssueConstants.ISSUE_TABLE_NAME,</span>
+				IssueConstants.USER_ID_COLUMN, userId);
+<span class="fc" id="L46">		return getAll(query);</span>
+	}
+
+	public boolean resolveIssue(Issue issue) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L50">		String query = String.format(&quot;UPDATE %s SET %s = '%s' WHERE %s = '%s'&quot;, IssueConstants.ISSUE_TABLE_NAME,</span>
+<span class="fc" id="L51">				IssueConstants.STATUS_COLUMN, issue.getStatus().toString(), IssueConstants.ISSUE_ID_COLUMN,</span>
+<span class="fc" id="L52">				issue.getIssueID());</span>
+<span class="fc" id="L53">		return update(query);</span>
+	}
+
+	public boolean addIssue(Issue issue) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L57">		String query = String.format(&quot;INSERT INTO %s (%s, %s, %s, %s, %s) &quot; + &quot;VALUES ('%s', '%s', '%s', '%s', '%s')&quot;,</span>
+				IssueConstants.ISSUE_TABLE_NAME, IssueConstants.ISSUE_ID_COLUMN, IssueConstants.MESSAGE_COLUMN,
+				IssueConstants.USER_ID_COLUMN, IssueConstants.STATUS_COLUMN, IssueConstants.CREATED_AT_COLUMN,
+<span class="fc" id="L60">				issue.getIssueID(), issue.getMessage(), issue.getUserId(), issue.getStatus().toString(),</span>
+<span class="fc" id="L61">				new java.sql.Date(issue.getCreatedAt().getTime()));</span>
+
+<span class="fc" id="L63">		return update(query);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

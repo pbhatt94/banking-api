@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BranchController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.controller</a> &gt; <span class="el_source">BranchController.java</span></div><h1>BranchController.java</h1><pre class="source lang-java linenums">package com.wg.banking.controller;
+
+import com.wg.banking.constants.BranchConstants;
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.dao.UserDAO;
+import com.wg.banking.dao.impl.UserDAOImpl;
+import com.wg.banking.helper.GetUserInput;
+import com.wg.banking.helper.printer.BranchPrinter;
+import com.wg.banking.helper.printer.UserPrinter;
+import com.wg.banking.model.Branch;
+import com.wg.banking.model.User;
+import com.wg.banking.service.BranchService;
+import com.wg.banking.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+
+public class BranchController {
+
+	private BranchService branchService;
+    private Scanner scanner;
+<span class="nc" id="L24">    private static UserDAO userDAO = new UserDAOImpl();</span>
+<span class="nc" id="L25">    private static UserService userService = new UserService(userDAO);</span>
+    
+<span class="nc" id="L27">    public BranchController(BranchService branchService) {</span>
+<span class="nc" id="L28">        this.branchService = branchService;</span>
+<span class="nc" id="L29">        this.scanner = new Scanner(System.in);</span>
+<span class="nc" id="L30">    }</span>
+
+    public void addBranch(Branch branch) {
+<span class="nc" id="L33">        branchService.addBranch(branch);</span>
+<span class="nc" id="L34">    }</span>
+ 
+    public void getBranchById() {
+    	try {
+<span class="nc" id="L38">            System.out.print(StringConstants.ENTER_BRANCH_ID);</span>
+<span class="nc" id="L39">            String branchId = scanner.nextLine();</span>
+
+<span class="nc" id="L41">            Branch branch = branchService.getBranchById(branchId);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (branch == null) {</span>
+<span class="nc" id="L43">            	System.out.println(StringConstants.BRANCH_NOT_FOUND);</span>
+<span class="nc" id="L44">            	return;</span>
+            } 
+<span class="nc" id="L46">        } catch (Exception e) {</span>
+<span class="nc" id="L47">            System.out.println(StringConstants.ERROR_RETRIEVING_BRANCH + e.getMessage());</span>
+<span class="nc" id="L48">        }</span>
+<span class="nc" id="L49">    }</span>
+
+    public List&lt;Branch&gt; getAllBranches() {
+<span class="nc" id="L52">    	List&lt;Branch&gt; branches = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="nc" id="L54">            branches = branchService.getAllBranches();</span>
+           
+<span class="nc" id="L56">        } catch (Exception e) {</span>
+<span class="nc" id="L57">            System.out.println(StringConstants.ERROR_RETRIEVING_BRANCH + e.getMessage());</span>
+<span class="nc" id="L58">        }</span>
+<span class="nc" id="L59">    	return branches;</span>
+    }
+
+    public void updateBranch() {
+    	try {
+    		int branchIndex;
+<span class="nc" id="L65">			List&lt;Branch&gt; branches = getAllBranches();</span>
+<span class="nc" id="L66">			BranchPrinter.printBranches(branches);</span>
+    		
+<span class="nc" id="L68">            System.out.print(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L69">            branchIndex = GetUserInput.getUserChoice();</span>
+            
+<span class="nc bnc" id="L71" title="All 4 branches missed.">            while(branchIndex &lt;= 0 || branchIndex &gt; branches.size()) {</span>
+<span class="nc" id="L72">            	System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L73">            	System.out.print(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L74">                branchIndex = GetUserInput.getUserChoice();</span>
+            }
+             
+<span class="nc" id="L77">            String branchId = branches.get(branchIndex-1).getBranchId();</span>
+
+<span class="nc" id="L79">            Branch branch = branchService.getBranchById(branchId);</span>
+            
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (branch == null) {</span>
+<span class="nc" id="L82">                System.out.println(StringConstants.BRANCH_NOT_FOUND);</span>
+<span class="nc" id="L83">                return;</span>
+            } 
+            
+<span class="nc" id="L86">            boolean continueUpdating = true;</span>
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            while (continueUpdating) {</span>
+            	
+
+<span class="nc" id="L91">            	System.out.println(StringConstants.BRANCH_UPDATE_MENU);</span>
+
+<span class="nc" id="L93">                System.out.print(StringConstants.SELECT_AN_OPTION);</span>
+<span class="nc" id="L94">                int choice = scanner.nextInt();</span>
+<span class="nc" id="L95">                scanner.nextLine(); </span>
+                
+<span class="nc" id="L97">                String columnToUpdate = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L99" title="All 5 branches missed.">                switch (choice) {</span>
+                    case 1:
+<span class="nc" id="L101">                    	columnToUpdate = BranchConstants.BRANCH_NAME_COLUMN;</span>
+<span class="nc" id="L102">                        System.out.print(StringConstants.ENTER_NEW_BRANCH_NAME);</span>
+<span class="nc" id="L103">                        branch.setBranchName(scanner.nextLine());</span>
+<span class="nc" id="L104">                        break;</span>
+                    case 2:
+<span class="nc" id="L106">                    	columnToUpdate = BranchConstants.BRANCH_ADDRESS_COLUMN;</span>
+<span class="nc" id="L107">                        System.out.print(StringConstants.ENTER_NEW_BRANCH_ADDRESS);</span>
+<span class="nc" id="L108">                        branch.setBranchAddress(scanner.nextLine());</span>
+<span class="nc" id="L109">                        break;</span>
+                    case 3:
+<span class="nc" id="L111">                    	columnToUpdate = BranchConstants.BRANCH_MANAGER_COLUMN;</span>
+<span class="nc" id="L112">                    	List&lt;User&gt; managers = userService.getAvailableManagers();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                        if(managers.size() == 0) {</span>
+<span class="nc" id="L114">                        	System.out.println(StringConstants.NO_AVAILABLE_MANAGERS_MESSAGE);</span>
+<span class="nc" id="L115">                        	break;</span>
+                        }
+                        
+<span class="nc" id="L118">                        UserPrinter.printUsers(managers);</span>
+<span class="nc" id="L119">                        System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L120">                        int index = GetUserInput.getUserChoice();</span>
+                       
+                        
+<span class="nc bnc" id="L123" title="All 4 branches missed.">                        while(index &lt;= 0 || index &gt; managers.size()) {</span>
+<span class="nc" id="L124">                        	System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L125">                        	System.out.println((StringConstants.ENTER_INDEX_MESSAGE));</span>
+<span class="nc" id="L126">                        	index = GetUserInput.getUserChoice();</span>
+                        }
+                        
+<span class="nc" id="L129">                        String branchManagerId = managers.get(index-1).getUserId();</span>
+<span class="nc" id="L130">                        branch.setBranchManagerId(branchManagerId);</span>
+<span class="nc" id="L131">                        break;</span>
+                    case 4:
+<span class="nc" id="L133">                        continueUpdating = false;</span>
+<span class="nc" id="L134">                        break;</span>
+                    default:
+<span class="nc" id="L136">                        System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+                }
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if(!continueUpdating) break;</span>
+<span class="nc" id="L139">                branch.setUpdatedAt(new Date());</span>
+<span class="nc" id="L140">                branchService.updateBranch(branch, columnToUpdate);</span>
+<span class="nc" id="L141">                System.out.println(StringConstants.BRANCH_UPDATED_SUCCESSFULLY);</span>
+<span class="nc" id="L142">            }</span>
+<span class="nc" id="L143">        } catch (Exception e) {</span>
+<span class="nc" id="L144">            System.out.println(StringConstants.ERROR_UPDATING_BRANCH + e.getMessage());</span>
+<span class="nc" id="L145">        }</span>
+<span class="nc" id="L146">    }</span>
+
+
+    public void deleteBranch() {
+    	try {
+    		int branchIndex;
+<span class="nc" id="L152">			List&lt;Branch&gt; branches = getAllBranches();</span>
+<span class="nc" id="L153">			BranchPrinter.printBranches(branches);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">			if(branches.size() == 0) {</span>
+<span class="nc" id="L155">				System.out.println(StringConstants.THERE_ARE_NO_BRANCHES);</span>
+<span class="nc" id="L156">				return;</span>
+			}
+    		
+<span class="nc" id="L159">            System.out.print(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L160">            branchIndex = GetUserInput.getUserChoice();</span>
+            
+<span class="nc bnc" id="L162" title="All 4 branches missed.">            while(branchIndex &lt;= 0 || branchIndex &gt; branches.size()) {</span>
+<span class="nc" id="L163">            	System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L164">            	System.out.print(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L165">                branchIndex = GetUserInput.getUserChoice();</span>
+            }
+            
+<span class="nc" id="L168">            String branchId = branches.get(branchIndex-1).getBranchId();</span>
+                        
+<span class="nc" id="L170">            boolean isBranchDeleted = branchService.deleteBranch(branchId);</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">			if(isBranchDeleted) {</span>
+<span class="nc" id="L172">                System.out.println(StringConstants.BRANCH_DELETED_SUCCESSFULLY);</span>
+            } else {
+<span class="nc" id="L174">            	System.out.println(StringConstants.BRANCH_CAN_T_BE_DELETED_MESSAGE);</span>
+            }            
+<span class="nc" id="L176">        } catch (Exception e) {</span>
+<span class="nc" id="L177">            System.out.println(StringConstants.ERROR_DELETING_BRANCH + e.getMessage());</span>
+<span class="nc" id="L178">        }</span>
+<span class="nc" id="L179">    }</span>
+    
+    public Branch getBranch(User user) {
+<span class="nc" id="L182">    	return branchService.getBranchByManagerId(user);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

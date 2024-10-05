@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.controller</a> &gt; <span class="el_source">AccountController.java</span></div><h1>AccountController.java</h1><pre class="source lang-java linenums">package com.wg.banking.controller;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.dao.BranchDAO;
+import com.wg.banking.dao.UserDAO;
+import com.wg.banking.dao.impl.UserDAOImpl;
+import com.wg.banking.dao.impl.BranchDAOImpl;
+import com.wg.banking.helper.GetUserInput;
+import com.wg.banking.helper.printer.UserPrinter;
+import com.wg.banking.model.Account;
+import com.wg.banking.model.Branch;
+import com.wg.banking.model.User;
+import com.wg.banking.service.AccountService;
+import com.wg.banking.service.BranchService;
+import com.wg.banking.service.UserService;
+
+public class AccountController {
+
+	private AccountService accountService;
+    private Scanner scanner;
+    private UserDAO userDAO;
+    private UserService userService;
+    private BranchDAO branchDAO;
+    private BranchService branchService;
+    
+
+<span class="nc" id="L32">    public AccountController(AccountService accountService) {</span>
+<span class="nc" id="L33">        this.accountService = accountService;</span>
+<span class="nc" id="L34">        this.scanner = new Scanner(System.in); </span>
+<span class="nc" id="L35">        userDAO = new UserDAOImpl();</span>
+<span class="nc" id="L36">        userService = new UserService(userDAO);</span>
+<span class="nc" id="L37">        branchDAO = new BranchDAOImpl();</span>
+<span class="nc" id="L38">        branchService = new BranchService(branchDAO);</span>
+<span class="nc" id="L39">    }</span>
+
+    public void addAccount(Account account) {        
+<span class="nc" id="L42">        accountService.addAccount(account);</span>
+<span class="nc" id="L43">    }</span>
+
+    public Account getAccount(String accountNo) {
+<span class="nc" id="L46">    	Account account = null;</span>
+    	try {
+<span class="nc" id="L48">            account = accountService.getAccount(accountNo);</span>
+<span class="nc" id="L49">        } catch (Exception e) {</span>
+<span class="nc" id="L50">            System.out.println(StringConstants.ERROR_RETRIEVING_ACCOUNT + e.getMessage());</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">    	return account;</span>
+    }
+    
+    public Account getAccount(User user) {
+<span class="nc" id="L56">    	Account account = null;</span>
+    	try {
+<span class="nc" id="L58">    		account = accountService.getAccount(user);</span>
+<span class="nc" id="L59">        } catch (Exception e) {</span>
+<span class="nc" id="L60">            System.out.println(StringConstants.ERROR_RETRIEVING_ACCOUNT + e.getMessage());</span>
+<span class="nc" id="L61">        }</span>
+<span class="nc" id="L62">    	return account;</span>
+    }
+
+    public List&lt;Account&gt; getAllAccounts() {
+<span class="nc" id="L66">    	List&lt;Account&gt; accounts = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="nc" id="L68">    		accounts = accountService.getAllAccounts();</span>
+<span class="nc" id="L69">        } catch (Exception e) {</span>
+<span class="nc" id="L70">            System.out.println(StringConstants.ERROR_RETRIEVING_ACCOUNT + e.getMessage());</span>
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">    	return accounts;</span>
+    }
+    
+    public List&lt;Account&gt; getAllAccounts(String branchId) {
+    	try {
+<span class="nc" id="L77">            List&lt;Account&gt; accounts = accountService.getAllAccounts(branchId);</span>
+<span class="nc" id="L78">            return accounts;</span>
+<span class="nc" id="L79">        } catch (Exception e) {</span>
+<span class="nc" id="L80">            System.out.println(StringConstants.ERROR_RETRIEVING_ACCOUNT + e.getMessage());</span>
+        }
+<span class="nc" id="L82">    	return null;</span>
+    }
+
+    public void updateAccount() {
+    	try {
+<span class="nc" id="L87">            System.out.println(StringConstants.SELECT_ACCOUNT_TO_UPDATE);</span>
+<span class="nc" id="L88">            List&lt;Account&gt; accounts = accountService.getAllAccounts();</span>
+<span class="nc" id="L89">            int accountIndex = 1;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            for(Account account: accounts) {</span>
+<span class="nc" id="L91">            	System.out.println(accountIndex + &quot;   &quot; + account.getAccountNo());</span>
+<span class="nc" id="L92">            	accountIndex++;</span>
+<span class="nc" id="L93">            }</span>
+            
+<span class="nc" id="L95">            System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L96">        	accountIndex = GetUserInput.getUserChoice();</span>
+            
+<span class="nc bnc" id="L98" title="All 4 branches missed.">            while(accountIndex &lt;=0 || accountIndex &gt; accounts.size()) {</span>
+<span class="nc" id="L99">            	System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L100">            	System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L101">            	accountIndex = GetUserInput.getUserChoice();</span>
+            }
+            
+<span class="nc" id="L104">            String accountNo = accounts.get(accountIndex-1).getAccountNo();</span>
+<span class="nc" id="L105">            Account account = accountService.getAccount(accountNo);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            if (account == null) {</span>
+<span class="nc" id="L107">            	System.out.println(StringConstants.ACCOUNT_NOT_FOUND);</span>
+<span class="nc" id="L108">            	return;</span>
+            }
+<span class="nc" id="L110">            boolean continueUpdating = true;</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            while (continueUpdating) {</span>
+            	
+            	
+<span class="nc" id="L115">            	System.out.println(StringConstants.ACCOUNT_UPDATE_MENU);</span>
+
+<span class="nc" id="L117">                System.out.print(StringConstants.SELECT_AN_OPTION);</span>
+<span class="nc" id="L118">                int choice = GetUserInput.getUserChoice();</span>
+                
+<span class="nc bnc" id="L120" title="All 4 branches missed.">                switch (choice) {</span>
+                    case 1:
+<span class="nc" id="L122">                        System.out.print(StringConstants.SELECT_NEW_ACCOUNT_OWNER);</span>
+<span class="nc" id="L123">                        List&lt;User&gt; users = userService.getAvailableUsers();</span>
+<span class="nc" id="L124">                        UserPrinter.printUsers(users);</span>
+<span class="nc" id="L125">                        System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L126">                        int index = GetUserInput.getUserChoice();</span>
+                        
+<span class="nc bnc" id="L128" title="All 4 branches missed.">                        while(index &lt;=0 || index &gt; users.size()) {</span>
+<span class="nc" id="L129">                        	System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L130">                        	System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L131">                            index = GetUserInput.getUserChoice();</span>
+                        }
+                        
+<span class="nc" id="L134">                        String ownerId = users.get(index-1).getUserId();</span>
+<span class="nc" id="L135">                        account.setOwnerId(ownerId);</span>
+<span class="nc" id="L136">                        break;</span>
+                    case 2:
+<span class="nc" id="L138">                    	System.out.println(StringConstants.AVAILABLE_BRANCHES_MESSAGE);</span>
+<span class="nc" id="L139">                    	List&lt;Branch&gt; branches = branchService.getAllBranches();</span>
+<span class="nc" id="L140">                    	int branchIndex = 1;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">                    	for(Branch branch: branches) {</span>
+<span class="nc" id="L142">                    		System.out.println(branchIndex + &quot;   &quot; + branch.getBranchName());</span>
+<span class="nc" id="L143">                    		branchIndex++;</span>
+<span class="nc" id="L144">                    	}</span>
+<span class="nc" id="L145">                    	System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L146">                    	branchIndex = GetUserInput.getUserChoice();</span>
+                        
+<span class="nc bnc" id="L148" title="All 4 branches missed.">                        while(branchIndex &lt;=0 || branchIndex &gt; branches.size()) {</span>
+<span class="nc" id="L149">                        	System.out.println(StringConstants.INVALID_INDEX_MESSAGE);</span>
+<span class="nc" id="L150">                        	System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L151">                        	branchIndex = GetUserInput.getUserChoice();</span>
+                        }
+                    	
+<span class="nc" id="L154">                        String branchId = branches.get(branchIndex-1).getBranchId();</span>
+<span class="nc" id="L155">                        account.setBranchId(branchId);</span>
+<span class="nc" id="L156">                        break;</span>
+                    case 3:
+<span class="nc" id="L158">                        continueUpdating = false;</span>
+<span class="nc" id="L159">                        break;</span>
+                    default:
+<span class="nc" id="L161">                        System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+                }
+<span class="nc bnc" id="L163" title="All 2 branches missed.">                if(!continueUpdating) break;</span>
+<span class="nc" id="L164">                account.setUpdatedAt(new Date());</span>
+<span class="nc" id="L165">                accountService.updateAccount(account);</span>
+<span class="nc" id="L166">                System.out.println(StringConstants.ACCOUNT_UPDATION_SUCCESSFUL);</span>
+<span class="nc" id="L167">            }</span>
+<span class="nc" id="L168">        } catch (Exception e) {</span>
+<span class="nc" id="L169">            System.out.println(StringConstants.ERROR_RETRIEVING_ACCOUNT + e.getMessage());</span>
+<span class="nc" id="L170">        }</span>
+<span class="nc" id="L171">    }</span>
+
+    public void deleteAccount() {
+    	try {
+<span class="nc" id="L175">            System.out.print(StringConstants.ENTER_ACCOUNT_NUMBER);</span>
+<span class="nc" id="L176">            String accountNo = scanner.nextLine();</span>
+            
+<span class="nc" id="L178">            Account account = accountService.getAccount(accountNo);</span>
+            
+<span class="nc bnc" id="L180" title="All 2 branches missed.">            if(account != null) {</span>
+<span class="nc" id="L181">            	accountService.deleteAccount(accountNo);</span>
+            } else {
+<span class="nc" id="L183">            	System.out.println(StringConstants.ACCOUNT_NOT_FOUND);</span>
+            }            
+<span class="nc" id="L185">        } catch (Exception e) {</span>
+<span class="nc" id="L186">            System.out.println(StringConstants.ERROR_RETRIEVING_ACCOUNT + e.getMessage());</span>
+<span class="nc" id="L187">        }</span>
+<span class="nc" id="L188">    }  </span>
+    
+    
+    public Account getUser(String accountNumber) {
+<span class="nc" id="L192">    	return accountService.getUser(accountNumber);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

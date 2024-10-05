@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.service</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.wg.banking.service;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import com.wg.banking.dao.UserDAO;
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.constants.UserConstants;
+import com.wg.banking.dao.ClosedAccountsDAO;
+import com.wg.banking.helper.LoggingUtil;
+import com.wg.banking.model.ClosedAccounts;
+import com.wg.banking.model.User;
+
+public class UserService {
+	private UserDAO userDAO;
+	private ClosedAccountsDAO closedAccountsDAO;
+	private ClosedAccountsService closedAccountsService;
+
+<span class="fc" id="L23">	private static Logger logger = LoggingUtil.getLogger(UserService.class);</span>
+
+<span class="nc" id="L25">	public UserService(UserDAO userDAO) {</span>
+<span class="nc" id="L26">		this.userDAO = userDAO;</span>
+<span class="nc" id="L27">		closedAccountsDAO = new ClosedAccountsDAO();</span>
+<span class="nc" id="L28">		closedAccountsService = new ClosedAccountsService(closedAccountsDAO);</span>
+<span class="nc" id="L29">	}</span>
+
+<span class="fc" id="L31">	public UserService(UserDAO userDAO, ClosedAccountsService closedAccountsService) {</span>
+<span class="fc" id="L32">		this.userDAO = userDAO;</span>
+<span class="fc" id="L33">		this.closedAccountsService = closedAccountsService;</span>
+<span class="fc" id="L34">	}</span>
+
+	public User getUserById(String userId) {
+		try {
+<span class="fc" id="L38">			return userDAO.getUserById(userId);</span>
+<span class="fc" id="L39">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="fc" id="L40">			logger.severe(e.getMessage());</span>
+<span class="fc" id="L41">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L43">		return null;</span>
+	}
+
+	public List&lt;User&gt; getAllActiveUsers() {
+		try {
+<span class="fc" id="L48">			List&lt;User&gt; allUsers = userDAO.getAllUsers();</span>
+<span class="fc" id="L49">			List&lt;ClosedAccounts&gt; inactiveUsers = closedAccountsService.getAllClosedAccounts();</span>
+<span class="fc" id="L50">			Set&lt;String&gt; inactiveUsersSet = inactiveUsers.stream().map(closedAccount -&gt; closedAccount.getUsername())</span>
+<span class="fc" id="L51">					.collect(Collectors.toSet());</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">			List&lt;User&gt; activeUsers = allUsers.stream().filter(user -&gt; !(inactiveUsersSet.contains(user.getUsername())))</span>
+<span class="fc" id="L54">					.collect(Collectors.toList());</span>
+<span class="fc" id="L55">			return activeUsers;</span>
+<span class="nc" id="L56">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L57">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L58">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L60">		return null;</span>
+	}
+
+	public boolean addUser(User user) {
+		try {
+<span class="fc bfc" id="L65" title="All 2 branches covered.">			if (user.getRole().toString().equals(UserConstants.ADMIN)) {</span>
+<span class="fc" id="L66">				System.out.println(StringConstants.ADMIN_ALREADY_EXISTS);</span>
+<span class="fc" id="L67">				return false;</span>
+			}
+<span class="fc" id="L69">			return userDAO.addUser(user);</span>
+<span class="nc" id="L70">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L71">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L72">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L74">		return false;</span>
+	}
+
+	public List&lt;User&gt; getAllInactiveUsers() {
+		try {
+<span class="fc" id="L79">			List&lt;User&gt; allUsers = userDAO.getAllUsers();</span>
+<span class="fc" id="L80">			List&lt;ClosedAccounts&gt; inactiveUsers = closedAccountsService.getAllClosedAccounts();</span>
+<span class="fc" id="L81">			Set&lt;String&gt; inactiveUsersSet = inactiveUsers.stream().map(closedAccount -&gt; closedAccount.getUsername())</span>
+<span class="fc" id="L82">					.collect(Collectors.toSet());</span>
+
+<span class="fc" id="L84">			return allUsers.stream().filter(user -&gt; (inactiveUsersSet.contains(user.getUsername())))</span>
+<span class="fc" id="L85">					.collect(Collectors.toList());</span>
+<span class="nc" id="L86">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L87">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L88">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L90">		return null;</span>
+	}
+
+	public boolean updateUser(User user, String columnToUpdate) {
+		try {
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">			if (columnToUpdate.equalsIgnoreCase(UserConstants.ROLE_COLUMN)) {</span>
+<span class="fc" id="L96">				System.out.println(StringConstants.ROLE_CANNOT_BE_UPDATED);</span>
+<span class="fc" id="L97">				return false;</span>
+			}
+<span class="nc" id="L99">			return userDAO.updateUser(user, columnToUpdate);</span>
+<span class="nc" id="L100">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L101">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L102">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L104">		return false;</span>
+	}
+
+	public boolean deleteUser(String userId) {
+		try {
+<span class="fc" id="L109">			User user = userDAO.getUserById(userId);</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">			if (user == null) {</span>
+<span class="fc" id="L112">				System.out.println(StringConstants.USER_NOT_FOUND);</span>
+<span class="fc" id="L113">				return false;</span>
+			}
+<span class="fc bfc" id="L115" title="All 2 branches covered.">			if (user.getRole().toString().equalsIgnoreCase(UserConstants.ADMIN)) {</span>
+<span class="fc" id="L116">				System.out.println(StringConstants.ADMIN_CANNOT_BE_DELETED);</span>
+<span class="fc" id="L117">				return false;</span>
+			}
+
+<span class="fc" id="L120">			return userDAO.deleteUser(userId);</span>
+<span class="nc" id="L121">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L122">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L124">		return false;</span>
+	}
+
+	public List&lt;User&gt; getAvailableUsers() {
+<span class="fc" id="L128">		List&lt;User&gt; users = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="fc" id="L130">			users = userDAO.getAvailableUsers();</span>
+<span class="nc" id="L131">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L132">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L133">			e.printStackTrace();</span>
+<span class="fc" id="L134">		}</span>
+<span class="fc" id="L135">		return users;</span>
+	}
+
+	public List&lt;User&gt; getAvailableManagers() {
+<span class="fc" id="L139">		List&lt;User&gt; managers = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="fc" id="L141">			managers = userDAO.getAvailableManagers();</span>
+<span class="nc" id="L142">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L143">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L144">			e.printStackTrace();</span>
+<span class="fc" id="L145">		}</span>
+<span class="fc" id="L146">		return managers;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

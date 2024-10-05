@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountDAOImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.dao.impl</a> &gt; <span class="el_source">AccountDAOImpl.java</span></div><h1>AccountDAOImpl.java</h1><pre class="source lang-java linenums">package com.wg.banking.dao.impl;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import com.wg.banking.constants.AccountConstants;
+import com.wg.banking.dao.AccountDAO;
+import com.wg.banking.dao.GenericDAO;
+import com.wg.banking.model.Account;
+import com.wg.banking.model.User;
+
+public class AccountDAOImpl extends GenericDAO&lt;Account&gt; implements AccountDAO {
+
+	public AccountDAOImpl() {
+<span class="fc" id="L16">		super();</span>
+<span class="fc" id="L17">	}</span>
+
+	@Override
+	protected Account mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+<span class="fc" id="L21">		Account account = new Account();</span>
+
+<span class="fc" id="L23">		account.setAccountNo(resultSet.getString(AccountConstants.ACCOUNT_NO_COLUMN));</span>
+<span class="fc" id="L24">		account.setBalance(resultSet.getDouble(AccountConstants.BALANCE_COLUMN));</span>
+<span class="fc" id="L25">		account.setOwnerId(resultSet.getString(AccountConstants.OWNER_ID_COLUMN));</span>
+<span class="fc" id="L26">		account.setBranchId(resultSet.getString(AccountConstants.BRANCH_ID_COLUMN));</span>
+<span class="fc" id="L27">		account.setCreatedAt(resultSet.getDate(AccountConstants.CREATED_AT_COLUMN));</span>
+<span class="fc" id="L28">		account.setUpdatedAt(resultSet.getDate(AccountConstants.UPDATED_AT_COLUMN));</span>
+
+<span class="fc" id="L30">		return account;</span>
+	}
+
+	public Account getAccount(User user) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L34">		String query = &quot;SELECT * FROM Account WHERE owner_id = \&quot;&quot; + user.getUserId() + &quot;\&quot;&quot;;</span>
+<span class="fc" id="L35">		Account account = get(query);</span>
+<span class="fc" id="L36">		return account;</span>
+	}
+
+	public Account getAccount(Account account) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L40">		String query = &quot;SELECT * FROM Account WHERE &quot; + AccountConstants.ACCOUNT_NO_COLUMN + &quot; = \&quot;&quot;</span>
+<span class="fc" id="L41">				+ account.getAccountNo() + &quot;\&quot;&quot;;</span>
+<span class="fc" id="L42">		Account accountObj = get(query);</span>
+<span class="fc" id="L43">		return accountObj;</span>
+	}
+
+	public Account getAccount(String accountNo) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L47">		String query = &quot;SELECT * FROM Account WHERE &quot; + AccountConstants.ACCOUNT_NO_COLUMN + &quot; = \&quot;&quot; + accountNo + &quot;\&quot;&quot;;</span>
+<span class="fc" id="L48">		Account account = get(query);</span>
+<span class="fc" id="L49">		return account;</span>
+	}
+
+	public List&lt;Account&gt; getAllAccounts() throws ClassNotFoundException, SQLException {
+<span class="fc" id="L53">		String query = String.format(&quot;SELECT * FROM %s&quot;, AccountConstants.ACCOUNT_TABLE_NAME);</span>
+<span class="fc" id="L54">		return getAll(query);</span>
+	}
+
+	public List&lt;Account&gt; getAllAccounts(String branchId) throws ClassNotFoundException, SQLException {
+<span class="nc" id="L58">		String query = String.format(&quot;SELECT * FROM %s WHERE %s = '%s'&quot;, AccountConstants.ACCOUNT_TABLE_NAME,</span>
+				AccountConstants.BRANCH_ID_COLUMN, branchId);
+<span class="nc" id="L60">		return getAll(query);</span>
+	}
+
+	public boolean addAccount(Account account) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L64">		String query = String.format(</span>
+				&quot;INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES ('%s', %.2f, '%s', '%s', '%s', '%s')&quot;,
+				AccountConstants.ACCOUNT_TABLE_NAME, AccountConstants.ACCOUNT_NO_COLUMN,
+				AccountConstants.BALANCE_COLUMN, AccountConstants.OWNER_ID_COLUMN, AccountConstants.BRANCH_ID_COLUMN,
+<span class="fc" id="L68">				AccountConstants.CREATED_AT_COLUMN, AccountConstants.UPDATED_AT_COLUMN, account.getAccountNo(),</span>
+<span class="fc" id="L69">				account.getBalance(), account.getOwnerId(), account.getBranchId(),</span>
+<span class="fc" id="L70">				new java.sql.Date(account.getCreatedAt().getTime()),</span>
+<span class="fc" id="L71">				new java.sql.Date(account.getUpdatedAt().getTime()));</span>
+
+<span class="fc" id="L73">		return update(query);</span>
+	}
+
+	public boolean updateAccount(Account account) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L77">		String query = String.format(&quot;UPDATE %s SET %s = %.2f, %s = '%s', %s = '%s', %s = '%s' WHERE %s = '%s'&quot;,</span>
+<span class="fc" id="L78">				AccountConstants.ACCOUNT_TABLE_NAME, AccountConstants.BALANCE_COLUMN, account.getBalance(),</span>
+<span class="fc" id="L79">				AccountConstants.OWNER_ID_COLUMN, account.getOwnerId(), AccountConstants.BRANCH_ID_COLUMN,</span>
+<span class="fc" id="L80">				account.getBranchId(), AccountConstants.UPDATED_AT_COLUMN,</span>
+<span class="fc" id="L81">				new java.sql.Date(account.getUpdatedAt().getTime()), AccountConstants.ACCOUNT_NO_COLUMN,</span>
+<span class="fc" id="L82">				account.getAccountNo());</span>
+<span class="fc" id="L83">		return update(query);</span>
+	}
+
+	public boolean deleteAccount(String branchId) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L87">		String query = String.format(&quot;DELETE FROM %s WHERE %s = '%s'&quot;, AccountConstants.ACCOUNT_TABLE_NAME,</span>
+				AccountConstants.BRANCH_ID_COLUMN, branchId);
+<span class="fc" id="L89">		return update(query);</span>
+	}
+
+	public Account getUser(String accountNumber) throws ClassNotFoundException, SQLException {
+<span class="nc" id="L93">		String query = String.format(&quot;SELECT * FROM %s WHERE %s = '%s'&quot;, AccountConstants.ACCOUNT_TABLE_NAME,</span>
+				AccountConstants.ACCOUNT_NO_COLUMN, accountNumber);
+<span class="nc" id="L95">		return get(query);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

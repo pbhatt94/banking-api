@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.dao</a> &gt; <span class="el_source">GenericDAO.java</span></div><h1>GenericDAO.java</h1><pre class="source lang-java linenums">package com.wg.banking.dao;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.wg.banking.config.DatabaseConnection;
+
+public abstract class GenericDAO&lt;T&gt; {
+	
+	private	Connection connection;
+	
+<span class="fc" id="L13">	public GenericDAO()  {</span>
+		try {
+<span class="fc" id="L15">			this.connection = DatabaseConnection.getConnection();</span>
+<span class="nc" id="L16">		} catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L17">			e.printStackTrace();</span>
+<span class="nc" id="L18">		} catch (SQLException e) {</span>
+<span class="nc" id="L19">			e.printStackTrace();</span>
+<span class="pc" id="L20">		}</span>
+<span class="fc" id="L21">	} </span>
+
+    protected abstract T mapResultSetToEntity(ResultSet resultSet) throws SQLException;
+
+    public T get(String query) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L26">    	T entity = null;</span>
+<span class="fc" id="L27">    	try (PreparedStatement preparedStatement = connection.prepareStatement(query)) { </span>
+<span class="fc" id="L28">    		ResultSet resultSet = preparedStatement.executeQuery();</span>
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">    		if (resultSet.next()) {</span>
+<span class="fc" id="L31">                entity = mapResultSetToEntity(resultSet);    		</span>
+            }
+       }
+<span class="fc" id="L34">    	return entity;</span>
+    }
+    
+    public List&lt;T&gt; getAll(String query) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L38">    	List&lt;T&gt; entities = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L39">    	try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {</span>
+<span class="fc" id="L40">    		ResultSet resultSet = preparedStatement.executeQuery();</span>
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            while (resultSet.next()) {</span>
+<span class="fc" id="L43">                entities.add(mapResultSetToEntity(resultSet));</span>
+            }
+       }
+<span class="fc" id="L46">    	return entities;</span>
+    }
+    
+    public boolean update(String query) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L50">    	try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">			return preparedStatement.executeUpdate() &gt; 0;</span>
+		}
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

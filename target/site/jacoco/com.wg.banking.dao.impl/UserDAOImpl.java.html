@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDAOImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.dao.impl</a> &gt; <span class="el_source">UserDAOImpl.java</span></div><h1>UserDAOImpl.java</h1><pre class="source lang-java linenums">package com.wg.banking.dao.impl;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.wg.banking.constants.UserConstants;
+import com.wg.banking.dao.GenericDAO;
+import com.wg.banking.dao.UserDAO;
+import com.wg.banking.model.User;
+
+public class UserDAOImpl extends GenericDAO&lt;User&gt; implements UserDAO {
+
+	public UserDAOImpl() {
+<span class="fc" id="L17">		super();</span>
+<span class="fc" id="L18">	}</span>
+
+	public User getUserById(String userId) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L21">		String query = String.format(&quot;SELECT * FROM %s WHERE %s = '%s'&quot;, UserConstants.USER_TABLE_NAME,</span>
+				UserConstants.USER_ID_COLUMN, userId);
+<span class="fc" id="L23">		return get(query);</span>
+	}
+
+	public List&lt;User&gt; getAllUsers() throws ClassNotFoundException, SQLException {
+<span class="fc" id="L27">		String query = String.format(&quot;SELECT * FROM %s&quot;, UserConstants.USER_TABLE_NAME);</span>
+<span class="fc" id="L28">		return getAll(query);</span>
+	}
+
+	public boolean addUser(User user) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L32">		String query = String.format(</span>
+				&quot;INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')&quot;,
+				UserConstants.USER_TABLE_NAME, UserConstants.USER_ID_COLUMN, UserConstants.NAME_COLUMN,
+				UserConstants.EMAIL_COLUMN, UserConstants.USERNAME_COLUMN, UserConstants.PASSWORD_COLUMN,
+				UserConstants.AGE_COLUMN, UserConstants.GENDER_COLUMN, UserConstants.PHONE_NO_COLUMN,
+<span class="fc" id="L37">				UserConstants.ADDRESS_COLUMN, UserConstants.ROLE_COLUMN, user.getUserId(), user.getName(),</span>
+<span class="fc" id="L38">				user.getEmail(), user.getUsername(), user.getPassword(), user.getAge(), user.getGender(),</span>
+<span class="fc" id="L39">				user.getPhoneNo(), user.getAddress(), user.getRole());</span>
+
+<span class="fc" id="L41">		return update(query);</span>
+	}
+
+	public boolean updateUser(User user, String columnToUpdate) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L45">		Map&lt;String, Object&gt; fieldMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L46">		fieldMap.put(UserConstants.NAME_COLUMN, user.getName());</span>
+<span class="fc" id="L47">		fieldMap.put(UserConstants.EMAIL_COLUMN, user.getEmail());</span>
+<span class="fc" id="L48">		fieldMap.put(UserConstants.USERNAME_COLUMN, user.getUsername());</span>
+<span class="fc" id="L49">		fieldMap.put(UserConstants.PASSWORD_COLUMN, user.getPassword());</span>
+<span class="fc" id="L50">		fieldMap.put(UserConstants.AGE_COLUMN, user.getAge());</span>
+<span class="fc" id="L51">		fieldMap.put(UserConstants.GENDER_COLUMN, user.getGender().toString());</span>
+<span class="fc" id="L52">		fieldMap.put(UserConstants.ADDRESS_COLUMN, user.getAddress());</span>
+<span class="fc" id="L53">		fieldMap.put(UserConstants.PHONE_NO_COLUMN, user.getPhoneNo());</span>
+
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (!fieldMap.containsKey(columnToUpdate)) {</span>
+<span class="nc" id="L56">			return false;</span>
+		}
+
+<span class="fc" id="L59">		Object value = fieldMap.get(columnToUpdate);</span>
+<span class="fc" id="L60">		String sqlQuery = String.format(&quot;UPDATE %s SET %s = '%s' WHERE %s = '%s'&quot;, UserConstants.USER_TABLE_NAME,</span>
+<span class="fc" id="L61">				columnToUpdate, value, UserConstants.USER_ID_COLUMN, user.getUserId());</span>
+<span class="fc" id="L62">		return update(sqlQuery);</span>
+	}
+
+	public boolean deleteUser(String userId) throws ClassNotFoundException, SQLException {
+<span class="fc" id="L66">		String query = String.format(&quot;DELETE FROM %s WHERE %s = '%s'&quot;, UserConstants.USER_TABLE_NAME,</span>
+				UserConstants.USER_ID_COLUMN, userId);
+<span class="fc" id="L68">		return update(query);</span>
+	}
+
+	public List&lt;User&gt; getAvailableUsers() throws ClassNotFoundException, SQLException {
+<span class="nc" id="L72">		String query = String.format(&quot;Select * from %s where %s NOT IN ( select owner_id from account) and role='%s'&quot;,</span>
+				UserConstants.USER_TABLE_NAME, UserConstants.USER_ID_COLUMN, UserConstants.CUSTOMER);
+
+<span class="nc" id="L75">		return getAll(query);</span>
+	}
+
+	public List&lt;User&gt; getAvailableManagers() throws ClassNotFoundException, SQLException {
+<span class="nc" id="L79">		String query = String.format(&quot;Select * from %s where %s NOT IN ( select manager_id from branch) and role='%s'&quot;,</span>
+				UserConstants.USER_TABLE_NAME, UserConstants.USER_ID_COLUMN, UserConstants.BRANCH_MANAGER);
+
+<span class="nc" id="L82">		return getAll(query);</span>
+	}
+
+	@Override
+	protected User mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+<span class="fc" id="L87">		User user = new User();</span>
+<span class="fc" id="L88">		user.setUserId(resultSet.getString(UserConstants.USER_ID_COLUMN));</span>
+<span class="fc" id="L89">		user.setName(resultSet.getString(UserConstants.NAME_COLUMN));</span>
+<span class="fc" id="L90">		user.setEmail(resultSet.getString(UserConstants.EMAIL_COLUMN));</span>
+<span class="fc" id="L91">		user.setUsername(resultSet.getString(UserConstants.USERNAME_COLUMN));</span>
+<span class="fc" id="L92">		user.setPassword(resultSet.getString(UserConstants.PASSWORD_COLUMN));</span>
+<span class="fc" id="L93">		user.setAge(resultSet.getInt(UserConstants.AGE_COLUMN));</span>
+<span class="fc" id="L94">		user.setGender(User.Gender.valueOf(resultSet.getString(UserConstants.GENDER_COLUMN)));</span>
+<span class="fc" id="L95">		user.setPhoneNo(resultSet.getString(UserConstants.PHONE_NO_COLUMN));</span>
+<span class="fc" id="L96">		user.setAddress(resultSet.getString(UserConstants.ADDRESS_COLUMN));</span>
+<span class="fc" id="L97">		user.setRole(User.Role.valueOf(resultSet.getString(UserConstants.ROLE_COLUMN)));</span>
+<span class="fc" id="L98">		user.setCreatedAt(resultSet.getDate(UserConstants.CREATED_AT_COLUMN));</span>
+<span class="fc" id="L99">		user.setUpdatedAt(resultSet.getDate(UserConstants.UPDATED_AT_COLUMN));</span>
+<span class="fc" id="L100">		return user;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IssueService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.service</a> &gt; <span class="el_source">IssueService.java</span></div><h1>IssueService.java</h1><pre class="source lang-java linenums">package com.wg.banking.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.dao.AccountDAO;
+import com.wg.banking.dao.IssueDAO;
+import com.wg.banking.dao.impl.AccountDAOImpl;
+import com.wg.banking.helper.LoggingUtil;
+import com.wg.banking.model.Account;
+import com.wg.banking.model.Branch;
+import com.wg.banking.model.Issue;
+
+public class IssueService {
+	private IssueDAO issueDAO;
+	private AccountDAO accountDAO;
+	private AccountService accountService;
+
+<span class="fc" id="L24">	private static Logger logger = LoggingUtil.getLogger(IssueService.class);</span>
+
+<span class="nc" id="L26">	public IssueService(IssueDAO issueDAO) {</span>
+<span class="nc" id="L27">		this.issueDAO = issueDAO;</span>
+<span class="nc" id="L28">		accountDAO = new AccountDAOImpl();</span>
+<span class="nc" id="L29">		accountService = new AccountService(accountDAO);</span>
+<span class="nc" id="L30">	}</span>
+ 
+<span class="fc" id="L32">	public IssueService(IssueDAO issueDAO, AccountService accountService) {</span>
+<span class="fc" id="L33">		this.issueDAO = issueDAO;</span>
+<span class="fc" id="L34">		this.accountService = accountService;</span>
+<span class="fc" id="L35">	}</span>
+
+	public List&lt;Issue&gt; getAllIssuesByBranch(Branch branch) {
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		if (branch == null) {</span>
+<span class="fc" id="L39">			System.out.println(StringConstants.BRANCH_CAN_T_BE_NULL);</span>
+<span class="fc" id="L40">			return null;</span>
+		}
+
+<span class="fc" id="L43">		List&lt;Account&gt; accounts = accountService.getAllAccounts(branch.getBranchId());</span>
+
+<span class="fc" id="L45">		Set&lt;String&gt; userIds = accounts.stream().map(account -&gt; account.getOwnerId()).collect(Collectors.toSet());</span>
+
+<span class="fc" id="L47">		List&lt;Issue&gt; allIssues = getAllIssues();</span>
+
+<span class="fc" id="L49">		List&lt;Issue&gt; filteredIssues = allIssues.stream().filter(issue -&gt; userIds.contains(issue.getUserId()))</span>
+<span class="fc" id="L50">				.collect(Collectors.toList());</span>
+<span class="fc" id="L51">		return filteredIssues;</span>
+	}
+
+	public void resolveIssue(Issue issue) {
+		try {
+<span class="fc bfc" id="L56" title="All 2 branches covered.">			if (issue.getStatus() == Issue.Status.RESOLVED) {</span>
+<span class="fc" id="L57">				System.out.println(StringConstants.ISSUE_ALREADY_RESOLVED);</span>
+<span class="fc" id="L58">				return;</span>
+			}
+<span class="fc" id="L60">			issue.setStatus(Issue.Status.RESOLVED);</span>
+<span class="fc" id="L61">			issueDAO.resolveIssue(issue);</span>
+<span class="nc" id="L62">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L63">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L64">			e.printStackTrace();</span>
+<span class="fc" id="L65">		}</span>
+<span class="fc" id="L66">	}</span>
+
+	public List&lt;Issue&gt; getAllIssues(String userId) {
+		try {
+<span class="fc" id="L70">			List&lt;Issue&gt; issues = issueDAO.getAllIssues();</span>
+<span class="fc" id="L71">			Predicate&lt;? super Issue&gt; isIssueRelatedToUser = issue -&gt; issue.getUserId().equals(userId);</span>
+<span class="fc" id="L72">			return issues.stream().filter(isIssueRelatedToUser).collect(Collectors.toList());</span>
+<span class="fc" id="L73">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="fc" id="L74">			logger.severe(e.getMessage());</span>
+<span class="fc" id="L75">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L77">		return null;</span>
+	}
+
+	public Issue getIssueById(String issueId) {
+		try {
+<span class="fc" id="L82">			return issueDAO.getIssueById(issueId);</span>
+<span class="fc" id="L83">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="fc" id="L84">			logger.severe(e.getMessage());</span>
+<span class="fc" id="L85">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L87">		return null;</span>
+	}
+
+	public List&lt;Issue&gt; getAllIssues() {
+		try {
+<span class="fc" id="L92">			return issueDAO.getAllIssues();</span>
+<span class="fc" id="L93">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="fc" id="L94">			logger.severe(e.getMessage());</span>
+<span class="fc" id="L95">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L97">		return null;</span>
+	}
+
+	public boolean addIssue(Issue issue) {
+		try {
+<span class="fc" id="L102">			return issueDAO.addIssue(issue);</span>
+<span class="nc" id="L103">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L104">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L105">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L107">		return false;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

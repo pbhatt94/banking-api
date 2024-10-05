@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.service</a> &gt; <span class="el_source">LoginService.java</span></div><h1>LoginService.java</h1><pre class="source lang-java linenums">package com.wg.banking.service;
+
+import java.util.Map;
+
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.constants.UserConstants;
+import com.wg.banking.dao.LoginDAO;
+import com.wg.banking.helper.PasswordUtil;
+import com.wg.banking.model.User;
+
+<span class="nc" id="L11">public class LoginService {</span>
+
+	public static User authenticateUser(String username, String password) {
+<span class="nc" id="L14">		Map&lt;String, String&gt; userMap = LoginDAO.authenticateUser(username, password);</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">		if (userMap.isEmpty()) {</span>
+<span class="nc" id="L16">			System.out.println(StringConstants.INVALID_USERNAME);</span>
+<span class="nc" id="L17">			return null;</span>
+		}
+
+<span class="nc" id="L20">		String hashedPassword = userMap.get(UserConstants.PASSWORD_COLUMN);</span>
+<span class="nc" id="L21">		boolean isPasswordCorrect = PasswordUtil.checkPassword(password, hashedPassword);</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">		if (isPasswordCorrect) {</span>
+<span class="nc" id="L23">			return getUserObject(userMap);</span>
+		}
+<span class="nc" id="L25">		return null;</span>
+	}
+
+	private static User getUserObject(Map&lt;String, String&gt; mp) {
+<span class="nc" id="L29">		User user = new User();</span>
+<span class="nc" id="L30">		user.setUserId(mp.get(UserConstants.USER_ID_COLUMN));</span>
+<span class="nc" id="L31">		user.setName(mp.get(UserConstants.NAME_COLUMN));</span>
+<span class="nc" id="L32">		user.setEmail(mp.get(UserConstants.EMAIL_COLUMN));</span>
+<span class="nc" id="L33">		user.setUsername(mp.get(UserConstants.USERNAME_COLUMN));</span>
+<span class="nc" id="L34">		user.setPassword(mp.get(UserConstants.PASSWORD_COLUMN));</span>
+<span class="nc" id="L35">		user.setAge(Integer.parseInt(mp.get(UserConstants.AGE_COLUMN)));</span>
+<span class="nc" id="L36">		user.setGender(User.Gender.valueOf(mp.get(UserConstants.GENDER_COLUMN)));</span>
+<span class="nc" id="L37">		user.setPhoneNo(mp.get(UserConstants.PHONE_NO_COLUMN));</span>
+<span class="nc" id="L38">		user.setAddress(mp.get(UserConstants.ADDRESS_COLUMN));</span>
+<span class="nc" id="L39">		user.setRole(User.Role.valueOf(mp.get(UserConstants.ROLE_COLUMN)));</span>
+
+<span class="nc" id="L41">		return user;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.dao</a> &gt; <span class="el_source">DAO.java</span></div><h1>DAO.java</h1><pre class="source lang-java linenums">package com.wg.banking.dao;
+
+import java.sql.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.wg.banking.config.DatabaseConnection;
+
+<span class="nc" id="L12">public class DAO {</span>
+	
+	
+	public Map&lt;String,String&gt; get(String sqlQuery) {
+<span class="nc" id="L16">		Map&lt;String,String&gt; mp = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L17">		try(Connection connection = DatabaseConnection.getConnection();</span>
+<span class="nc" id="L18">			PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {</span>
+<span class="nc" id="L19">			ResultSet resultSet = preparedStatement.executeQuery();</span>
+			
+			
+<span class="nc" id="L22">			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();</span>
+<span class="nc" id="L23">            int columnCount = resultSetMetaData.getColumnCount();</span>
+
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            if (resultSet.next()) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">                for (int i = 1; i &lt;= columnCount; i++) {</span>
+<span class="nc" id="L27">                    String columnName = resultSetMetaData.getColumnName(i);</span>
+<span class="nc" id="L28">                    resultSetMetaData.getColumnTypeName(columnCount);</span>
+<span class="nc" id="L29">                    String columnValue = resultSet.getObject(i).toString();</span>
+                    
+<span class="nc" id="L31">                    mp.put(columnName, columnValue);</span>
+                }
+            }
+
+<span class="nc" id="L35">		} catch(Exception e) {</span>
+<span class="nc" id="L36">			e.printStackTrace();</span>
+<span class="nc" id="L37">		}</span>
+<span class="nc" id="L38">		return mp;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

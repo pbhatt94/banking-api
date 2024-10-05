@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransactionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.service</a> &gt; <span class="el_source">TransactionService.java</span></div><h1>TransactionService.java</h1><pre class="source lang-java linenums">package com.wg.banking.service;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import com.wg.banking.constants.NotificationConstants;
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.constants.TransactionConstants;
+import com.wg.banking.dao.AccountDAO;
+import com.wg.banking.dao.NotificationDAO;
+import com.wg.banking.dao.impl.AccountDAOImpl;
+import com.wg.banking.dao.impl.NotificationDAOImpl;
+import com.wg.banking.dao.TransactionDAO;
+import com.wg.banking.helper.InsufficientBalanceException;
+import com.wg.banking.helper.LoggingUtil;
+import com.wg.banking.helper.UniqueIdGenerator;
+import com.wg.banking.model.Account;
+import com.wg.banking.model.Notification;
+import com.wg.banking.model.Notification.NotificationType;
+import com.wg.banking.model.Transaction;
+
+public class TransactionService {
+
+	private AccountService accountService;
+	private AccountDAO accountDAO;
+
+	private NotificationService notificationService;
+	private NotificationDAO notificationDAO;
+
+	private TransactionDAO transactionDAO;
+
+<span class="fc" id="L36">	private static Logger logger = LoggingUtil.getLogger(TransactionService.class);</span>
+
+<span class="nc" id="L38">	public TransactionService(TransactionDAO transactionDAO) {</span>
+<span class="nc" id="L39">		this.transactionDAO = transactionDAO;</span>
+<span class="nc" id="L40">		accountDAO = new AccountDAOImpl();</span>
+<span class="nc" id="L41">		accountService = new AccountService(accountDAO);</span>
+<span class="nc" id="L42">		notificationDAO = new NotificationDAOImpl();</span>
+<span class="nc" id="L43">		notificationService = new NotificationService(notificationDAO);</span>
+<span class="nc" id="L44">	}</span>
+
+	public TransactionService(TransactionDAO transactionDAO, AccountService accountService,
+<span class="fc" id="L47">			NotificationService notificationService) {</span>
+<span class="fc" id="L48">		this.transactionDAO = transactionDAO;</span>
+<span class="fc" id="L49">		this.accountService = accountService;</span>
+<span class="fc" id="L50">		this.notificationService = notificationService;</span>
+<span class="fc" id="L51">	}</span>
+
+	public void handleWithdrawal(Transaction transaction) {
+		try {
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">			if (transaction == null) {</span>
+<span class="nc" id="L56">				return;</span>
+			}
+
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">			if (transaction.getAmount() &lt;= 0) {</span>
+<span class="nc" id="L60">				System.out.println(StringConstants.INVALID_AMOUNT);</span>
+<span class="nc" id="L61">				return;</span>
+			}
+<span class="fc" id="L63">			Account sourceAccount = accountService.getAccount(transaction.getSourceAccountId());</span>
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">			if (sourceAccount == null) {</span>
+<span class="nc" id="L66">				System.out.println(</span>
+<span class="nc" id="L67">						StringConstants.NO_ACCOUNT_EXISTS_WITH_ACCOUNT_NUMBER + transaction.getDestinationAccountId());</span>
+<span class="nc" id="L68">				return;</span>
+			}
+
+<span class="fc" id="L71">			double originalBalance = sourceAccount.getBalance();</span>
+
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">			if (transaction.getAmount() &gt; originalBalance) {</span>
+<span class="nc" id="L74">				throw new InsufficientBalanceException(StringConstants.NOT_ENOUGH_FUNDS);</span>
+			}
+
+<span class="fc" id="L77">			double newBalance = originalBalance - transaction.getAmount();</span>
+<span class="fc" id="L78">			sourceAccount.setBalance(newBalance);</span>
+<span class="fc" id="L79">			accountService.updateAccount(sourceAccount);</span>
+<span class="fc" id="L80">			System.out.println(StringConstants.ACCOUNT_BALANCE_UPDATED);</span>
+
+<span class="fc" id="L82">			transactionDAO.addTransaction(transaction);</span>
+
+			// notify
+<span class="fc" id="L85">			Notification notification = generateTransactionNotification(transaction, newBalance);</span>
+<span class="fc" id="L86">			notificationService.addNotification(notification);</span>
+<span class="nc" id="L87">		} catch (InsufficientBalanceException e) {</span>
+<span class="nc" id="L88">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L89">			e.printStackTrace();</span>
+<span class="nc" id="L90">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L91">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L92">			e.printStackTrace();</span>
+<span class="pc" id="L93">		}</span>
+<span class="fc" id="L94">	}</span>
+
+	public void handleDeposit(Transaction transaction) {
+		try {
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">			if (transaction == null) {</span>
+<span class="nc" id="L99">				return;</span>
+			}
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">			if (transaction.getAmount() &lt;= 0) {</span>
+<span class="nc" id="L102">				System.out.println(StringConstants.INVALID_AMOUNT);</span>
+<span class="nc" id="L103">				return;</span>
+			}
+<span class="fc" id="L105">			Account destinationAccount = accountService.getAccount(transaction.getDestinationAccountId());</span>
+
+<span class="fc bfc" id="L107" title="All 2 branches covered.">			if (destinationAccount == null) {</span>
+<span class="fc" id="L108">				System.out.println(</span>
+<span class="fc" id="L109">						StringConstants.NO_ACCOUNT_EXISTS_WITH_ACCOUNT_NUMBER + transaction.getDestinationAccountId());</span>
+<span class="fc" id="L110">				return;</span>
+			}
+
+<span class="fc" id="L113">			double originalBalance = destinationAccount.getBalance();</span>
+
+<span class="fc" id="L115">			double newBalance = originalBalance + transaction.getAmount();</span>
+
+<span class="fc" id="L117">			destinationAccount.setBalance(newBalance);</span>
+
+<span class="fc" id="L119">			accountService.updateAccount(destinationAccount);</span>
+<span class="fc" id="L120">			System.out.println(StringConstants.ACCOUNT_BALANCE_UPDATED);</span>
+
+<span class="fc" id="L122">			transactionDAO.addTransaction(transaction);</span>
+
+			// notify
+<span class="fc" id="L125">			Notification notification = generateTransactionNotification(transaction, newBalance);</span>
+<span class="fc" id="L126">			notificationService.addNotification(notification);</span>
+<span class="nc" id="L127">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L128">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L129">			e.printStackTrace();</span>
+<span class="nc" id="L130">		} catch (Exception e) {</span>
+<span class="nc" id="L131">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L132">			e.printStackTrace();</span>
+<span class="pc" id="L133">		}</span>
+<span class="fc" id="L134">	}</span>
+
+	public void handleTransfer(Transaction transaction) {
+		try {
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">			if (transaction == null) {</span>
+<span class="nc" id="L139">				return;</span>
+			}
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">			if (transaction.getAmount() &lt;= 0) {</span>
+<span class="nc" id="L142">				System.out.println(StringConstants.INVALID_AMOUNT);</span>
+<span class="nc" id="L143">				return;</span>
+			}
+<span class="fc" id="L145">			Account sourceAccount = accountService.getAccount(transaction.getSourceAccountId());</span>
+
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">			if (sourceAccount == null) {</span>
+<span class="nc" id="L148">				System.out.println(</span>
+<span class="nc" id="L149">						StringConstants.NO_ACCOUNT_EXISTS_WITH_ACCOUNT_NUMBER + transaction.getDestinationAccountId());</span>
+<span class="nc" id="L150">				return;</span>
+			}
+
+<span class="fc" id="L153">			double originalBalanceForSource = sourceAccount.getBalance();</span>
+
+<span class="fc bfc" id="L155" title="All 2 branches covered.">			if (transaction.getAmount() &gt; originalBalanceForSource) {</span>
+<span class="fc" id="L156">				throw new InsufficientBalanceException(StringConstants.NOT_ENOUGH_FUNDS);</span>
+			}
+
+<span class="fc" id="L159">			Account destinationAccount = accountService.getAccount(transaction.getDestinationAccountId());</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">			if (destinationAccount == null) {</span>
+<span class="fc" id="L161">				System.out.println(</span>
+<span class="fc" id="L162">						StringConstants.NO_ACCOUNT_EXISTS_WITH_ACCOUNT_NUMBER + transaction.getDestinationAccountId());</span>
+<span class="fc" id="L163">				return;</span>
+			}
+
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">			if (sourceAccount.getAccountNo().equalsIgnoreCase(destinationAccount.getAccountNo())) {</span>
+<span class="nc" id="L167">				System.out.println(StringConstants.CAN_T_TRANSFER_TO_SAME_ACCOUNT);</span>
+<span class="nc" id="L168">				return;</span>
+			}
+
+<span class="fc" id="L171">			double newBalanceForSource = originalBalanceForSource - transaction.getAmount();</span>
+<span class="fc" id="L172">			sourceAccount.setBalance(newBalanceForSource);</span>
+<span class="fc" id="L173">			accountService.updateAccount(sourceAccount);</span>
+<span class="fc" id="L174">			System.out.println(StringConstants.SOURCE_ACCOUNT_BALANCE_UPDATED);</span>
+
+<span class="fc" id="L176">			double originalBalanceForDestination = destinationAccount.getBalance();</span>
+<span class="fc" id="L177">			double newBalanceForDestination = originalBalanceForDestination + transaction.getAmount();</span>
+<span class="fc" id="L178">			destinationAccount.setBalance(newBalanceForDestination);</span>
+<span class="fc" id="L179">			accountService.updateAccount(destinationAccount);</span>
+<span class="fc" id="L180">			System.out.println(StringConstants.TARGET_ACCOUNT_BALANCE_UPDATED);</span>
+
+<span class="fc" id="L182">			transactionDAO.addTransaction(transaction);</span>
+
+			// notify
+<span class="fc" id="L185">			Notification notification = generateTransactionNotification(transaction, newBalanceForSource);</span>
+<span class="fc" id="L186">			notificationService.addNotification(notification);</span>
+<span class="fc" id="L187">		} catch (InsufficientBalanceException e) {</span>
+<span class="fc" id="L188">			logger.fine(StringConstants.INSUFFICIENT_BALANCE + e.getMessage());</span>
+			;
+<span class="fc" id="L190">			e.printStackTrace();</span>
+<span class="nc" id="L191">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L192">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L193">			e.printStackTrace();</span>
+<span class="fc" id="L194">		}</span>
+<span class="fc" id="L195">	}</span>
+
+	public Transaction getTransactionById(String transactionId) {
+		try {
+<span class="fc" id="L199">			return transactionDAO.getTransactionById(transactionId);</span>
+<span class="nc" id="L200">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L201">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L202">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L204">		return null;</span>
+	}
+
+	public List&lt;Transaction&gt; getAllTransactions() {
+		try {
+<span class="fc" id="L209">			return transactionDAO.getAllTransactions();</span>
+<span class="nc" id="L210">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L211">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L212">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L214">		return null;</span>
+	}
+
+	public List&lt;Transaction&gt; getAllTransactions(String accountNo) {
+		try {
+<span class="nc" id="L219">			List&lt;Transaction&gt; transactions = transactionDAO.getAllTransactions(accountNo);</span>
+<span class="nc" id="L220">			return transactions;</span>
+<span class="nc" id="L221">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L222">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L223">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L225">		return null;</span>
+	}
+
+	public List&lt;Transaction&gt; getAllTransactionsByBranch(String branchId) {
+<span class="fc" id="L229">		List&lt;Transaction&gt; branchTransactions = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="fc" id="L231">			List&lt;Transaction&gt; transactions = transactionDAO.getAllTransactions();</span>
+
+<span class="fc" id="L233">			List&lt;Account&gt; accounts = accountService.getAllAccounts();</span>
+
+<span class="fc" id="L235">			Set&lt;String&gt; branchAccounts = accounts.stream().filter(account -&gt; account.getBranchId().equals(branchId))</span>
+<span class="fc" id="L236">					.map(account -&gt; account.getAccountNo()).collect(Collectors.toSet());</span>
+
+<span class="fc" id="L238">			branchTransactions = transactions.stream()</span>
+<span class="pc bnc" id="L239" title="All 2 branches missed.">					.filter(transaction -&gt; branchAccounts.contains(transaction.getSourceAccountId())</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">							|| branchAccounts.contains(transaction.getDestinationAccountId()))</span>
+<span class="fc" id="L241">					.collect(Collectors.toList());</span>
+
+<span class="nc" id="L243">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L244">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L245">			e.printStackTrace();</span>
+<span class="fc" id="L246">		}</span>
+<span class="fc" id="L247">		return branchTransactions;</span>
+	}
+
+	public void addTransaction(Transaction transaction) throws ClassNotFoundException, SQLException {
+<span class="nc" id="L251">		String transactionType = transaction.getTransactionType().toString();</span>
+<span class="nc bnc" id="L252" title="All 4 branches missed.">		switch (transactionType) {</span>
+		case TransactionConstants.WITHDRAWAL_TYPE:
+<span class="nc" id="L254">			handleWithdrawal(transaction);</span>
+<span class="nc" id="L255">			break;</span>
+		case TransactionConstants.DEPOSIT_TYPE:
+<span class="nc" id="L257">			handleDeposit(transaction);</span>
+<span class="nc" id="L258">			break;</span>
+		case TransactionConstants.TRANSFER_TYPE:
+<span class="nc" id="L260">			handleTransfer(transaction);</span>
+			break;
+		}
+<span class="nc" id="L263">	}</span>
+
+	private Notification generateTransactionNotification(Transaction transaction, double newBalance) {
+<span class="fc" id="L266">		Notification notification = new Notification();</span>
+<span class="fc" id="L267">		notification.setNotificationId(UniqueIdGenerator.generateUniqueId());</span>
+<span class="fc" id="L268">		NotificationType accountActivityType = Notification.NotificationType</span>
+<span class="fc" id="L269">				.valueOf(NotificationConstants.ACCOUNT_ACTIVITY_TYPE);</span>
+<span class="fc" id="L270">		notification.setNotificationType(accountActivityType);</span>
+<span class="fc" id="L271">		String transactionType = transaction.getTransactionType().toString();</span>
+<span class="pc bpc" id="L272" title="1 of 4 branches missed.">		switch (transactionType) {</span>
+		case TransactionConstants.WITHDRAWAL_TYPE:
+<span class="fc" id="L274">			String WITHDRAWAL_NOTIFICATION_MESSAGE = String.format(</span>
+					&quot;Your withdrawal of $%.2f has been successfully processed.\n\n&quot; + &quot;\tTransaction Details:\n&quot;
+							+ &quot;\t- Transaction ID: %s\n&quot; + &quot;\t- Date and Time: %s\n&quot;
+							+ &quot;\t- Balance After Transaction: $%.2f\n\n&quot;
+							+ &quot;\tThank you for using our banking services.&quot;,
+<span class="fc" id="L279">					transaction.getAmount(), transaction.getTransactionId(), transaction.getCreatedAt(), newBalance);</span>
+<span class="fc" id="L280">			String userId = accountService.getUser(transaction.getSourceAccountId()).getOwnerId();</span>
+<span class="fc" id="L281">			System.out.println(userId);</span>
+<span class="fc" id="L282">			notification.setReceiverId(userId);</span>
+<span class="fc" id="L283">			notification.setMessage(WITHDRAWAL_NOTIFICATION_MESSAGE); </span>
+<span class="fc" id="L284">			break;</span>
+		case TransactionConstants.DEPOSIT_TYPE:
+<span class="fc" id="L286">			String depositMessage = String.format(&quot;Your deposit of $%.2f has been successfully processed.\n\n&quot;</span>
+					+ &quot;\tTransaction Details:\n&quot; + &quot;\t- Transaction ID: %s\n&quot; + &quot;\t- Date and Time: %s\n&quot;
+					+ &quot;\t- Balance After Transaction: $%.2f\n\n&quot; + &quot;\tThank you for using our banking services.&quot;,
+<span class="fc" id="L289">					transaction.getAmount(), transaction.getTransactionId(), transaction.getCreatedAt(), newBalance);</span>
+
+<span class="fc" id="L291">			String user_id = accountService.getUser(transaction.getDestinationAccountId()).getOwnerId();</span>
+<span class="fc" id="L292">			notification.setReceiverId(user_id);</span>
+<span class="fc" id="L293">			notification.setMessage(depositMessage);</span>
+<span class="fc" id="L294">			break;</span>
+		case TransactionConstants.TRANSFER_TYPE:
+<span class="fc" id="L296">			String transferMessage = String.format(</span>
+					&quot;Your transfer of $%.2f has been successfully completed.\n\n&quot; + &quot;\tTransaction Details:\n&quot;
+							+ &quot;\t- Transaction ID: %s\n&quot; + &quot;\t- Date and Time: %s\n&quot; + &quot;\t- Sent To: %s\n&quot;
+							+ &quot;\t- Balance After Transaction: $%.2f\n\n&quot;
+							+ &quot;\tThank you for using our banking services.&quot;,
+<span class="fc" id="L301">					transaction.getAmount(), transaction.getTransactionId(), transaction.getCreatedAt(),</span>
+<span class="fc" id="L302">					transaction.getDestinationAccountId(), newBalance);</span>
+<span class="fc" id="L303">			String user_Id = accountService.getUser(transaction.getSourceAccountId()).getOwnerId();</span>
+<span class="fc" id="L304">			notification.setReceiverId(user_Id);</span>
+<span class="fc" id="L305">			notification.setMessage(transferMessage);</span>
+			break;
+		}
+<span class="fc" id="L308">		return notification;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

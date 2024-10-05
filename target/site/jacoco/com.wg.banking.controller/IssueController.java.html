@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IssueController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.controller</a> &gt; <span class="el_source">IssueController.java</span></div><h1>IssueController.java</h1><pre class="source lang-java linenums">package com.wg.banking.controller;
+
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.helper.printer.IssuePrinter;
+import com.wg.banking.model.Branch;
+import com.wg.banking.model.Issue;
+import com.wg.banking.service.IssueService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class IssueController {
+    	private IssueService issueService;
+    private Scanner scanner;
+    
+<span class="nc" id="L17">    public IssueController(IssueService issueService) {</span>
+<span class="nc" id="L18">        this.issueService = issueService;</span>
+<span class="nc" id="L19">        this.scanner = new Scanner(System.in);</span>
+<span class="nc" id="L20">    }</span>
+
+    public void addIssue(Issue issue) {
+<span class="nc" id="L23">    	boolean isIssueRaised = issueService.addIssue(issue);</span>
+    	
+<span class="nc bnc" id="L25" title="All 2 branches missed.">    	if(isIssueRaised)</span>
+<span class="nc" id="L26">    		System.out.println(StringConstants.ISSUE_RAISED_SUCCESSFULLY);</span>
+    	else 
+<span class="nc" id="L28">    		System.out.println(StringConstants.ISSUE_COULD_NOT_BE_RAISED);</span>
+<span class="nc" id="L29">    }</span>
+
+    public Issue getIssueById() {
+    	try {
+<span class="nc" id="L33">            System.out.print(StringConstants.ENTER_ISSUE_ID);</span>
+<span class="nc" id="L34">            String issueId = scanner.nextLine();</span>
+
+<span class="nc" id="L36">            Issue issue = issueService.getIssueById(issueId);</span>
+<span class="nc" id="L37">            return issue;</span>
+<span class="nc" id="L38">        } catch (Exception e) {</span>
+<span class="nc" id="L39">            System.out.println(StringConstants.ERROR_RETRIEVING_ISSUE + e.getMessage());</span>
+        }
+<span class="nc" id="L41">    	return null;</span>
+    }
+
+    public List&lt;Issue&gt; getAllIssues() {
+<span class="nc" id="L45">    	List&lt;Issue&gt; issues = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="nc" id="L47">    		issues = issueService.getAllIssues();</span>
+<span class="nc" id="L48">        } catch (Exception e) {</span>
+<span class="nc" id="L49">            System.out.println(StringConstants.ERROR_RETRIEVING_ISSUE + e.getMessage());</span>
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">    	return issues;</span>
+    }
+    
+    public List&lt;Issue&gt; getAllIssuesByBranch(Branch branch) {
+<span class="nc" id="L55">    	List&lt;Issue&gt; issues = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="nc" id="L57">    		issues = issueService.getAllIssuesByBranch(branch);</span>
+<span class="nc" id="L58">    	} catch (Exception e) {</span>
+<span class="nc" id="L59">    		System.out.println(StringConstants.ERROR_RETRIEVING_ISSUE + e.getMessage());</span>
+<span class="nc" id="L60">    	}</span>
+<span class="nc" id="L61">    	return issues;</span>
+    }
+    
+    
+    
+    public void getAllIssues(String userId) {
+    	try {
+<span class="nc" id="L68">            List&lt;Issue&gt; issues = issueService.getAllIssues(userId);            </span>
+<span class="nc" id="L69">            IssuePrinter.printIssues(issues);</span>
+<span class="nc" id="L70">        } catch (Exception e) {</span>
+<span class="nc" id="L71">            System.out.println(StringConstants.ERROR_RETRIEVING_ISSUE + e.getMessage());</span>
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">    }</span>
+    
+    public void resolveIssue(Issue issue) {
+    	try {
+<span class="nc" id="L77">			issueService.resolveIssue(issue);</span>
+<span class="nc" id="L78">		} catch (Exception e) {</span>
+<span class="nc" id="L79">            System.out.println(StringConstants.ERROR_RETRIEVING_ISSUE + e.getMessage());</span>
+<span class="nc" id="L80">            e.printStackTrace();</span>
+<span class="nc" id="L81">		}</span>
+<span class="nc" id="L82">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

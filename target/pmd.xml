@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd" version="6.29.0" timestamp="2024-09-17T16:10:38.094">
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\Main.java">
+<violation beginline="5" endline="9" begincolumn="19" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking" class="Main" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\config\AppConfig.java">
+<violation beginline="39" endline="105" begincolumn="24" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.config" class="AppConfig" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\config\DatabaseConnection.java">
+<violation beginline="7" endline="26" begincolumn="33" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.config" class="DatabaseConnection" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\constants\BranchConstants.java">
+<violation beginline="7" endline="7" begincolumn="22" endcolumn="57" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="BranchConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="9" endline="9" begincolumn="25" endcolumn="55" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="BranchConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="10" endline="10" begincolumn="25" endcolumn="59" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="BranchConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="11" endline="11" begincolumn="25" endcolumn="65" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="BranchConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="12" endline="12" begincolumn="25" endcolumn="68" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="BranchConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="13" endline="13" begincolumn="25" endcolumn="63" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="BranchConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="14" endline="14" begincolumn="25" endcolumn="63" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="BranchConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\constants\ClosedAccountsConstants.java">
+<violation beginline="3" endline="17" begincolumn="8" endcolumn="1" rule="ClassWithOnlyPrivateConstructorsShouldBeFinal" ruleset="Design" package="com.wg.banking.constants" class="ClosedAccountsConstants" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal" priority="1">
+A class which only has private constructors should be final
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\constants\IssueConstants.java">
+<violation beginline="3" endline="14" begincolumn="8" endcolumn="1" rule="ClassWithOnlyPrivateConstructorsShouldBeFinal" ruleset="Design" package="com.wg.banking.constants" class="IssueConstants" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal" priority="1">
+A class which only has private constructors should be final
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\constants\UserConstants.java">
+<violation beginline="8" endline="8" begincolumn="22" endcolumn="53" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="10" endline="10" begincolumn="25" endcolumn="53" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="11" endline="11" begincolumn="25" endcolumn="52" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="12" endline="12" begincolumn="25" endcolumn="54" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="13" endline="13" begincolumn="25" endcolumn="60" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="14" endline="14" begincolumn="25" endcolumn="60" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="15" endline="15" begincolumn="25" endcolumn="50" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="16" endline="16" begincolumn="25" endcolumn="56" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="17" endline="17" begincolumn="25" endcolumn="59" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="18" endline="18" begincolumn="25" endcolumn="58" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="19" endline="19" begincolumn="25" endcolumn="52" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="20" endline="20" begincolumn="25" endcolumn="63" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="21" endline="21" begincolumn="25" endcolumn="63" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="24" endline="24" begincolumn="25" endcolumn="47" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="25" endline="25" begincolumn="25" endcolumn="65" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+<violation beginline="26" endline="26" begincolumn="25" endcolumn="53" rule="FieldDeclarationsShouldBeAtStartOfClass" ruleset="Code Style" package="com.wg.banking.constants" class="UserConstants" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass" priority="3">
+Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\AccountController.java">
+<violation beginline="24" endline="24" begincolumn="25" endcolumn="38" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="accountService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'accountService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="25" endline="25" begincolumn="21" endcolumn="27" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="scanner" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'scanner' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="26" endline="26" begincolumn="13" endcolumn="28" rule="SingularField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'userDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="26" endline="26" begincolumn="21" endcolumn="27" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="userDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'userDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="27" endline="27" begincolumn="25" endcolumn="35" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="userService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'userService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="28" endline="28" begincolumn="13" endcolumn="32" rule="SingularField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'branchDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="28" endline="28" begincolumn="23" endcolumn="31" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="branchDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'branchDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="29" endline="29" begincolumn="27" endcolumn="39" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="AccountController" variable="branchService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'branchService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="78" endline="78" begincolumn="13" endcolumn="28" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.controller" class="AccountController" method="getAllAccounts" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'accounts'
+</violation>
+<violation beginline="120" endline="162" begincolumn="17" endcolumn="17" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.controller" class="AccountController" method="updateAccount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="180" endline="184" begincolumn="13" endcolumn="13" rule="ConfusingTernary" ruleset="Code Style" package="com.wg.banking.controller" class="AccountController" method="deleteAccount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#confusingternary" priority="3">
+Avoid if (x != y) ..; else ..;
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\BranchController.java">
+<violation beginline="22" endline="22" begincolumn="24" endcolumn="36" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="BranchController" variable="branchService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'branchService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="23" endline="23" begincolumn="21" endcolumn="27" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="BranchController" variable="scanner" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'scanner' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="113" endline="113" begincolumn="28" endcolumn="40" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.controller" class="BranchController" method="updateBranch" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+<violation beginline="154" endline="154" begincolumn="7" endcolumn="19" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.controller" class="BranchController" method="deleteBranch" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\ClosedAccountsController.java">
+<violation beginline="9" endline="9" begincolumn="35" endcolumn="55" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="ClosedAccountsController" variable="closedAccountsService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'closedAccountsService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\IssueController.java">
+<violation beginline="14" endline="14" begincolumn="27" endcolumn="38" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="IssueController" variable="issueService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'issueService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="15" endline="15" begincolumn="21" endcolumn="27" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="IssueController" variable="scanner" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'scanner' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="37" endline="37" begincolumn="13" endcolumn="25" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.controller" class="IssueController" method="getIssueById" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'issue'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\LoginController.java">
+<violation beginline="26" endline="26" begincolumn="23" endcolumn="34" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="LoginController" variable="loginService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'loginService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="51" endline="60" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.controller" class="LoginController" method="authenticateUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="51" endline="60" begincolumn="4" endcolumn="4" rule="SwitchStmtsShouldHaveDefault" ruleset="Best Practices" package="com.wg.banking.controller" class="LoginController" method="authenticateUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#switchstmtsshouldhavedefault" priority="3">
+Switch statements should have a default label
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\NotificationController.java">
+<violation beginline="24" endline="24" begincolumn="30" endcolumn="48" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="NotificationController" variable="notificationService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'notificationService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="25" endline="25" begincolumn="21" endcolumn="27" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="NotificationController" variable="scanner" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'scanner' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="26" endline="26" begincolumn="25" endcolumn="35" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="NotificationController" variable="userService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'userService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="27" endline="27" begincolumn="13" endcolumn="28" rule="SingularField" ruleset="Design" package="com.wg.banking.controller" class="NotificationController" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'userDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="27" endline="27" begincolumn="21" endcolumn="27" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="NotificationController" variable="userDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'userDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="49" endline="49" begincolumn="35" endcolumn="66" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.controller" class="NotificationController" method="addNotification" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="53" endline="53" begincolumn="29" endcolumn="60" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.controller" class="NotificationController" method="addNotification" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\TransactionController.java">
+<violation beginline="17" endline="17" begincolumn="29" endcolumn="46" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="TransactionController" variable="transactionService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'transactionService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\controller\UserController.java">
+<violation beginline="18" endline="18" begincolumn="22" endcolumn="32" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="UserController" variable="userService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'userService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="19" endline="19" begincolumn="21" endcolumn="27" rule="ImmutableField" ruleset="Design" package="com.wg.banking.controller" class="UserController" variable="scanner" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'scanner' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="86" endline="180" begincolumn="17" endcolumn="17" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.controller" class="UserController" method="updateUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="141" endline="141" begincolumn="41" endcolumn="72" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.controller" class="UserController" method="updateUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="148" endline="148" begincolumn="60" endcolumn="85" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.controller" class="UserController" method="updateUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\dao\GenericDAO.java">
+<violation beginline="28" endline="28" begincolumn="17" endcolumn="25" rule="CloseResource" ruleset="Error Prone" package="com.wg.banking.dao" class="GenericDAO" method="get" variable="resultSet" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#closeresource" priority="3">
+Ensure that resources like this ResultSet object are closed after use
+</violation>
+<violation beginline="40" endline="40" begincolumn="17" endcolumn="25" rule="CloseResource" ruleset="Error Prone" package="com.wg.banking.dao" class="GenericDAO" method="getAll" variable="resultSet" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#closeresource" priority="3">
+Ensure that resources like this ResultSet object are closed after use
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\dao\impl\AccountDAOImpl.java">
+<violation beginline="36" endline="36" begincolumn="3" endcolumn="17" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.dao.impl" class="AccountDAOImpl" method="getAccount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'account'
+</violation>
+<violation beginline="43" endline="43" begincolumn="3" endcolumn="20" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.dao.impl" class="AccountDAOImpl" method="getAccount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'accountObj'
+</violation>
+<violation beginline="49" endline="49" begincolumn="3" endcolumn="17" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.dao.impl" class="AccountDAOImpl" method="getAccount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'account'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\dao\impl\TransactionDAOImpl.java">
+<violation beginline="50" endline="50" begincolumn="3" endcolumn="22" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.dao.impl" class="TransactionDAOImpl" method="getAllTransactions" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'transactions'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\AccountNumberGenerator.java">
+<violation beginline="5" endline="23" begincolumn="37" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="AccountNumberGenerator" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\GetUserInput.java">
+<violation beginline="5" endline="39" begincolumn="27" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="GetUserInput" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="8" endline="8" begincolumn="11" endcolumn="17" rule="CloseResource" ruleset="Error Prone" package="com.wg.banking.helper" class="GetUserInput" method="getUserChoice" variable="scanner" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#closeresource" priority="3">
+Ensure that resources like this InputStream object are closed after use
+</violation>
+<violation beginline="13" endline="13" begincolumn="5" endcolumn="17" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.helper" class="GetUserInput" method="getUserChoice" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'value'
+</violation>
+<violation beginline="21" endline="21" begincolumn="11" endcolumn="17" rule="CloseResource" ruleset="Error Prone" package="com.wg.banking.helper" class="GetUserInput" method="getDoubleInput" variable="scanner" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#closeresource" priority="3">
+Ensure that resources like this InputStream object are closed after use
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\LoggingUtil.java">
+<violation beginline="9" endline="44" begincolumn="26" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="LoggingUtil" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\MaskString.java">
+<violation beginline="3" endline="22" begincolumn="25" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="MaskString" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\PasswordUtil.java">
+<violation beginline="7" endline="30" begincolumn="27" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="PasswordUtil" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\SecureInput.java">
+<violation beginline="5" endline="18" begincolumn="26" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="SecureInput" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="16" endline="16" begincolumn="3" endcolumn="16" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.helper" class="SecureInput" method="getSecureInput" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'result'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\UniqueIdGenerator.java">
+<violation beginline="5" endline="10" begincolumn="32" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="UniqueIdGenerator" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\ValidateInputs.java">
+<violation beginline="8" endline="79" begincolumn="29" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper" class="ValidateInputs" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="39" endline="39" begincolumn="10" endcolumn="37" rule="PositionLiteralsFirstInCaseInsensitiveComparisons" ruleset="Best Practices" package="com.wg.banking.helper" class="ValidateInputs" method="isValidGender" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons" priority="3">
+Position literals first in String comparisons for EqualsIgnoreCase
+</violation>
+<violation beginline="39" endline="39" begincolumn="42" endcolumn="69" rule="PositionLiteralsFirstInCaseInsensitiveComparisons" ruleset="Best Practices" package="com.wg.banking.helper" class="ValidateInputs" method="isValidGender" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons" priority="3">
+Position literals first in String comparisons for EqualsIgnoreCase
+</violation>
+<violation beginline="39" endline="39" begincolumn="74" endcolumn="101" rule="PositionLiteralsFirstInCaseInsensitiveComparisons" ruleset="Best Practices" package="com.wg.banking.helper" class="ValidateInputs" method="isValidGender" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons" priority="3">
+Position literals first in String comparisons for EqualsIgnoreCase
+</violation>
+<violation beginline="62" endline="62" begincolumn="10" endcolumn="48" rule="PositionLiteralsFirstInCaseInsensitiveComparisons" ruleset="Best Practices" package="com.wg.banking.helper" class="ValidateInputs" method="isValidRole" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons" priority="3">
+Position literals first in String comparisons for EqualsIgnoreCase
+</violation>
+<violation beginline="62" endline="62" begincolumn="53" endcolumn="85" rule="PositionLiteralsFirstInCaseInsensitiveComparisons" ruleset="Best Practices" package="com.wg.banking.helper" class="ValidateInputs" method="isValidRole" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons" priority="3">
+Position literals first in String comparisons for EqualsIgnoreCase
+</violation>
+<violation beginline="70" endline="70" begincolumn="10" endcolumn="58" rule="PositionLiteralsFirstInCaseInsensitiveComparisons" ruleset="Best Practices" package="com.wg.banking.helper" class="ValidateInputs" method="isValidNotificationType" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons" priority="3">
+Position literals first in String comparisons for EqualsIgnoreCase
+</violation>
+<violation beginline="70" endline="70" begincolumn="63" endcolumn="115" rule="PositionLiteralsFirstInCaseInsensitiveComparisons" ruleset="Best Practices" package="com.wg.banking.helper" class="ValidateInputs" method="isValidNotificationType" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons" priority="3">
+Position literals first in String comparisons for EqualsIgnoreCase
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\printer\AccountDetailsPrinter.java">
+<violation beginline="7" endline="70" begincolumn="36" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper.printer" class="AccountDetailsPrinter" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="17" endline="17" begincolumn="29" endcolumn="41" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.helper.printer" class="AccountDetailsPrinter" method="printAccountDetails" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\printer\BranchPrinter.java">
+<violation beginline="7" endline="68" begincolumn="28" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper.printer" class="BranchPrinter" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="16" endline="16" begincolumn="29" endcolumn="41" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.helper.printer" class="BranchPrinter" method="printBranches" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\printer\IssuePrinter.java">
+<violation beginline="7" endline="69" begincolumn="27" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper.printer" class="IssuePrinter" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="16" endline="16" begincolumn="27" endcolumn="37" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.helper.printer" class="IssuePrinter" method="printIssues" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\printer\NotificationDetailsPrinter.java">
+<violation beginline="7" endline="71" begincolumn="41" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper.printer" class="NotificationDetailsPrinter" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\printer\NotificationPrinter.java">
+<violation beginline="7" endline="69" begincolumn="34" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper.printer" class="NotificationPrinter" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="17" endline="17" begincolumn="34" endcolumn="51" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.helper.printer" class="NotificationPrinter" method="printNotifications" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\printer\TransactionPrinter.java">
+<violation beginline="8" endline="68" begincolumn="33" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper.printer" class="TransactionPrinter" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="18" endline="18" begincolumn="33" endcolumn="49" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.helper.printer" class="TransactionPrinter" method="printTransactions" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+<violation beginline="36" endline="36" begincolumn="21" endcolumn="103" rule="ConfusingTernary" ruleset="Code Style" package="com.wg.banking.helper.printer" class="TransactionPrinter" method="printTransactions" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#confusingternary" priority="3">
+Avoid if (x != y) ..; else ..;
+</violation>
+<violation beginline="37" endline="37" begincolumn="21" endcolumn="113" rule="ConfusingTernary" ruleset="Code Style" package="com.wg.banking.helper.printer" class="TransactionPrinter" method="printTransactions" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#confusingternary" priority="3">
+Avoid if (x != y) ..; else ..;
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\helper\printer\UserPrinter.java">
+<violation beginline="7" endline="74" begincolumn="26" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.helper.printer" class="UserPrinter" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="16" endline="16" begincolumn="26" endcolumn="35" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.helper.printer" class="UserPrinter" method="printUsers" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\Account.java">
+<violation beginline="6" endline="109" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="Account" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'Account' is suspected to be a Data Class (WOC=17.647%, NOPA=0, NOAM=12, WMC=20)
+</violation>
+<violation beginline="15" endline="15" begincolumn="12" endcolumn="23" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="Account" method="Account" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\AccountDetails.java">
+<violation beginline="3" endline="59" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="AccountDetails" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'AccountDetails' is suspected to be a Data Class (WOC=9.091%, NOPA=0, NOAM=8, WMC=11)
+</violation>
+<violation beginline="9" endline="9" begincolumn="12" endcolumn="30" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="AccountDetails" method="AccountDetails" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\Branch.java">
+<violation beginline="6" endline="107" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="Branch" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'Branch' is suspected to be a Data Class (WOC=17.647%, NOPA=0, NOAM=12, WMC=20)
+</violation>
+<violation beginline="14" endline="14" begincolumn="12" endcolumn="22" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="Branch" method="Branch" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\ClosedAccounts.java">
+<violation beginline="6" endline="76" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="ClosedAccounts" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'ClosedAccounts' is suspected to be a Data Class (WOC=27.273%, NOPA=0, NOAM=6, WMC=14)
+</violation>
+<violation beginline="13" endline="14" begincolumn="12" endcolumn="5" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="ClosedAccounts" method="ClosedAccounts" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\Issue.java">
+<violation beginline="6" endline="101" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="Issue" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'Issue' is suspected to be a Data Class (WOC=20.000%, NOPA=0, NOAM=10, WMC=18)
+</violation>
+<violation beginline="19" endline="19" begincolumn="12" endcolumn="22" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="Issue" method="Issue" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\Notification.java">
+<violation beginline="6" endline="100" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="Notification" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'Notification' is suspected to be a Data Class (WOC=20.000%, NOPA=0, NOAM=10, WMC=18)
+</violation>
+<violation beginline="18" endline="18" begincolumn="12" endcolumn="28" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="Notification" method="Notification" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\NotificationDetails.java">
+<violation beginline="3" endline="36" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="NotificationDetails" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'NotificationDetails' is suspected to be a Data Class (WOC=14.286%, NOPA=0, NOAM=4, WMC=7)
+</violation>
+<violation beginline="8" endline="8" begincolumn="9" endcolumn="32" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="NotificationDetails" method="NotificationDetails" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\Transaction.java">
+<violation beginline="6" endline="115" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="Transaction" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'Transaction' is suspected to be a Data Class (WOC=17.647%, NOPA=0, NOAM=12, WMC=20)
+</violation>
+<violation beginline="20" endline="20" begincolumn="12" endcolumn="28" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="Transaction" method="Transaction" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\model\User.java">
+<violation beginline="6" endline="187" begincolumn="8" endcolumn="1" rule="DataClass" ruleset="Design" package="com.wg.banking.model" class="User" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#dataclass" priority="3">
+The class 'User' is suspected to be a Data Class (WOC=10.345%, NOPA=0, NOAM=24, WMC=32)
+</violation>
+<violation beginline="31" endline="32" begincolumn="12" endcolumn="5" rule="UncommentedEmptyConstructor" ruleset="Documentation" package="com.wg.banking.model" class="User" method="User" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_documentation.html#uncommentedemptyconstructor" priority="3">
+Document empty constructor
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\presentation\AdminMenu.java">
+<violation beginline="50" endline="760" begincolumn="24" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.presentation" class="AdminMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="50" endline="760" begincolumn="8" endcolumn="1" rule="GodClass" ruleset="Design" package="com.wg.banking.presentation" class="AdminMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#godclass" priority="3">
+Possible God Class (WMC=142, ATFD=218, TCC=20.952%)
+</violation>
+<violation beginline="79" endline="105" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="showAdminMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="166" endline="186" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayManageAccounts" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="195" endline="259" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayManageBranches" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="221" endline="221" begincolumn="9" endcolumn="21" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.presentation" class="AdminMenu" method="displayManageBranches" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+<violation beginline="268" endline="285" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayManageNotifications" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="301" endline="323" begincolumn="3" endcolumn="3" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayNotificationsSubMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="332" endline="368" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayManageIssues" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="340" endline="340" begincolumn="37" endcolumn="57" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.presentation" class="AdminMenu" method="displayManageIssues" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+<violation beginline="378" endline="398" begincolumn="5" endcolumn="5" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayTransactionsSubMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="416" endline="481" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayAccountDetails" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="441" endline="468" begincolumn="5" endcolumn="5" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="displayAccountDetails" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="540" endline="540" begincolumn="26" endcolumn="57" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="getInputForNewUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="547" endline="547" begincolumn="45" endcolumn="70" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="getInputForNewUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="566" endline="566" begincolumn="24" endcolumn="55" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="getInputForNewUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="572" endline="572" begincolumn="17" endcolumn="40" rule="UseLocaleWithCaseConversions" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="getInputForNewUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#uselocalewithcaseconversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="623" endline="623" begincolumn="3" endcolumn="17" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.presentation" class="AdminMenu" method="getInputForAccount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'account'
+</violation>
+<violation beginline="632" endline="662" begincolumn="5" endcolumn="5" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="filterTransactionByType" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="675" endline="707" begincolumn="3" endcolumn="3" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="AdminMenu" method="filterTransactionByAmount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="735" endline="735" begincolumn="15" endcolumn="18" rule="SimplifyBooleanExpressions" ruleset="Design" package="com.wg.banking.presentation" class="AdminMenu" method="closeAccount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#simplifybooleanexpressions" priority="3">
+Avoid unnecessary comparisons in boolean expressions
+</violation>
+<violation beginline="754" endline="754" begincolumn="15" endcolumn="18" rule="SimplifyBooleanExpressions" ruleset="Design" package="com.wg.banking.presentation" class="AdminMenu" method="updateUser" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#simplifybooleanexpressions" priority="3">
+Avoid unnecessary comparisons in boolean expressions
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\presentation\BranchManagerMenu.java">
+<violation beginline="35" endline="433" begincolumn="32" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.presentation" class="BranchManagerMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="73" endline="90" begincolumn="16" endcolumn="16" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="showBranchManagerMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="166" endline="203" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="displayManageIssuesForManager" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="174" endline="174" begincolumn="38" endcolumn="51" rule="UseCollectionIsEmpty" ruleset="Best Practices" package="com.wg.banking.presentation" class="BranchManagerMenu" method="displayManageIssuesForManager" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#usecollectionisempty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+<violation beginline="212" endline="231" begincolumn="4" endcolumn="4" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="displayManageNotifications" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="247" endline="269" begincolumn="3" endcolumn="3" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="displayNotificationsSubMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="282" endline="302" begincolumn="5" endcolumn="5" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="displayTransactionsSubMenuManager" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="316" endline="336" begincolumn="5" endcolumn="5" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="displayTransactionsSubMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="354" endline="383" begincolumn="5" endcolumn="5" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="filterTransactionByType" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="396" endline="430" begincolumn="3" endcolumn="3" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="BranchManagerMenu" method="filterTransactionByAmount" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\presentation\CustomerMenu.java">
+<violation beginline="29" endline="221" begincolumn="27" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.presentation" class="CustomerMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="52" endline="93" begincolumn="13" endcolumn="13" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="CustomerMenu" method="showCustomerMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="179" endline="199" begincolumn="3" endcolumn="3" rule="MissingBreakInSwitch" ruleset="Error Prone" package="com.wg.banking.presentation" class="CustomerMenu" method="displayCustomerNotificationsSubMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_errorprone.html#missingbreakinswitch" priority="3">
+A switch statement does not contain a break
+</violation>
+<violation beginline="217" endline="217" begincolumn="3" endcolumn="15" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.presentation" class="CustomerMenu" method="getInputForIssue" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'issue'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\presentation\Menu.java">
+<violation beginline="5" endline="17" begincolumn="19" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.presentation" class="Menu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\presentation\StartMenu.java">
+<violation beginline="9" endline="30" begincolumn="24" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.wg.banking.presentation" class="StartMenu" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#useutilityclass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\AccountDetailsService.java">
+<violation beginline="13" endline="13" begincolumn="28" endcolumn="44" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="AccountDetailsService" variable="accountDetailsDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'accountDetailsDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\AccountService.java">
+<violation beginline="13" endline="13" begincolumn="21" endcolumn="30" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="AccountService" variable="accountDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'accountDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\BranchService.java">
+<violation beginline="19" endline="19" begincolumn="20" endcolumn="28" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="BranchService" variable="branchDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'branchDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="20" endline="20" begincolumn="10" endcolumn="25" rule="SingularField" ruleset="Design" package="com.wg.banking.service" class="BranchService" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'userDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="21" endline="21" begincolumn="22" endcolumn="32" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="BranchService" variable="userService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'userService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="22" endline="22" begincolumn="25" endcolumn="38" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="BranchService" variable="accountService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'accountService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="23" endline="23" begincolumn="10" endcolumn="31" rule="SingularField" ruleset="Design" package="com.wg.banking.service" class="BranchService" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'accountDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="59" endline="59" begincolumn="4" endcolumn="24" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.service" class="BranchService" method="addBranch" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'isBranchAdded'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\ClosedAccountsService.java">
+<violation beginline="15" endline="15" begincolumn="28" endcolumn="44" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="ClosedAccountsService" variable="closedAccountsDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'closedAccountsDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\IssueService.java">
+<violation beginline="20" endline="20" begincolumn="19" endcolumn="26" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="IssueService" variable="issueDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'issueDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="21" endline="21" begincolumn="10" endcolumn="31" rule="SingularField" ruleset="Design" package="com.wg.banking.service" class="IssueService" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'accountDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="22" endline="22" begincolumn="25" endcolumn="38" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="IssueService" variable="accountService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'accountService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="51" endline="51" begincolumn="3" endcolumn="24" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.service" class="IssueService" method="getAllIssuesByBranch" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'filteredIssues'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\LoginService.java">
+<violation beginline="11" endline="11" begincolumn="19" endcolumn="26" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="LoginService" variable="loginDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'loginDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\NotificationService.java">
+<violation beginline="23" endline="23" begincolumn="29" endcolumn="43" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="NotificationService" variable="notificationDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'notificationDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="134" endline="134" begincolumn="4" endcolumn="30" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.service" class="NotificationService" method="getAllNotifications" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'sortedNotifications'
+</violation>
+<violation beginline="155" endline="155" begincolumn="4" endcolumn="24" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.service" class="NotificationService" method="getAllNotifications" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'notifications'
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\TransactionService.java">
+<violation beginline="28" endline="28" begincolumn="25" endcolumn="38" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="TransactionService" variable="accountService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'accountService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="29" endline="29" begincolumn="10" endcolumn="31" rule="SingularField" ruleset="Design" package="com.wg.banking.service" class="TransactionService" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'accountDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="31" endline="31" begincolumn="30" endcolumn="48" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="TransactionService" variable="notificationService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'notificationService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="32" endline="32" begincolumn="10" endcolumn="41" rule="SingularField" ruleset="Design" package="com.wg.banking.service" class="TransactionService" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'notificationDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="34" endline="34" begincolumn="25" endcolumn="38" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="TransactionService" variable="transactionDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'transactionDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="220" endline="220" begincolumn="4" endcolumn="23" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.service" class="TransactionService" method="getAllTransactions" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'transactions'
+</violation>
+<violation beginline="252" endline="262" begincolumn="3" endcolumn="3" rule="SwitchStmtsShouldHaveDefault" ruleset="Best Practices" package="com.wg.banking.service" class="TransactionService" method="addTransaction" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#switchstmtsshouldhavedefault" priority="3">
+Switch statements should have a default label
+</violation>
+<violation beginline="272" endline="307" begincolumn="3" endcolumn="3" rule="SwitchStmtsShouldHaveDefault" ruleset="Best Practices" package="com.wg.banking.service" class="TransactionService" method="generateTransactionNotification" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_bestpractices.html#switchstmtsshouldhavedefault" priority="3">
+Switch statements should have a default label
+</violation>
+</file>
+<file name="C:\Users\pbhatt\OneDrive - WatchGuard Technologies Inc\Documents\project\banking-system\src\main\java\com\wg\banking\service\UserService.java">
+<violation beginline="20" endline="20" begincolumn="18" endcolumn="24" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="UserService" variable="userDAO" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'userDAO' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="21" endline="21" begincolumn="10" endcolumn="45" rule="SingularField" ruleset="Design" package="com.wg.banking.service" class="UserService" variable="VariableDeclaratorId" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#singularfield" priority="3">
+Perhaps 'closedAccountsDAO' could be replaced by a local variable.
+</violation>
+<violation beginline="22" endline="22" begincolumn="32" endcolumn="52" rule="ImmutableField" ruleset="Design" package="com.wg.banking.service" class="UserService" variable="closedAccountsService" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_design.html#immutablefield" priority="3">
+Private field 'closedAccountsService' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="56" endline="56" begincolumn="4" endcolumn="22" rule="UnnecessaryLocalBeforeReturn" ruleset="Code Style" package="com.wg.banking.service" class="UserService" method="getAllActiveUsers" externalInfoUrl="https://pmd.github.io/pmd-6.29.0/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn" priority="3">
+Consider simply returning the value vs storing it in local variable 'activeUsers'
+</violation>
+</file>
+</pmd>

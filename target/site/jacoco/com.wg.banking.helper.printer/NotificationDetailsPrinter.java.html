@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationDetailsPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.helper.printer</a> &gt; <span class="el_source">NotificationDetailsPrinter.java</span></div><h1>NotificationDetailsPrinter.java</h1><pre class="source lang-java linenums">package com.wg.banking.helper.printer;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import com.wg.banking.model.NotificationDetails;
+
+<span class="nc" id="L8">public class NotificationDetailsPrinter {</span>
+
+    private static final String HEADER_FORMAT = &quot;%5s | %-15s | %-25s | %-25s | %-45s&quot;;
+    private static final String ROW_FORMAT = &quot;%5d | %-15s | %-25s | %-25s | %-45s&quot;;
+
+    private static final String BOX_BORDER = &quot;===============================================================================================================================&quot;;
+    private static final String DIVIDER_LINE = &quot;-----------------------------------------------------------------------------------------------------------------------------&quot;;
+
+<span class="nc" id="L16">    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+
+    public static void printNotifications(List&lt;NotificationDetails&gt; notifications) {
+<span class="nc bnc" id="L19" title="All 4 branches missed.">    	if(notifications == null || notifications.isEmpty()) {</span>
+<span class="nc" id="L20">    		System.out.println(&quot;No notifications !&quot;);</span>
+<span class="nc" id="L21">    		return;</span>
+    	}
+        // Print table title
+<span class="nc" id="L24">        System.out.println(BOX_BORDER);</span>
+<span class="nc" id="L25">        System.out.println(centerTextInBox(&quot;NOTIFICATIONS&quot;));</span>
+<span class="nc" id="L26">        System.out.println(BOX_BORDER);</span>
+
+        // Print header
+<span class="nc" id="L29">        System.out.printf(HEADER_FORMAT, &quot;S.No.&quot;, &quot;Date&quot;, &quot;Name&quot;, &quot;Email&quot;, &quot;Message&quot;);</span>
+<span class="nc" id="L30">        System.out.println();</span>
+<span class="nc" id="L31">        System.out.println(DIVIDER_LINE);</span>
+
+        // Print rows
+<span class="nc" id="L34">        int index = 1;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (NotificationDetails notification : notifications) {</span>
+            try {
+                // Print each notification row
+<span class="nc" id="L38">                System.out.printf(ROW_FORMAT,</span>
+<span class="nc" id="L39">                        index++,</span>
+<span class="nc" id="L40">                        notification.getNotification().getCreatedAt(),</span>
+<span class="nc" id="L41">                        notification.getUser().getName(),</span>
+<span class="nc" id="L42">                        notification.getUser().getEmail(),</span>
+<span class="nc" id="L43">                        notification.getNotification().getMessage()</span>
+                		);
+<span class="nc" id="L45">                System.out.println();</span>
+<span class="nc" id="L46">                System.out.println(DIVIDER_LINE);</span>
+<span class="nc" id="L47">            } catch (Exception e) {</span>
+<span class="nc" id="L48">                e.printStackTrace();</span>
+<span class="nc" id="L49">                System.out.println(&quot;Error occurred while printing notification: &quot; + notification);</span>
+<span class="nc" id="L50">            }</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">    }</span>
+
+    // Helper method to center the text within a box
+    private static String centerTextInBox(String text) {
+<span class="nc" id="L56">        int boxWidth = BOX_BORDER.length();</span>
+<span class="nc" id="L57">        int textLength = text.length();</span>
+<span class="nc" id="L58">        int padding = (boxWidth - textLength) / 2;</span>
+
+        // Creating a line with centered text surrounded by spaces
+<span class="nc" id="L61">        StringBuilder centeredText = new StringBuilder();</span>
+<span class="nc" id="L62">        centeredText.append(&quot; &quot;.repeat(padding));</span>
+<span class="nc" id="L63">        centeredText.append(text);</span>
+<span class="nc" id="L64">        centeredText.append(&quot; &quot;.repeat(padding));</span>
+
+        // Ensure the line is exactly as wide as the box, accounting for odd width
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        while (centeredText.length() &lt; boxWidth) {</span>
+<span class="nc" id="L68">            centeredText.append(&quot; &quot;);</span>
+        }
+
+<span class="nc" id="L71">        return centeredText.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

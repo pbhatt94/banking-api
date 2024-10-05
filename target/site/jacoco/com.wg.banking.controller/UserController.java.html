@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.wg.banking.controller;
+
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.constants.UserConstants;
+import com.wg.banking.helper.GetUserInput;
+import com.wg.banking.helper.PasswordUtil;
+import com.wg.banking.helper.ValidateInputs;
+import com.wg.banking.model.User;
+import com.wg.banking.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+
+public class UserController {
+
+	private UserService userService;
+    private Scanner scanner;
+    
+<span class="nc" id="L21">    public UserController(UserService userService) {</span>
+<span class="nc" id="L22">        this.userService = userService;</span>
+<span class="nc" id="L23">        this.scanner = new Scanner(System.in);</span>
+<span class="nc" id="L24">    }</span>
+
+    public void addUser(User user) {
+        try {
+<span class="nc" id="L28">            userService.addUser(user);</span>
+<span class="nc" id="L29">        } catch (Exception e) {</span>
+<span class="nc" id="L30">            System.out.println(StringConstants.ERROR_ADDING_USER + e.getMessage());</span>
+<span class="nc" id="L31">        }</span>
+<span class="nc" id="L32">    }</span>
+
+    public User getUserById(String userId) {
+        try {
+<span class="nc" id="L36">            User user = userService.getUserById(userId);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (user == null) {</span>
+<span class="nc" id="L38">            	System.out.println(StringConstants.USER_NOT_FOUND); </span>
+<span class="nc" id="L39">            	return null;</span>
+            } 
+<span class="nc" id="L41">            return user;            </span>
+<span class="nc" id="L42">        } catch (Exception e) {</span>
+<span class="nc" id="L43">            System.out.println(StringConstants.ERROR_RETRIEVING_USER + e.getMessage());</span>
+        }
+<span class="nc" id="L45">        return null;</span>
+    }
+
+    public List&lt;User&gt; getAllUsers() {
+<span class="nc" id="L49">    	List&lt;User&gt; users = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L51">            users = userService.getAllActiveUsers();</span>
+<span class="nc" id="L52">        } catch (Exception e) {</span>
+<span class="nc" id="L53">            System.out.println(StringConstants.ERROR_RETRIEVING_USER + e.getMessage());</span>
+<span class="nc" id="L54">        }</span>
+<span class="nc" id="L55">        return users;</span>
+    }
+    
+    public List&lt;User&gt; getAllInactiveUsers() {
+<span class="nc" id="L59">    	List&lt;User&gt; users = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L61">            users = userService.getAllInactiveUsers();</span>
+<span class="nc" id="L62">        } catch (Exception e) {</span>
+<span class="nc" id="L63">            System.out.println(StringConstants.ERROR_RETRIEVING_USER + e.getMessage());</span>
+<span class="nc" id="L64">        }</span>
+<span class="nc" id="L65">        return users;</span>
+    }
+
+    public boolean updateUser(String userId) {
+    	try {
+<span class="nc" id="L70">            User user = userService.getUserById(userId);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (user == null) {</span>
+<span class="nc" id="L72">            	System.out.println(StringConstants.USER_NOT_FOUND);</span>
+<span class="nc" id="L73">            	return false;</span>
+            }
+            
+<span class="nc" id="L76">            boolean continueUpdating = true;</span>
+
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            while (continueUpdating) {</span>
+<span class="nc" id="L79">                System.out.println(StringConstants.UPDATE_USER_MENU);</span>
+
+<span class="nc" id="L81">                System.out.print(StringConstants.SELECT_AN_OPTION);</span>
+<span class="nc" id="L82">                int choice = GetUserInput.getUserChoice();</span>
+                
+<span class="nc" id="L84">                String columnToUpdate = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L86" title="All 9 branches missed.">                switch (choice) {</span>
+                    case 1:
+<span class="nc" id="L88">                    	columnToUpdate = UserConstants.EMAIL_COLUMN;</span>
+<span class="nc" id="L89">                    	System.out.print(StringConstants.ENTER_EMAIL);</span>
+<span class="nc" id="L90">                		String email = scanner.nextLine();</span>
+                		
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                		while(!ValidateInputs.isValidEmail(email)) {</span>
+<span class="nc" id="L93">                			System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L94">                			System.out.print(StringConstants.ENTER_EMAIL);</span>
+<span class="nc" id="L95">                			email = scanner.next();</span>
+                		}
+<span class="nc" id="L97">                        user.setEmail(email);</span>
+<span class="nc" id="L98">                        break;</span>
+                    case 2:
+<span class="nc" id="L100">                    	columnToUpdate = UserConstants.USERNAME_COLUMN;</span>
+<span class="nc" id="L101">                    	System.out.print(StringConstants.ENTER_USERNAME);</span>
+<span class="nc" id="L102">                		String username = scanner.nextLine();</span>
+                		
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                		while(!ValidateInputs.isValidUsername(username)) {</span>
+<span class="nc" id="L105">                			System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L106">                			System.out.print(StringConstants.ENTER_USERNAME);</span>
+<span class="nc" id="L107">                			username = scanner.nextLine();</span>
+                		}
+<span class="nc" id="L109">                        user.setUsername(username);</span>
+<span class="nc" id="L110">                        break;</span>
+                    case 3:
+<span class="nc" id="L112">                    	columnToUpdate = UserConstants.PASSWORD_COLUMN;</span>
+<span class="nc" id="L113">                    	System.out.print(StringConstants.ENTER_PASSWORD);</span>
+<span class="nc" id="L114">                		String password = scanner.nextLine();</span>
+                		
+<span class="nc bnc" id="L116" title="All 2 branches missed.">                		while(!PasswordUtil.isPasswordStrong(password)) {</span>
+<span class="nc" id="L117">                			System.out.println(StringConstants.PASSWORD_NOT_STRONG_ENOUGH);</span>
+<span class="nc" id="L118">                			System.out.print(StringConstants.ENTER_PASSWORD);</span>
+<span class="nc" id="L119">                			password = scanner.next();</span>
+                		}                            
+                		
+<span class="nc" id="L122">                		password = PasswordUtil.hashPassword(password);</span>
+<span class="nc" id="L123">                		user.setPassword(password);</span>
+<span class="nc" id="L124">                        break;</span>
+                    case 4:
+<span class="nc" id="L126">						columnToUpdate = UserConstants.AGE_COLUMN;</span>
+<span class="nc" id="L127">						System.out.print(StringConstants.ENTER_AGE);</span>
+<span class="nc" id="L128">						int age = GetUserInput.getUserChoice();</span>
+						
+<span class="nc bnc" id="L130" title="All 2 branches missed.">						while(!ValidateInputs.isValidAge(age)) {</span>
+<span class="nc" id="L131">							System.out.println(StringConstants.ENTER_A_VALID_AGE);</span>
+<span class="nc" id="L132">							System.out.print(StringConstants.ENTER_AGE);</span>
+<span class="nc" id="L133">							age = GetUserInput.getUserChoice();</span>
+						}
+<span class="nc" id="L135">                        user.setAge(age);</span>
+<span class="nc" id="L136">                        break;</span>
+                    case 5:
+<span class="nc" id="L138">                    	columnToUpdate = UserConstants.GENDER_COLUMN;</span>
+<span class="nc" id="L139">                    	System.out.print(StringConstants.ENTER_GENDER);</span>
+                		
+<span class="nc" id="L141">                		String genderString = scanner.nextLine().toUpperCase();</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                		while(!ValidateInputs.isValidGender(genderString)) {</span>
+<span class="nc" id="L143">                			System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L144">                			System.out.print(StringConstants.ENTER_GENDER);</span>
+<span class="nc" id="L145">                			genderString = scanner.next();</span>
+                		}
+                		
+<span class="nc" id="L148">                		User.Gender gender = User.Gender.valueOf(genderString.toUpperCase());</span>
+<span class="nc" id="L149">                		System.out.println(gender.toString());</span>
+<span class="nc" id="L150">                        user.setGender(gender);</span>
+<span class="nc" id="L151">                        break;</span>
+                    case 6:
+<span class="nc" id="L153">						columnToUpdate = UserConstants.PHONE_NO_COLUMN;</span>
+<span class="nc" id="L154">						System.out.print(StringConstants.ENTER_PHONE_NUMBER);</span>
+<span class="nc" id="L155">						String phoneNo = scanner.nextLine();</span>
+						
+<span class="nc bnc" id="L157" title="All 2 branches missed.">						while(!ValidateInputs.isValidPhoneNo(phoneNo)) {</span>
+<span class="nc" id="L158">							System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L159">							System.out.print(StringConstants.ENTER_PHONE_NUMBER);</span>
+<span class="nc" id="L160">							phoneNo = scanner.next();</span>
+						}
+<span class="nc" id="L162">                        user.setPhoneNo(phoneNo);</span>
+<span class="nc" id="L163">                        break;</span>
+                    case 7:
+<span class="nc" id="L165">						columnToUpdate = UserConstants.ADDRESS_COLUMN;</span>
+<span class="nc" id="L166">                    	System.out.print(StringConstants.ENTER_ADDRESS);</span>
+<span class="nc" id="L167">            			String address = scanner.nextLine();</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">            			while(!ValidateInputs.isValidString(address)) {</span>
+<span class="nc" id="L169">            				System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L170">            				System.out.print(StringConstants.ENTER_ADDRESS);</span>
+<span class="nc" id="L171">            				address = scanner.nextLine();</span>
+            			}
+<span class="nc" id="L173">                        user.setAddress(address);</span>
+<span class="nc" id="L174">                        break;</span>
+                    case 8:
+<span class="nc" id="L176">                    	continueUpdating = false;</span>
+<span class="nc" id="L177">                        break;</span>
+                    default:
+<span class="nc" id="L179">                        System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+                }
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                if(!continueUpdating) break;</span>
+<span class="nc" id="L182">                user.setUpdatedAt(new Date());</span>
+<span class="nc" id="L183">                userService.updateUser(user, columnToUpdate);</span>
+<span class="nc" id="L184">            }</span>
+<span class="nc" id="L185">        } catch (Exception e) {</span>
+<span class="nc" id="L186">            System.out.println(StringConstants.ERROR_UPDATING_USER + e.getMessage());</span>
+<span class="nc" id="L187">            return false;</span>
+<span class="nc" id="L188">        }</span>
+<span class="nc" id="L189">    	return true;</span>
+    }
+
+    public boolean deleteUser(String userId) {
+        try {
+<span class="nc" id="L194">            return userService.deleteUser(userId);</span>
+<span class="nc" id="L195">        } catch (Exception e) {</span>
+<span class="nc" id="L196">            System.out.println(StringConstants.ERROR_DELETING_USER + e.getMessage());</span>
+        }
+<span class="nc" id="L198">        return false;</span>
+    }
+    
+    public List&lt;User&gt; getAvailableUsers() {
+<span class="nc" id="L202">    	return userService.getAvailableUsers();</span>
+    }
+    
+    public List&lt;User&gt; getAvailableManagers() {
+<span class="nc" id="L206">    	return userService.getAvailableManagers();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

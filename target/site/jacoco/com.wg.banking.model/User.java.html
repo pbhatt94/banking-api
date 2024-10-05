@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.model</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package com.wg.banking.model;
+
+import java.util.Date;
+import java.util.Objects;
+
+public class User {
+    private String userId; // Primary Key
+    private String name;
+    private String email;
+    private String username;
+    private String password;
+    private int age;
+    private Gender gender;
+    private String phoneNo;
+    private String address;
+    private Role role;
+    private Date createdAt;
+    private Date updatedAt;
+
+    // Enum for Gender
+<span class="fc" id="L21">    public enum Gender {</span>
+<span class="fc" id="L22">        M, F, O</span>
+    }
+
+    // Enum for Role
+<span class="fc" id="L26">    public enum Role {</span>
+<span class="fc" id="L27">        CUSTOMER, BRANCH_MANAGER, ADMIN</span>
+    }
+
+    // Constructors
+<span class="fc" id="L31">    public User() {</span>
+<span class="fc" id="L32">    }</span>
+
+    public User(String userId, String name, String email, String username, String password,
+<span class="nc" id="L35">                int age, Gender gender, String phoneNo, String address, Role role, Date createdAt, Date updatedAt) {</span>
+<span class="nc" id="L36">        this.userId = userId;</span>
+<span class="nc" id="L37">        this.name = name;</span>
+<span class="nc" id="L38">        this.email = email;</span>
+<span class="nc" id="L39">        this.username = username;</span>
+<span class="nc" id="L40">        this.password = password;</span>
+<span class="nc" id="L41">        this.age = age;</span>
+<span class="nc" id="L42">        this.gender = gender;</span>
+<span class="nc" id="L43">        this.phoneNo = phoneNo;</span>
+<span class="nc" id="L44">        this.address = address;</span>
+<span class="nc" id="L45">        this.role = role;</span>
+<span class="nc" id="L46">        this.createdAt = createdAt;</span>
+<span class="nc" id="L47">        this.updatedAt = updatedAt;</span>
+<span class="nc" id="L48">    }</span>
+
+    // Getters and Setters
+    public String getUserId() {
+<span class="fc" id="L52">        return userId;</span>
+    }
+
+    public void setUserId(String userId) {
+<span class="fc" id="L56">        this.userId = userId;</span>
+<span class="fc" id="L57">    }</span>
+
+    public String getName() {
+<span class="fc" id="L60">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L64">        this.name = name;</span>
+<span class="fc" id="L65">    }</span>
+
+    public String getEmail() {
+<span class="fc" id="L68">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="fc" id="L72">        this.email = email;</span>
+<span class="fc" id="L73">    }</span>
+
+    public String getUsername() {
+<span class="fc" id="L76">        return username;</span>
+    }
+
+    public void setUsername(String username) {
+<span class="fc" id="L80">        this.username = username;</span>
+<span class="fc" id="L81">    }</span>
+
+    public String getPassword() {
+<span class="fc" id="L84">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="fc" id="L88">        this.password = password;</span>
+<span class="fc" id="L89">    }</span>
+
+    public int getAge() {
+<span class="fc" id="L92">        return age;</span>
+    }
+
+    public void setAge(int age) {
+<span class="fc" id="L96">        this.age = age;</span>
+<span class="fc" id="L97">    }</span>
+
+    public Gender getGender() {
+<span class="fc" id="L100">        return gender;</span>
+    }
+
+    public void setGender(Gender gender) {
+<span class="fc" id="L104">        this.gender = gender;</span>
+<span class="fc" id="L105">    }</span>
+
+    public String getPhoneNo() {
+<span class="fc" id="L108">        return phoneNo;</span>
+    }
+
+    public void setPhoneNo(String phoneNo) {
+<span class="fc" id="L112">        this.phoneNo = phoneNo;</span>
+<span class="fc" id="L113">    }</span>
+
+    public String getAddress() {
+<span class="fc" id="L116">        return address;</span>
+    }
+
+    public void setAddress(String address) {
+<span class="fc" id="L120">        this.address = address;</span>
+<span class="fc" id="L121">    }</span>
+
+    public Role getRole() {
+<span class="fc" id="L124">        return role;</span>
+    }
+
+    public void setRole(Role role) {
+<span class="fc" id="L128">        this.role = role;</span>
+<span class="fc" id="L129">    }</span>
+
+    public Date getCreatedAt() {
+<span class="nc" id="L132">        return createdAt;</span>
+    }
+
+    public void setCreatedAt(Date createdAt) {
+<span class="fc" id="L136">        this.createdAt = createdAt;</span>
+<span class="fc" id="L137">    }</span>
+
+    public Date getUpdatedAt() {
+<span class="nc" id="L140">        return updatedAt;</span>
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+<span class="fc" id="L144">        this.updatedAt = updatedAt;</span>
+<span class="fc" id="L145">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L149">        return &quot;User{&quot; +</span>
+                &quot;userId='&quot; + userId + '\'' +
+                &quot;, name='&quot; + name + '\'' +
+                &quot;, email='&quot; + email + '\'' +
+                &quot;, username='&quot; + username + '\'' +
+                &quot;, password='&quot; + password + '\'' +
+                &quot;, age=&quot; + age +
+                &quot;, gender=&quot; + gender +
+                &quot;, phoneNo='&quot; + phoneNo + '\'' +
+                &quot;, address='&quot; + address + '\'' +
+                &quot;, role=&quot; + role +
+                &quot;, createdAt=&quot; + createdAt +
+                &quot;, updatedAt=&quot; + updatedAt +
+                '}';
+    }
+
+	@Override
+	public int hashCode() {
+<span class="nc" id="L167">		return Objects.hash(address, age, createdAt, email, gender, name, password, phoneNo, role, updatedAt, userId,</span>
+				username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="fc bfc" id="L173" title="All 2 branches covered.">		if (this == obj)</span>
+<span class="fc" id="L174">			return true;</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">		if (obj == null)</span>
+<span class="nc" id="L176">			return false;</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())</span>
+<span class="nc" id="L178">			return false;</span>
+<span class="fc" id="L179">		User other = (User) obj;</span>
+<span class="pc bpc" id="L180" title="3 of 6 branches missed.">		return Objects.equals(address, other.address) &amp;&amp; age == other.age &amp;&amp; Objects.equals(createdAt, other.createdAt)</span>
+<span class="pc bpc" id="L181" title="3 of 6 branches missed.">				&amp;&amp; Objects.equals(email, other.email) &amp;&amp; gender == other.gender &amp;&amp; Objects.equals(name, other.name)</span>
+<span class="pc bpc" id="L182" title="3 of 6 branches missed.">				&amp;&amp; Objects.equals(password, other.password) &amp;&amp; Objects.equals(phoneNo, other.phoneNo)</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">				&amp;&amp; role == other.role &amp;&amp; Objects.equals(updatedAt, other.updatedAt)</span>
+<span class="pc bpc" id="L184" title="1 of 4 branches missed.">				&amp;&amp; Objects.equals(userId, other.userId) &amp;&amp; Objects.equals(username, other.username);</span>
+	}
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

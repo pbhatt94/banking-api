@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.presentation</a> &gt; <span class="el_source">CustomerMenu.java</span></div><h1>CustomerMenu.java</h1><pre class="source lang-java linenums">package com.wg.banking.presentation;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.wg.banking.constants.NotificationConstants;
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.controller.AccountController;
+import com.wg.banking.controller.IssueController;
+import com.wg.banking.controller.NotificationController;
+import com.wg.banking.controller.TransactionController;
+import com.wg.banking.controller.UserController;
+import com.wg.banking.dao.AccountDAO;
+import com.wg.banking.dao.IssueDAO;
+import com.wg.banking.dao.NotificationDAO;
+import com.wg.banking.dao.impl.AccountDAOImpl;
+import com.wg.banking.dao.impl.IssueDAOImpl;
+import com.wg.banking.dao.impl.NotificationDAOImpl;
+import com.wg.banking.dao.impl.TransactionDAOImpl;
+import com.wg.banking.dao.TransactionDAO;
+import com.wg.banking.dao.UserDAO;
+import com.wg.banking.dao.impl.UserDAOImpl;
+import com.wg.banking.helper.GetUserInput;
+import com.wg.banking.helper.LoggingUtil;
+import com.wg.banking.helper.UniqueIdGenerator;
+import com.wg.banking.helper.ValidateInputs;
+import com.wg.banking.helper.printer.NotificationPrinter;
+import com.wg.banking.helper.printer.UserPrinter;
+import com.wg.banking.model.Issue;
+import com.wg.banking.model.Notification;
+import com.wg.banking.model.User;
+import com.wg.banking.service.AccountService;
+import com.wg.banking.service.IssueService;
+import com.wg.banking.service.NotificationService;
+import com.wg.banking.service.TransactionService;
+import com.wg.banking.service.UserService;
+
+<span class="nc" id="L43">public class CustomerMenu {</span>
+
+<span class="nc" id="L45">	private static UserDAO userDAO = new UserDAOImpl();</span>
+<span class="nc" id="L46">	private static UserService userService = new UserService(userDAO);</span>
+<span class="nc" id="L47">	private static UserController userController= new UserController(userService); </span>
+	
+<span class="nc" id="L49">	private static AccountDAO accountDAO = new AccountDAOImpl(); </span>
+<span class="nc" id="L50">	private static AccountService accountService = new AccountService(accountDAO);</span>
+<span class="nc" id="L51">	private static AccountController accountController= new AccountController(accountService);</span>
+	
+<span class="nc" id="L53">	private static TransactionDAO transactionDAO = new TransactionDAOImpl(); </span>
+<span class="nc" id="L54">	private static TransactionService transactionService = new TransactionService(transactionDAO);</span>
+<span class="nc" id="L55">	private static TransactionController transactionController= new TransactionController(transactionService);</span>
+	
+<span class="nc" id="L57">	private static NotificationDAO notificationDAO = new NotificationDAOImpl(); </span>
+<span class="nc" id="L58">	private static NotificationService notificationService = new NotificationService(notificationDAO);</span>
+<span class="nc" id="L59">	private static NotificationController notificationController= new NotificationController(notificationService);</span>
+	
+<span class="nc" id="L61">	private static IssueDAO issueDAO = new IssueDAOImpl(); </span>
+<span class="nc" id="L62">	private static IssueService issueService = new IssueService(issueDAO);</span>
+<span class="nc" id="L63">	private static IssueController issueController = new IssueController(issueService); </span>
+	
+<span class="nc" id="L65">	private static Logger logger = LoggingUtil.getLogger(Menu.class);</span>
+<span class="nc" id="L66">	private static Scanner scanner = new Scanner(System.in);</span>
+	
+	public static void showCustomerMenu(User user) {
+        int choice;
+
+        while (true) {
+<span class="nc" id="L72">            System.out.println(StringConstants.CUSTOMER_MENU);</span>
+            
+<span class="nc" id="L74">            choice = GetUserInput.getUserChoice();</span>
+
+<span class="nc bnc" id="L76" title="All 13 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L78">                    String accountNo = accountController.getAccount(user).getAccountNo();</span>
+<span class="nc" id="L79">                    System.out.println(&quot;Account Balance = &quot; + accountController.getAccount(accountNo).getBalance());</span>
+<span class="nc" id="L80">                    break;</span>
+                case 2:
+<span class="nc" id="L82">                    showWithDrawMenu(user);</span>
+<span class="nc" id="L83">                    break;</span>
+                case 3:
+<span class="nc" id="L85">                    showDepositMenu(user);</span>
+<span class="nc" id="L86">                    break;</span>
+                case 4:
+<span class="nc" id="L88">                    showTransferMenu(user);</span>
+<span class="nc" id="L89">                    break;</span>
+                case 5:
+<span class="nc" id="L91">                    String accountNumber = accountController.getAccount(user).getAccountNo();</span>
+<span class="nc" id="L92">                    transactionController.getAllTransactions(accountNumber);</span>
+<span class="nc" id="L93">                    break;</span>
+                case 6:
+<span class="nc" id="L95">                    User userProfile = userController.getUserById(user.getUserId());</span>
+<span class="nc" id="L96">                    UserPrinter.printUsers(List.of(userProfile)); </span>
+<span class="nc" id="L97">                    break;</span>
+                case 7:
+<span class="nc" id="L99">                    userController.updateUser(user.getUserId()); </span>
+<span class="nc" id="L100">                    break;</span>
+                case 8:
+<span class="nc" id="L102">                	displayCustomerNotificationsSubMenu(user);</span>
+<span class="nc" id="L103">                    break;</span>
+                case 9:                    
+<span class="nc" id="L105">                	Issue issue = getInputForIssue(user);</span>
+<span class="nc" id="L106">                    issueController.addIssue(issue);</span>
+<span class="nc" id="L107">                    break;</span>
+                case 10:                    
+<span class="nc" id="L109">                	issueController.getAllIssues(user.getUserId());</span>
+<span class="nc" id="L110">                    break;</span>
+                case 11:
+<span class="nc" id="L112">                	StartMenu.showStartMenu();</span>
+                case 12:
+<span class="nc" id="L114">                	System.exit(0);</span>
+                default:
+<span class="nc" id="L116">                    System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+            }
+        }
+	}
+	
+	private static void showWithDrawMenu(User user) {
+		try {
+<span class="nc" id="L123">			System.out.println(StringConstants.ENTER_AMOUNT_TO_WITHDRAW);</span>
+<span class="nc" id="L124">			double amount = GetUserInput.getDoubleInput();</span>
+			
+<span class="nc bnc" id="L126" title="All 2 branches missed.">			while(amount &lt;= 0) {</span>
+<span class="nc" id="L127">				System.out.println(StringConstants.INVALID_AMOUNT);</span>
+<span class="nc" id="L128">				System.out.println(StringConstants.ENTER_AMOUNT_TO_WITHDRAW);</span>
+<span class="nc" id="L129">				amount = GetUserInput.getDoubleInput();</span>
+			}
+<span class="nc" id="L131">			String sourceAccountNo = accountController.getAccount(user).getAccountNo();</span>
+			
+<span class="nc" id="L133">			transactionController.withdrawMoney(amount, sourceAccountNo, null);</span>
+<span class="nc" id="L134">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L135">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L136">			e.printStackTrace();</span>
+<span class="nc" id="L137">			scanner.next();</span>
+<span class="nc" id="L138">		} catch(Exception e) {</span>
+<span class="nc" id="L139">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L140">			e.printStackTrace();</span>
+<span class="nc" id="L141">		}</span>
+<span class="nc" id="L142">	} </span>
+	
+	private static void showDepositMenu(User user) {
+		try {
+<span class="nc" id="L146">			System.out.println(StringConstants.ENTER_AMOUNT_TO_DEPOSIT);</span>
+<span class="nc" id="L147">			double amount = GetUserInput.getDoubleInput();	</span>
+			
+<span class="nc bnc" id="L149" title="All 2 branches missed.">			while(amount &lt;= 0) {</span>
+<span class="nc" id="L150">				System.out.println(StringConstants.INVALID_AMOUNT);</span>
+<span class="nc" id="L151">				System.out.println(StringConstants.ENTER_AMOUNT_TO_DEPOSIT);</span>
+<span class="nc" id="L152">				amount = GetUserInput.getDoubleInput();</span>
+			}
+<span class="nc" id="L154">			String destinationAccountNo = accountController.getAccount(user).getAccountNo();</span>
+			
+<span class="nc" id="L156">			transactionController.depositMoney(amount, null, destinationAccountNo);</span>
+<span class="nc" id="L157">		} catch (Exception e) {</span>
+<span class="nc" id="L158">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L159">			e.printStackTrace();</span>
+<span class="nc" id="L160">		}</span>
+<span class="nc" id="L161">	}</span>
+	
+	private static void showTransferMenu(User user) {
+		try {
+<span class="nc" id="L165">			System.out.println(StringConstants.ENTER_ACCOUNT_NUMBER_OF_RECEIVER);</span>
+<span class="nc" id="L166">			String destinationAccountNo = scanner.nextLine();</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">			while(!(ValidateInputs.isValidString(destinationAccountNo))) {</span>
+<span class="nc" id="L168">				System.out.println(StringConstants.ENTER_ACCOUNT_NUMBER_OF_RECEIVER);</span>
+<span class="nc" id="L169">				destinationAccountNo = scanner.nextLine();</span>
+			}
+<span class="nc" id="L171">			System.out.println(StringConstants.ENTER_AMOUNT_TO_TRANSFER);</span>
+<span class="nc" id="L172">			double amount = GetUserInput.getDoubleInput();</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">			while(amount &lt;= 0) {</span>
+<span class="nc" id="L174">				System.out.println(StringConstants.INVALID_AMOUNT);</span>
+<span class="nc" id="L175">				System.out.println(StringConstants.ENTER_AMOUNT_TO_TRANSFER);</span>
+<span class="nc" id="L176">				amount = GetUserInput.getDoubleInput();</span>
+			}
+			
+<span class="nc" id="L179">			String sourceAccountNo = accountController.getAccount(user).getAccountNo();</span>
+			
+<span class="nc" id="L181">			transactionController.transferMoney(amount, sourceAccountNo, destinationAccountNo);</span>
+<span class="nc" id="L182">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L183">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L184">			e.printStackTrace();</span>
+//			scanner.next();
+<span class="nc" id="L186">		} catch(Exception e) {</span>
+<span class="nc" id="L187">			logger.log(Level.SEVERE, &quot;An error occurred: &quot;, e);</span>
+<span class="nc" id="L188">			e.printStackTrace();</span>
+<span class="nc" id="L189">		}</span>
+<span class="nc" id="L190">	}	</span>
+	
+	public static void displayCustomerNotificationsSubMenu(User user) {
+<span class="nc" id="L193">		System.out.println(StringConstants.GET_ALL_NOTIFICATIONS_SUB_MENU);</span>
+<span class="nc" id="L194">		int choice = GetUserInput.getUserChoice();</span>
+		
+<span class="nc bnc" id="L196" title="All 4 branches missed.">		while(choice &lt;= 0 || choice &gt; 3) {</span>
+<span class="nc" id="L197">			System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L198">			System.out.println(StringConstants.GET_ALL_NOTIFICATIONS_SUB_MENU);</span>
+<span class="nc" id="L199">			choice = GetUserInput.getUserChoice();</span>
+		}
+		
+<span class="nc" id="L202">		List&lt;Notification&gt; allNotifications = notificationController.getAllNotifications(user.getUserId());</span>
+<span class="nc" id="L203">		List&lt;Notification&gt; notifications = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L204" title="All 4 branches missed.">		switch(choice) {</span>
+		case 1:
+<span class="nc bnc" id="L206" title="All 2 branches missed.">			for(var notification: allNotifications) {</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">				if(notification.getNotificationType().toString().equalsIgnoreCase(NotificationConstants.SYSTEM_ALERT_TYPE)) {</span>
+<span class="nc" id="L208">					notifications.add(notification);</span>
+				}
+<span class="nc" id="L210">			}</span>
+<span class="nc" id="L211">			break;</span>
+		case 2:
+<span class="nc bnc" id="L213" title="All 2 branches missed.">			for(var notification: allNotifications) {</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">				if(notification.getNotificationType().toString().equalsIgnoreCase(NotificationConstants.ACCOUNT_ACTIVITY_TYPE)) {</span>
+<span class="nc" id="L215">					notifications.add(notification);</span>
+				}
+<span class="nc" id="L217">			}</span>
+<span class="nc" id="L218">			break;</span>
+		case 3:
+<span class="nc" id="L220">			showCustomerMenu(user);</span>
+<span class="nc" id="L221">			break;</span>
+		default:
+<span class="nc" id="L223">			System.out.println(StringConstants.INVALID_SWITCH_CASE_INPUT);</span>
+		}
+<span class="nc" id="L225">		NotificationPrinter.printNotifications(notifications);</span>
+<span class="nc" id="L226">	}</span>
+
+	
+	private static Issue getInputForIssue(User user) {
+<span class="nc" id="L230">		String issueId = UniqueIdGenerator.generateUniqueId();</span>
+<span class="nc" id="L231">		System.out.println(StringConstants.ENTER_YOUR_ISSUE);</span>
+<span class="nc" id="L232">		String message = scanner.nextLine();</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">		while(!ValidateInputs.isValidString(message)) {</span>
+<span class="nc" id="L234">			System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L235">			System.out.println(StringConstants.ENTER_YOUR_ISSUE);</span>
+<span class="nc" id="L236">			message = scanner.nextLine();</span>
+		}
+<span class="nc" id="L238">		String userId = user.getUserId();</span>
+<span class="nc" id="L239">		Date now = new Date();</span>
+		
+<span class="nc" id="L241">		Issue issue = new Issue(issueId, message, userId, Issue.Status.PENDING, now);</span>
+<span class="nc" id="L242">		return issue;</span>
+	}
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

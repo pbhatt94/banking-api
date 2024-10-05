@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.service</a> &gt; <span class="el_source">NotificationService.java</span></div><h1>NotificationService.java</h1><pre class="source lang-java linenums">package com.wg.banking.service;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import com.wg.banking.dao.NotificationDAO;
+import com.wg.banking.dao.impl.NotificationDAOImpl;
+import com.wg.banking.helper.LoggingUtil;
+import com.wg.banking.model.Account;
+import com.wg.banking.model.Branch;
+import com.wg.banking.model.Notification;
+import com.wg.banking.model.NotificationDetails;
+import com.wg.banking.model.User;
+
+public class NotificationService {
+    private NotificationDAO notificationDAO;
+    private UserService userService;
+    private BranchService branchService;
+    private AccountService accountService;
+    
+<span class="fc" id="L28">    private static Logger logger = LoggingUtil.getLogger(NotificationService.class);</span>
+
+<span class="nc" id="L30">    public NotificationService(NotificationDAO notificationDAO) {</span>
+<span class="nc" id="L31">        this.notificationDAO = notificationDAO;</span>
+//        userDAO = new UserDAO();
+//        userService = new UserService(userDAO); 
+//        accountDAO = new AccountDAO();
+//        accountService = new AccountService(accountDAO); 
+//        branchDAO = new BranchDAO();
+//        branchService = new BranchService(branchDAO);
+<span class="nc" id="L38">    }</span>
+    
+<span class="fc" id="L40">    public NotificationService(NotificationDAO notificationDAO, UserService userService, BranchService branchService, AccountService accountService) {</span>
+<span class="fc" id="L41">    	this.notificationDAO = notificationDAO;</span>
+<span class="fc" id="L42">          this.userService = userService;</span>
+<span class="fc" id="L43">          this.accountService = accountService;</span>
+<span class="fc" id="L44">          this.branchService = branchService;</span>
+<span class="fc" id="L45">    }</span>
+    
+    
+    public List&lt;NotificationDetails&gt; getAllNotificationDetails() {
+<span class="fc" id="L49">    	List&lt;NotificationDetails&gt; notificationDetails = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="fc" id="L51">    		List&lt;Notification&gt; notifications =  notificationDAO.getAllNotifications();</span>
+    		
+<span class="fc" id="L53">    		List&lt;Notification&gt; sortedNotifications = notifications.stream()</span>
+<span class="fc" id="L54">    				.sorted((n1, n2) -&gt; n2.getCreatedAt().compareTo(n1.getCreatedAt()))</span>
+<span class="fc" id="L55">    				.collect(Collectors.toList()); </span>
+    		
+    		
+<span class="fc" id="L58">    		List&lt;User&gt; allUsers = userService.getAllActiveUsers();</span>
+<span class="fc" id="L59">    		Map&lt;String, Object&gt; userIdToObjectMapping = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L60">    		userIdToObjectMapping = allUsers.stream()</span>
+<span class="pc bpc" id="L61" title="2 of 4 branches missed.">								            .filter(user -&gt; user != null &amp;&amp; user.getUserId() != null)</span>
+<span class="fc" id="L62">								            .collect(Collectors.toMap(User::getUserId, Function.identity()));</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    		for(Notification notification: sortedNotifications) {</span>
+<span class="fc" id="L64">    			User receiver = (User) userIdToObjectMapping.get(notification.getReceiverId());</span>
+<span class="fc" id="L65">    			NotificationDetails notificationDetail = new NotificationDetails(notification, receiver);</span>
+<span class="fc" id="L66">    			notificationDetails.add(notificationDetail);</span>
+<span class="fc" id="L67">    		}</span>
+<span class="nc" id="L68">    	} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L69">    		logger.severe(e.getMessage());</span>
+<span class="nc" id="L70">    		e.printStackTrace();</span>
+<span class="fc" id="L71">    	}</span>
+<span class="fc" id="L72">    	return notificationDetails;</span>
+    }   
+    
+    public List&lt;NotificationDetails&gt; getAllNotificationDetails(User manager) {
+<span class="fc" id="L76">    	List&lt;NotificationDetails&gt; notificationDetails = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="fc" id="L78">    		List&lt;Notification&gt; notifications =  notificationDAO.getAllNotifications();</span>
+    		
+<span class="fc" id="L80">    		List&lt;Notification&gt; sortedNotifications = notifications.stream()</span>
+<span class="pc" id="L81">    				.sorted((n1, n2) -&gt; n2.getCreatedAt().compareTo(n1.getCreatedAt()))</span>
+<span class="fc" id="L82">    				.collect(Collectors.toList()); </span>
+    		
+    		
+<span class="fc" id="L85">    		Branch branch = branchService.getBranchByManagerId(manager);</span>
+    		
+<span class="fc" id="L87">    		List&lt;Account&gt; accounts = accountService.getAllAccounts(branch.getBranchId());</span>
+<span class="fc" id="L88">    		Set&lt;String&gt; branchAccountIDs = accounts.stream()</span>
+<span class="fc" id="L89">    												.map(account -&gt; account.getOwnerId())</span>
+<span class="fc" id="L90">    												.collect(Collectors.toSet());</span>
+    		
+<span class="fc" id="L92">    		List&lt;User&gt; allUsers = userService.getAllActiveUsers()</span>
+<span class="fc" id="L93">    										.stream()</span>
+<span class="fc" id="L94">    										.filter(user -&gt; branchAccountIDs.contains(user.getUserId()))</span>
+<span class="fc" id="L95">    										.collect(Collectors.toList());</span>
+    		
+<span class="fc" id="L97">    		final Map&lt;String, Object&gt; userIdToObjectMapping = allUsers.stream()</span>
+<span class="pc bpc" id="L98" title="2 of 4 branches missed.">    				.filter(user -&gt; user != null &amp;&amp; user.getUserId() != null)</span>
+<span class="fc" id="L99">    				.collect(Collectors.toMap(User::getUserId, Function.identity()));</span>
+    		
+<span class="fc" id="L101">    		List&lt;Notification&gt; filteredNotifications = sortedNotifications.stream()</span>
+<span class="fc" id="L102">    												.filter(notification -&gt; userIdToObjectMapping.containsKey(notification.getReceiverId()))</span>
+<span class="fc" id="L103">    												.collect(Collectors.toList());</span>
+    		
+<span class="fc bfc" id="L105" title="All 2 branches covered.">    		for(Notification notification: filteredNotifications) {</span>
+<span class="fc" id="L106">    			User receiver = (User) userIdToObjectMapping.get(notification.getReceiverId());</span>
+<span class="fc" id="L107">    			NotificationDetails notificationDetail = new NotificationDetails(notification, receiver);</span>
+<span class="fc" id="L108">    			notificationDetails.add(notificationDetail);</span>
+<span class="fc" id="L109">    		}</span>
+<span class="nc" id="L110">    	} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L111">    		logger.severe(e.getMessage());</span>
+<span class="nc" id="L112">    		e.printStackTrace();</span>
+<span class="fc" id="L113">    	}</span>
+<span class="fc" id="L114">    	return notificationDetails;</span>
+    }  
+    
+    public Notification getNotificationById(String notificationId) {
+        try {
+<span class="fc" id="L119">			return notificationDAO.getNotificationById(notificationId);</span>
+<span class="nc" id="L120">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L121">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L122">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L124">        return null;</span>
+    }
+
+    public List&lt;Notification&gt; getAllNotifications() {
+        try {
+<span class="fc" id="L129">			List&lt;Notification&gt; notifications =  notificationDAO.getAllNotifications();</span>
+<span class="fc" id="L130">			List&lt;Notification&gt; sortedNotifications = notifications.stream()</span>
+<span class="pc" id="L131">            .sorted((n1, n2) -&gt; n2.getCreatedAt().compareTo(n1.getCreatedAt()))</span>
+<span class="fc" id="L132">            .collect(Collectors.toList()); </span>
+
+<span class="fc" id="L134">			return sortedNotifications;</span>
+<span class="nc" id="L135">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L136">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L137">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L139">        return null;</span>
+    }
+       
+
+    public void addNotification(Notification notification)  {
+        try {
+<span class="fc" id="L145">			notificationDAO.addNotification(notification);</span>
+<span class="nc" id="L146">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L147">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L148">			e.printStackTrace();</span>
+<span class="fc" id="L149">		}</span>
+<span class="fc" id="L150">    }</span>
+    
+    public List&lt;Notification&gt; getAllNotifications(String userId) {
+        try {
+<span class="fc" id="L154">			List&lt;Notification&gt; notifications = notificationDAO.getAllNotifications(userId);</span>
+<span class="fc" id="L155">			return notifications;</span>
+<span class="nc" id="L156">		} catch (ClassNotFoundException | SQLException e) {</span>
+<span class="nc" id="L157">			logger.severe(e.getMessage());</span>
+<span class="nc" id="L158">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L160">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

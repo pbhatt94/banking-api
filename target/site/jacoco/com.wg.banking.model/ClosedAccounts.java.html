@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClosedAccounts.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.model</a> &gt; <span class="el_source">ClosedAccounts.java</span></div><h1>ClosedAccounts.java</h1><pre class="source lang-java linenums">package com.wg.banking.model;
+
+import java.sql.Timestamp;
+import java.util.Objects;
+
+public class ClosedAccounts {
+
+    private String id;       
+    private String username;  
+    private Timestamp closedAt; 
+    
+    // Default constructor
+<span class="fc" id="L13">    public ClosedAccounts() {</span>
+<span class="fc" id="L14">    }</span>
+
+    // Parameterized constructor
+<span class="nc" id="L17">    public ClosedAccounts(String id, String username, Timestamp closedAt) {</span>
+<span class="nc" id="L18">        this.id = id;</span>
+<span class="nc" id="L19">        this.username = username;</span>
+<span class="nc" id="L20">        this.closedAt = closedAt;</span>
+<span class="nc" id="L21">    }</span>
+
+    public String getId() {
+<span class="fc" id="L24">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="fc" id="L28">        this.id = id;</span>
+<span class="fc" id="L29">    }</span>
+
+    public String getUsername() {
+<span class="fc" id="L32">        return username;</span>
+    }
+
+    public void setUsername(String username) {
+<span class="fc" id="L36">        this.username = username;</span>
+<span class="fc" id="L37">    }</span>
+
+    // Getter and setter for closedAt
+    public Timestamp getClosedAt() {
+<span class="nc" id="L41">        return closedAt;</span>
+    }
+
+    public void setClosedAt(Timestamp closedAt) {
+<span class="fc" id="L45">        this.closedAt = closedAt;</span>
+<span class="fc" id="L46">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L50">        return &quot;ClosedAccount{&quot; +</span>
+               &quot;id='&quot; + id + '\'' +
+               &quot;, username='&quot; + username + '\'' +
+               &quot;, closedAt=&quot; + closedAt +
+               '}';
+    }
+
+	@Override
+	public int hashCode() {
+<span class="nc" id="L59">		return Objects.hash(closedAt, id, username);</span>
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">		if (this == obj)</span>
+<span class="nc" id="L65">			return true;</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		if (obj == null)</span>
+<span class="nc" id="L67">			return false;</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())</span>
+<span class="nc" id="L69">			return false;</span>
+<span class="fc" id="L70">		ClosedAccounts other = (ClosedAccounts) obj;</span>
+<span class="pc bpc" id="L71" title="2 of 4 branches missed.">		return Objects.equals(closedAt, other.closedAt) &amp;&amp; Objects.equals(id, other.id)</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">				&amp;&amp; Objects.equals(username, other.username);</span>
+	}
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

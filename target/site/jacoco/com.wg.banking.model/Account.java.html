@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Account.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.model</a> &gt; <span class="el_source">Account.java</span></div><h1>Account.java</h1><pre class="source lang-java linenums">package com.wg.banking.model;
+
+import java.util.Date;
+import java.util.Objects;
+
+public class Account {
+    private String accountNo;
+    private double balance;
+    private String ownerId;
+    private String branchId;
+    private Date createdAt;
+    private Date updatedAt;
+
+    // Default constructor
+<span class="fc" id="L15">    public Account() {}</span>
+
+    // Parameterized constructor
+<span class="nc" id="L18">    public Account(String accountNo, double balance, String ownerId, String branchId, Date createdAt, Date updatedAt) {</span>
+<span class="nc" id="L19">        this.accountNo = accountNo;</span>
+<span class="nc" id="L20">        this.balance = balance;</span>
+<span class="nc" id="L21">        this.ownerId = ownerId;</span>
+<span class="nc" id="L22">        this.branchId = branchId;</span>
+<span class="nc" id="L23">        this.createdAt = createdAt;</span>
+<span class="nc" id="L24">        this.updatedAt = updatedAt;</span>
+<span class="nc" id="L25">    }</span>
+
+    // Getters and Setters
+    public String getAccountNo() {
+<span class="fc" id="L29">        return accountNo;</span>
+    }
+
+    public void setAccountNo(String accountNo) {
+<span class="fc" id="L33">        this.accountNo = accountNo;</span>
+<span class="fc" id="L34">    }</span>
+
+    public double getBalance() {
+<span class="fc" id="L37">        return balance;</span>
+    }
+
+    public void setBalance(double balance) {
+<span class="fc" id="L41">        this.balance = balance;</span>
+<span class="fc" id="L42">    }</span>
+
+    public String getOwnerId() {
+<span class="fc" id="L45">        return ownerId;</span>
+    }
+
+    public void setOwnerId(String ownerId) {
+<span class="fc" id="L49">        this.ownerId = ownerId;</span>
+<span class="fc" id="L50">    }</span>
+
+    public String getBranchId() {
+<span class="fc" id="L53">        return branchId;</span>
+    }
+
+    public void setBranchId(String branchId) {
+<span class="fc" id="L57">        this.branchId = branchId;</span>
+<span class="fc" id="L58">    }</span>
+
+    public Date getCreatedAt() {
+<span class="fc" id="L61">        return createdAt;</span>
+    }
+
+    public void setCreatedAt(Date createdAt) {
+<span class="fc" id="L65">        this.createdAt = createdAt;</span>
+<span class="fc" id="L66">    }</span>
+
+    public Date getUpdatedAt() {
+<span class="fc" id="L69">        return updatedAt;</span>
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+<span class="fc" id="L73">        this.updatedAt = updatedAt;</span>
+<span class="fc" id="L74">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L78">        return &quot;Account{&quot; +</span>
+                &quot;accountNo='&quot; + accountNo + '\'' +
+                &quot;, balance=&quot; + balance +
+                &quot;, ownerId='&quot; + ownerId + '\'' +
+                &quot;, branchId='&quot; + branchId + '\'' +
+                &quot;, createdAt=&quot; + createdAt +
+                &quot;, updatedAt=&quot; + updatedAt +
+                '}';
+    }
+
+	@Override
+	public int hashCode() {
+<span class="nc" id="L90">		return Objects.hash(accountNo, balance, branchId, createdAt, ownerId, updatedAt);</span>
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		if (this == obj)</span>
+<span class="nc" id="L96">			return true;</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		if (obj == null)</span>
+<span class="nc" id="L98">			return false;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())</span>
+<span class="nc" id="L100">			return false;</span>
+<span class="fc" id="L101">		Account other = (Account) obj;</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		return Objects.equals(accountNo, other.accountNo)</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">				&amp;&amp; Double.doubleToLongBits(balance) == Double.doubleToLongBits(other.balance)</span>
+<span class="pc bpc" id="L104" title="2 of 4 branches missed.">				&amp;&amp; Objects.equals(branchId, other.branchId) &amp;&amp; Objects.equals(createdAt, other.createdAt)</span>
+<span class="pc bpc" id="L105" title="2 of 4 branches missed.">				&amp;&amp; Objects.equals(ownerId, other.ownerId) &amp;&amp; Objects.equals(updatedAt, other.updatedAt);</span>
+	}
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

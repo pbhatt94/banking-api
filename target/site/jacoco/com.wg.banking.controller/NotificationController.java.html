@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.controller</a> &gt; <span class="el_source">NotificationController.java</span></div><h1>NotificationController.java</h1><pre class="source lang-java linenums">package com.wg.banking.controller;
+
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.constants.UserConstants;
+import com.wg.banking.dao.UserDAO;
+import com.wg.banking.dao.impl.UserDAOImpl;
+import com.wg.banking.helper.GetUserInput;
+import com.wg.banking.helper.UniqueIdGenerator;
+import com.wg.banking.helper.ValidateInputs;
+import com.wg.banking.helper.printer.UserPrinter;
+import com.wg.banking.model.Notification;
+import com.wg.banking.model.NotificationDetails;
+import com.wg.banking.model.User;
+import com.wg.banking.service.NotificationService;
+import com.wg.banking.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class NotificationController {
+	private NotificationService notificationService;
+    private Scanner scanner;
+    private UserService userService;
+    private UserDAO userDAO;
+    
+
+<span class="nc" id="L30">    public NotificationController(NotificationService notificationService) {</span>
+<span class="nc" id="L31">        this.notificationService = notificationService;</span>
+<span class="nc" id="L32">        this.scanner = new Scanner(System.in);</span>
+<span class="nc" id="L33">        userDAO = new UserDAOImpl();</span>
+<span class="nc" id="L34">        userService = new UserService(userDAO);</span>
+<span class="nc" id="L35">    }</span>
+
+    public void addNotification() {
+<span class="nc" id="L38">        String notificationId = UniqueIdGenerator.generateUniqueId();</span>
+        
+<span class="nc" id="L40">        System.out.print(StringConstants.ENTER_NOTIFICATION_MESSAGE);</span>
+<span class="nc" id="L41">        String message = scanner.nextLine();</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        while(!ValidateInputs.isValidString(message)) {</span>
+<span class="nc" id="L43">        	System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L44">            System.out.print(StringConstants.ENTER_NOTIFICATION_MESSAGE);</span>
+<span class="nc" id="L45">        	message = scanner.nextLine();</span>
+        }
+        
+<span class="nc" id="L48">        System.out.print(StringConstants.ENTER_TYPE_OF_NOTIFICATION);</span>
+<span class="nc" id="L49">        String notificationType = scanner.nextLine().toUpperCase();</span>
+         
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        while(!ValidateInputs.isValidNotificationType(notificationType)) {</span>
+<span class="nc" id="L52">        	System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L53">        	notificationType = scanner.nextLine().toUpperCase();</span>
+        }
+        
+<span class="nc" id="L56">        System.out.print(StringConstants.SELECT_THE_RECEIVER);</span>
+<span class="nc" id="L57">        List&lt;User&gt; users = userService.getAllActiveUsers()</span>
+<span class="nc" id="L58">        								.stream()</span>
+<span class="nc" id="L59">        								.filter(user -&gt; user.getRole().toString().equalsIgnoreCase(UserConstants.CUSTOMER))</span>
+<span class="nc" id="L60">        								.collect(Collectors.toList());</span>
+<span class="nc" id="L61">        UserPrinter.printUsers(users);</span>
+<span class="nc" id="L62">        System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L63">        int index = GetUserInput.getUserChoice();</span>
+        
+<span class="nc bnc" id="L65" title="All 4 branches missed.">        while(index &lt;=0 || index &gt; users.size()) {</span>
+<span class="nc" id="L66">        	System.out.println(StringConstants.INVALID_INPUT_MESSAGE);</span>
+<span class="nc" id="L67">        	System.out.println(StringConstants.ENTER_INDEX_MESSAGE);</span>
+<span class="nc" id="L68">        	index = GetUserInput.getUserChoice();</span>
+        }
+        
+<span class="nc" id="L71">        String receiverId = users.get(index-1).getUserId();</span>
+        
+<span class="nc" id="L73">        Date now = new Date(System.currentTimeMillis());</span>
+        
+<span class="nc" id="L75">        Notification notification = new Notification(notificationId, message, Notification.NotificationType.valueOf(notificationType), receiverId, now);</span>
+        
+<span class="nc" id="L77">        notificationService.addNotification(notification);</span>
+<span class="nc" id="L78">    }</span>
+
+    public void getNotificationById(String notificationId) {
+    	try {
+<span class="nc" id="L82">            Notification notification = notificationService.getNotificationById(notificationId);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            if (notification == null) {</span>
+<span class="nc" id="L84">                System.out.println(&quot;Notification not found.&quot;);</span>
+<span class="nc" id="L85">                return;</span>
+            } 
+<span class="nc" id="L87">        } catch (Exception e) {</span>
+<span class="nc" id="L88">            System.out.println(StringConstants.ERROR_RETRIEVING_NOTIFICATIONS + e.getMessage());</span>
+<span class="nc" id="L89">        } </span>
+<span class="nc" id="L90">    }</span>
+
+    public List&lt;Notification&gt; getAllNotifications() {
+<span class="nc" id="L93">    	List&lt;Notification&gt; notifications = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="nc" id="L95">            notifications = notificationService.getAllNotifications();</span>
+                       
+<span class="nc" id="L97">        } catch (Exception e) {</span>
+<span class="nc" id="L98">            System.out.println(StringConstants.ERROR_RETRIEVING_NOTIFICATIONS + e.getMessage());</span>
+<span class="nc" id="L99">        }</span>
+<span class="nc" id="L100">    	return notifications;</span>
+    }
+    
+    public List&lt;NotificationDetails&gt; getAllNotificationDetails() {
+<span class="nc" id="L104">    	List&lt;NotificationDetails&gt; notifications = new ArrayList&lt;&gt;();</span>
+    	try { 
+<span class="nc" id="L106">            notifications = notificationService.getAllNotificationDetails();</span>
+                       
+<span class="nc" id="L108">        } catch (Exception e) {</span>
+<span class="nc" id="L109">            System.out.println(StringConstants.ERROR_RETRIEVING_NOTIFICATIONS + e.getMessage());</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">    	return notifications;</span>
+    }
+    
+    public List&lt;NotificationDetails&gt; getAllNotificationDetails(User user) {
+<span class="nc" id="L115">    	List&lt;NotificationDetails&gt; notifications = new ArrayList&lt;&gt;();</span>
+    	try { 
+<span class="nc" id="L117">    		notifications = notificationService.getAllNotificationDetails(user);</span>
+    		
+<span class="nc" id="L119">    	} catch (Exception e) {</span>
+<span class="nc" id="L120">    		System.out.println(StringConstants.ERROR_RETRIEVING_NOTIFICATIONS + e.getMessage());</span>
+<span class="nc" id="L121">    	}</span>
+<span class="nc" id="L122">    	return notifications;</span>
+    }
+    
+    public List&lt;Notification&gt; getAllNotifications(String userId) {
+<span class="nc" id="L126">    	List&lt;Notification&gt; notifications = new ArrayList&lt;&gt;();</span>
+    	try {
+<span class="nc" id="L128">            notifications = notificationService.getAllNotifications(userId);</span>
+                        
+<span class="nc" id="L130">        } catch (Exception e) {</span>
+<span class="nc" id="L131">            System.out.println(StringConstants.ERROR_RETRIEVING_NOTIFICATIONS + e.getMessage());</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc" id="L133">    	return notifications;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

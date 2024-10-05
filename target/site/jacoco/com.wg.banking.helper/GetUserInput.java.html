@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GetUserInput.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.helper</a> &gt; <span class="el_source">GetUserInput.java</span></div><h1>GetUserInput.java</h1><pre class="source lang-java linenums">package com.wg.banking.helper;
+
+import java.util.Scanner;
+
+<span class="nc" id="L5">public class GetUserInput {</span>
+//	public static int getUserChoice() {
+//		Scanner scanner = new Scanner(System.in);
+//        while (!scanner.hasNextInt()) {
+//            System.out.println(&quot;Invalid input. Please enter a Valid Input&quot;);
+//            scanner.nextLine(); 
+//            System.out.print(&quot;Enter your choice: &quot;);
+//        }
+//        int value = scanner.nextInt(); 
+//        return value;
+//    }
+	
+	public static int getUserChoice() {
+<span class="nc" id="L18">		Scanner scanner = new Scanner(System.in);</span>
+        while (true) {
+<span class="nc" id="L20">            String input = scanner.nextLine();</span>
+            try {
+<span class="nc" id="L22">                int value = Integer.parseInt(input);</span>
+<span class="nc" id="L23">                return value;</span>
+<span class="nc" id="L24">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L25">                System.out.println(&quot;Invalid input. Please enter a valid integer.&quot;);</span>
+            }
+<span class="nc" id="L27">        }</span>
+    }
+	
+    public static double getDoubleInput() {
+<span class="nc" id="L31">        Scanner scanner = new Scanner(System.in);</span>
+<span class="nc" id="L32">        double value = 0;</span>
+<span class="nc" id="L33">        boolean valid = false;</span>
+
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        while (!valid) {</span>
+<span class="nc" id="L36">            System.out.print(&quot;Enter your choice: &quot;);</span>
+            
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (scanner.hasNextDouble()) {</span>
+<span class="nc" id="L39">                value = scanner.nextDouble();</span>
+<span class="nc" id="L40">                valid = true;</span>
+            } else {
+<span class="nc" id="L42">                System.out.println(&quot;Invalid input. Please enter a valid Input.&quot;);</span>
+<span class="nc" id="L43">                scanner.next();</span>
+            }
+        }
+
+<span class="nc" id="L47">        return value;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

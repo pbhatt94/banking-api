@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">banking-system</a> &gt; <a href="index.source.html" class="el_package">com.wg.banking.controller</a> &gt; <span class="el_source">LoginController.java</span></div><h1>LoginController.java</h1><pre class="source lang-java linenums">package com.wg.banking.controller;
+
+
+import java.util.logging.Logger;
+
+import com.wg.banking.constants.StringConstants;
+import com.wg.banking.constants.UserConstants;
+import com.wg.banking.dao.ClosedAccountsDAO;
+import com.wg.banking.helper.LoggingUtil;
+import com.wg.banking.helper.UnauthenticatedException;
+import com.wg.banking.model.ClosedAccounts;
+import com.wg.banking.model.User;
+import com.wg.banking.presentation.Menu;
+import com.wg.banking.presentation.StartMenu;
+import com.wg.banking.service.ClosedAccountsService;
+import com.wg.banking.controller.ClosedAccountsController;
+import com.wg.banking.service.LoginService;
+
+<span class="nc" id="L19">public class LoginController {</span>
+	
+<span class="nc" id="L21">	private static Logger logger = LoggingUtil.getLogger(LoginController.class);</span>
+<span class="nc" id="L22">	private static ClosedAccountsDAO closedAccountsDAO = new ClosedAccountsDAO();</span>
+<span class="nc" id="L23">	private static ClosedAccountsService closedAccountsService = new ClosedAccountsService(closedAccountsDAO);</span>
+<span class="nc" id="L24">	private static ClosedAccountsController closedAccountsController = new ClosedAccountsController(closedAccountsService);</span>
+	
+	public static void authenticateUser(String username, String password) {
+<span class="nc bnc" id="L27" title="All 4 branches missed.">		if(username == null || password == null) {</span>
+<span class="nc" id="L28">			System.out.println(StringConstants.CREDENTIALS_CAN_T_BE_EMPTY);</span>
+<span class="nc" id="L29">			StartMenu.handleSignIn();</span>
+		}
+		
+<span class="nc" id="L32">		ClosedAccounts closedAccount = closedAccountsController.getClosedAccount(username);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">		if(closedAccount != null) {</span>
+<span class="nc" id="L34">			System.out.println(StringConstants.ACCOUNT_ALREADY_CLOSED);</span>
+<span class="nc" id="L35">			logger.info(StringConstants.FAILED_LOGIN_ATTEMPT_ACCOUNT_ALREADY_CLOSED_USERNAME + username);</span>
+<span class="nc" id="L36">			StartMenu.showStartMenu();</span>
+		}
+				
+<span class="nc" id="L39">		User user = LoginService.authenticateUser(username, password);</span>
+		try {
+<span class="nc bnc" id="L41" title="All 2 branches missed.">			if(user == null)</span>
+<span class="nc" id="L42">				throw new UnauthenticatedException(StringConstants.INVALID_CREDENTIALS);</span>
+			
+<span class="nc" id="L44">			logger.info(StringConstants.USER_AUTHENTICATED_SUCCESSFULLY_USERNAME + username + &quot;\n&quot;);</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">			switch(user.getRole().toString()) {</span>
+			case UserConstants.CUSTOMER: 
+<span class="nc" id="L47">				Menu.showCustomerMenu(user);</span>
+<span class="nc" id="L48">				break;</span>
+			case UserConstants.BRANCH_MANAGER:
+<span class="nc" id="L50">				Menu.showBranchManagerMenu(user);</span>
+<span class="nc" id="L51">				break;</span>
+			case UserConstants.ADMIN:
+<span class="nc" id="L53">				Menu.showAdminMenu(user);</span>
+			}
+<span class="nc" id="L55">		} catch(UnauthenticatedException e) {</span>
+<span class="nc" id="L56">			logger.severe(StringConstants.USER_AUTHENTICATION_FAILED_USERNAME + username + &quot;\n&quot; + e.getMessage());</span>
+<span class="nc" id="L57">			e.printStackTrace();</span>
+<span class="nc" id="L58">			StartMenu.handleSignIn();</span>
+<span class="nc" id="L59">		}</span>
+<span class="nc" id="L60">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
