@@ -1,109 +1,50 @@
 package com.wg.banking.model;
 
-import java.util.Date;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+@Entity
 public class Account {
-    private String accountNo;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	@NotEmpty
+    @Column(unique = true)
+    private String accountNumber;
     private double balance;
-    private String ownerId;
-    private String branchId;
-    private Date createdAt;
-    private Date updatedAt;
-
-    // Default constructor
-    public Account() {}
-
-    // Parameterized constructor
-    public Account(String accountNo, double balance, String ownerId, String branchId, Date createdAt, Date updatedAt) {
-        this.accountNo = accountNo;
-        this.balance = balance;
-        this.ownerId = ownerId;
-        this.branchId = branchId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    // Getters and Setters
-    public String getAccountNo() {
-        return accountNo;
-    }
-
-    public void setAccountNo(String accountNo) {
-        this.accountNo = accountNo;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    public String getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public String getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "accountNo='" + accountNo + '\'' +
-                ", balance=" + balance +
-                ", ownerId='" + ownerId + '\'' +
-                ", branchId='" + branchId + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(accountNo, balance, branchId, createdAt, ownerId, updatedAt);
+    private boolean isActive;
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore 
+    private User user;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    
+    @PrePersist
+	protected void onCreate() {
+    	this.isActive = true;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Account other = (Account) obj;
-		return Objects.equals(accountNo, other.accountNo)
-				&& Double.doubleToLongBits(balance) == Double.doubleToLongBits(other.balance)
-				&& Objects.equals(branchId, other.branchId) && Objects.equals(createdAt, other.createdAt)
-				&& Objects.equals(ownerId, other.ownerId) && Objects.equals(updatedAt, other.updatedAt);
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDateTime.now();
 	}
-    
-    
 }
