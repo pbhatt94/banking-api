@@ -4,14 +4,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.wg.banking.helper.JsonUtil;
+import com.wg.banking.constants.ApiMessages;
+import com.wg.banking.dto.UserResponseDto;
+import com.wg.banking.exception.UserNotFoundException;
 import com.wg.banking.model.Account;
+import com.wg.banking.model.Role;
 import com.wg.banking.model.User;
-import com.wg.banking.model.UserResponse;
 import com.wg.banking.repository.UserRepository;
 import com.wg.banking.service.AccountService;
 import com.wg.banking.service.UserService;
@@ -31,17 +34,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<String> createUser(User user) {
+	public UserResponseDto createUser(User user) {
 		User savedUser = userRepository.save(user);
-		Account account = accountService.createAccount(savedUser);
-		savedUser.setAccount(account);
-		savedUser = userRepository.save(savedUser);
-		return ResponseEntity.ok(JsonUtil.toJson(new UserResponse(savedUser)));
+		if (isCustomer(savedUser)) {
+			Account account = accountService.createAccount(savedUser);
+			savedUser.setAccount(account);
+			savedUser = userRepository.save(savedUser);
+		}
+		UserResponseDto userResponse = new UserResponseDto(savedUser);
+		return userResponse;
 	}
-
+ 
 	@Override
-	public Optional<User> findUserById(String userId) {
-		return userRepository.findById(userId);
+	public User findUserById(String userId) {
+		Optional<User> user = userRepository.findById(userId);
+		if(!user.isPresent())
+			throw new UserNotFoundException(ApiMessages.USER_NOT_FOUND_ERROR + ": " + userId);
+		return user.get();
 	}
 
 	@Override
@@ -53,14 +62,26 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> updateUserById(String userId, User userDetails) {
+	public User updateUserById(String userId, User userDetails) {
 		Optional<User> existingUser = userRepository.findById(userId);
 		if (existingUser.isEmpty()) {
-			return Optional.empty();
+			throw new UserNotFoundException(ApiMessages.USER_NOT_FOUND_ERROR + ": " + userId);
 		}
 		User user = existingUser.get();
 		mapUpdatedUser(userId, userDetails, user);
-		return Optional.of(userRepository.save(user));
+		return userRepository.save(user);
+	}
+
+	public User getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		if (authentication != null && authentication.isAuthenticated()) {
+			String username = authentication.getName();
+			return userRepository.findByUsername(username)
+					.orElseThrow(() -> new UserNotFoundException(ApiMessages.USER_NOT_FOUND_ERROR + ": " + username));
+		}
+
+		return null;
 	}
 
 	private void mapUpdatedUser(String userId, User userDetails, User user) {
@@ -73,6 +94,10 @@ public class UserServiceImpl implements UserService {
 		user.setPhoneNo(userDetails.getPhoneNo());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setUsername(userDetails.getUsername());
+	}
+
+	private boolean isCustomer(User user) {
+		return user.getRole().equals(Role.CUSTOMER);
 	}
 
 }

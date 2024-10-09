@@ -1,4 +1,4 @@
-package com.wg.banking.model;
+package com.wg.banking.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class JwtRequest {
+public class JwtResponse {
+	private String jwtToken;
 	private String username;
-	private String password;
 }

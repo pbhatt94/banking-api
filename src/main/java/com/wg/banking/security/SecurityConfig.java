@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,14 +26,14 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests((authorize) -> {
-			authorize.requestMatchers("/api/auth/register").permitAll();
-			authorize.requestMatchers("/api/auth/login").permitAll();
+			authorize.requestMatchers("/api/auth/**").permitAll();
 			authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 			authorize.anyRequest().authenticated();
 		}).httpBasic(Customizer.withDefaults());
 
-		http.exceptionHandling( exception -> exception
-                .authenticationEntryPoint(point));
+		http.exceptionHandling(exception -> exception.authenticationEntryPoint(point)).sessionManagement(management -> {
+			management.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		});
 
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();

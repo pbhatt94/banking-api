@@ -7,5 +7,9 @@ public interface AccountService {
 
 	public Account createAccount(User user);
 	
-	public void deposit(String accountNumber, double amount);
+	public Account deposit(String accountNumber, double amount);
+
+	public Account withdraw(String accountNumber, double amount);
+
+	public Account transfer(String sourceAccountNumber, String targetAccountNumber, double amount);
 }

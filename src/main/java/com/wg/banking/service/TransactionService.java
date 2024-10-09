@@ -5,5 +5,5 @@ import java.util.List;
 import com.wg.banking.model.Transaction;
 
 public interface TransactionService {
-	List<Transaction> getAllTransactionsByAccountNumber(String accountNumber);
+	public List<Transaction> getAllTransactionsByUserId(String userId);
 }

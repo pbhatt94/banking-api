@@ -1,12 +1,12 @@
 package com.wg.banking.exception;
 
-public class InvalidAmountException extends RuntimeException {
+public class SourceSameAsTargetException extends RuntimeException {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public InvalidAmountException(String message) {
+	public SourceSameAsTargetException(String message) {
 		super(message);
 	}
 }

@@ -1,4 +1,4 @@
-package com.wg.banking.helper;
+package com.wg.banking.exception;
 
 public class InsufficientBalanceException extends RuntimeException {
     /**

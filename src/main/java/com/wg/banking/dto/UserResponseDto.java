@@ -1,4 +1,6 @@
-package com.wg.banking.model;
+package com.wg.banking.dto;
+
+import com.wg.banking.model.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+public class UserResponseDto {
 
 	private String name;
 	private String email;
@@ -15,7 +17,7 @@ public class UserResponse {
 	private String address;
 	private String accountNumber;
 
-	public UserResponse(User user) {
+	public UserResponseDto(User user) {
 		this.name = user.getName();
 		this.email = user.getEmail();
 		this.phoneNumber = user.getPhoneNo();
