@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.wg.banking.constants.ApiMessages;
+import com.wg.banking.exception.ResourceAccessDeniedException;
+import com.wg.banking.exception.UserNotFoundException;
 import com.wg.banking.model.Transaction;
 import com.wg.banking.model.User;
 import com.wg.banking.repository.TransactionRepository;
@@ -24,7 +26,10 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<Transaction> getAllTransactionsByUserId(String userId) {
 		User user = userService.getCurrentUser();
 		if(user == null) {
-			throw new RuntimeException(ApiMessages.USER_NOT_FOUND_ERROR);
+			throw new UserNotFoundException(ApiMessages.USER_NOT_FOUND_ERROR);
+		}
+		if(!user.getUserId().equalsIgnoreCase(userId)) {
+			throw new ResourceAccessDeniedException(ApiMessages.ACESS_DENIED_ERROR);
 		}
 		String accountNumber = user.getAccount().getAccountNumber();
 		List<Transaction> transactions = transactionRepository.findBySourceAccount_AccountNumberOrTargetAccount_AccountNumber(accountNumber, accountNumber);

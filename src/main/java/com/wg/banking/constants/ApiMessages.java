@@ -26,4 +26,8 @@ public final class ApiMessages {
 	public static final String USER_UPDATED_SUCCESSFULLY = "User updated successfully.";
 	public static final String BAD_REQUEST_MESSAGE = "Bad Request.";
 	public static final String MISSING_TRANSACTION_DETAILS_MESSAGE = "Missing amount or account number.";
+	public static final String TRANSACTIONS_FETCHED_SUCCESSFULLY_MESSAGE = "Transactions fetched successfully.";
+	public static final String VALIDATION_FAILED_ERROR = "Validation failed.";
+	public static final String INVALID_REQUEST = "Invalid Request.";
+	public static final String ACESS_DENIED_ERROR = "You do not have permission to access this resouce.";
 }
