@@ -20,6 +20,7 @@ import com.wg.banking.constants.ApiMessages;
 import com.wg.banking.dto.ApiError;
 import com.wg.banking.dto.ApiResponseHandler;
 import com.wg.banking.model.ApiResponseStatus;
+import com.wg.banking.service.impl.InvalidInputException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -28,28 +29,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleCustomerNotFound(CustomerNotFoundException ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.CUSTOMER_NOT_FOUND_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
-				ApiMessages.CUSTOMER_NOT_FOUND_MESSAGE, apiError);
+				ApiMessages.CUSTOMER_NOT_FOUND_MESSAGE, null, apiError);
 	}
 
 	@ExceptionHandler(AccountNotFoundException.class)
 	public ResponseEntity<Object> handleAccountNotFound(AccountNotFoundException ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.ACCOUNT_NOT_FOUND_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
-				ApiMessages.ACCOUNT_NOT_FOUND_MESSAGE, apiError);
+				ApiMessages.ACCOUNT_NOT_FOUND_MESSAGE, null, apiError);
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.USER_NOT_FOUND_ERROR);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
-				ApiMessages.USER_NOT_FOUND_ERROR, apiError);
+				ApiMessages.USER_NOT_FOUND_ERROR, null, apiError);
 	}
 
 	@ExceptionHandler(InsufficientBalanceException.class)
 	public ResponseEntity<Object> handleInsufficientBalance(InsufficientBalanceException ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.INSUFFICIENT_BALANCE_ERROR);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
-				ApiMessages.INSUFFICIENT_BALANCE_ERROR, apiError);
+				ApiMessages.INSUFFICIENT_BALANCE_ERROR, null, apiError);
 	}
 
 	@ExceptionHandler(MissingTransactionDetailsException.class)
@@ -57,14 +58,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(),
 				ApiMessages.MISSING_TRANSACTION_DETAILS_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
-				ApiMessages.MISSING_TRANSACTION_DETAILS_MESSAGE, apiError);
+				ApiMessages.MISSING_TRANSACTION_DETAILS_MESSAGE, null, apiError);
 	}
 
 	@ExceptionHandler(InvalidAmountException.class)
 	public ResponseEntity<Object> handleInvalidAmount(InvalidAmountException ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.ENTER_VALID_AMOUNT_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
-				ApiMessages.ENTER_VALID_AMOUNT_MESSAGE, apiError);
+				ApiMessages.ENTER_VALID_AMOUNT_MESSAGE, null, apiError);
+	}
+
+	@ExceptionHandler(InvalidInputException.class)
+	public ResponseEntity<Object> handleInvalidInput(InvalidInputException ex) {
+		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(),
+				ApiMessages.PAGE_NUMBER_AND_LIMIT_MUST_BE_POSITIVE);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
+				ApiMessages.INVALID_PAGE_NUMBER_OR_LIMIT, null, apiError);
 	}
 
 	@ExceptionHandler(SourceSameAsTargetException.class)
@@ -72,21 +81,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(),
 				ApiMessages.ENTER_A_VALID_ACCOUNT_NUMBER);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
-				ApiMessages.ENTER_A_VALID_ACCOUNT_NUMBER, apiError);
+				ApiMessages.ENTER_A_VALID_ACCOUNT_NUMBER, null, apiError);
 	}
 
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.INVALID_CREDENTIALS_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.UNAUTHORIZED,
-				ApiMessages.INVALID_CREDENTIALS_MESSAGE, apiError);
+				ApiMessages.INVALID_CREDENTIALS_MESSAGE, null, apiError);
 	}
-	
+
 	@ExceptionHandler(ResourceAccessDeniedException.class)
 	public ResponseEntity<Object> handleAccessDeniedException(ResourceAccessDeniedException ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.ACESS_DENIED_ERROR);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.UNAUTHORIZED,
-				ApiMessages.ACESS_DENIED_ERROR, apiError);
+				ApiMessages.ACESS_DENIED_ERROR, null, apiError);
 	}
 
 	@Override
@@ -110,7 +119,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				List.of(ex.getMessage()));
 
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
-				ApiMessages.INVALID_REQUEST, apiError);
+				ApiMessages.INVALID_REQUEST, null, apiError);
 	}
 
 	@ExceptionHandler(Exception.class)
@@ -118,7 +127,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ApiMessages.INTERNAL_SERVER_ERROR,
 				ApiMessages.UNEXPECTED_ERROR_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.INTERNAL_SERVER_ERROR,
-				ApiMessages.INTERNAL_SERVER_ERROR, apiError);
+				ApiMessages.INTERNAL_SERVER_ERROR, null, apiError);
 	}
 
 }

@@ -5,7 +5,7 @@ import com.wg.banking.dto.UserResponseDto;
 import com.wg.banking.model.User;
 
 public interface UserService {
-	public List<User> findAllUsers();
+	public List<User> findAllUsers(Integer pageNumber, Integer pageSize);
 
 	public User findUserById(String userId);
 
@@ -14,6 +14,8 @@ public interface UserService {
 	public boolean deleteUserById(String userId);
 
 	public User updateUserById(String userId, User userDetails);
+	
+	public long countAllUsers();
 
 	public User getCurrentUser();
 }

@@ -30,4 +30,6 @@ public final class ApiMessages {
 	public static final String VALIDATION_FAILED_ERROR = "Validation failed.";
 	public static final String INVALID_REQUEST = "Invalid Request.";
 	public static final String ACESS_DENIED_ERROR = "You do not have permission to access this resouce.";
+	public static final String INVALID_PAGE_NUMBER_OR_LIMIT = "Invalid page number or limit.";
+	public static final String PAGE_NUMBER_AND_LIMIT_MUST_BE_POSITIVE = "Page number and limit must be greater than 0.";
 }

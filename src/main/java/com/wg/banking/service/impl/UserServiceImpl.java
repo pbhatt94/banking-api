@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
 import com.wg.banking.constants.ApiMessages;
 import com.wg.banking.dto.UserResponseDto;
@@ -29,8 +32,15 @@ public class UserServiceImpl implements UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
-	public List<User> findAllUsers() {
-		return userRepository.findAll();
+	public List<User> findAllUsers(Integer pageNumber, Integer pageSize) {
+		if (pageNumber <= 0 || pageSize <= 0)
+			throw new InvalidInputException(ApiMessages.INVALID_PAGE_NUMBER_OR_LIMIT);
+		pageNumber--;
+		pageNumber = Math.max(0, pageNumber);
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		Page<User> page = userRepository.findAll(pageable);
+		List<User> users = page.getContent();
+		return users;
 	}
 
 	@Override
@@ -44,11 +54,11 @@ public class UserServiceImpl implements UserService {
 		UserResponseDto userResponse = new UserResponseDto(savedUser);
 		return userResponse;
 	}
- 
+
 	@Override
 	public User findUserById(String userId) {
 		Optional<User> user = userRepository.findById(userId);
-		if(!user.isPresent())
+		if (!user.isPresent())
 			throw new UserNotFoundException(ApiMessages.USER_NOT_FOUND_ERROR + ": " + userId);
 		return user.get();
 	}
@@ -70,6 +80,12 @@ public class UserServiceImpl implements UserService {
 		User user = existingUser.get();
 		mapUpdatedUser(userId, userDetails, user);
 		return userRepository.save(user);
+	}
+
+	@Override
+	public long countAllUsers() {
+		long count = userRepository.count();
+		return count;
 	}
 
 	public User getCurrentUser() {
@@ -99,5 +115,4 @@ public class UserServiceImpl implements UserService {
 	private boolean isCustomer(User user) {
 		return user.getRole().equals(Role.CUSTOMER);
 	}
-
 }

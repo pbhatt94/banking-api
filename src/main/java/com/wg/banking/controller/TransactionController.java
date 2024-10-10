@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wg.banking.constants.ApiMessages;
@@ -25,8 +26,11 @@ public class TransactionController {
 	private final TransactionService transactionService;
 
 	@GetMapping("/api/user/{userId}/transactions")
-	public ResponseEntity<Object>getAllTransactions(@PathVariable String userId) {
-		List<Transaction> transactions = transactionService.getAllTransactionsByUserId(userId);
+	public ResponseEntity<Object>getAllTransactions(@PathVariable String userId,
+			@RequestParam(value="pageNumber", defaultValue="1", required=false) Integer pageNumber,
+			@RequestParam(value="pageSize", defaultValue="1", required=false) Integer pageSize
+			) {
+		List<Transaction> transactions = transactionService.getAllTransactionsByUserId(userId, pageNumber, pageSize);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.TRANSACTIONS_FETCHED_SUCCESSFULLY_MESSAGE, transactions);
 	} 
 }

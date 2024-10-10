@@ -1,5 +1,6 @@
 package com.wg.banking.dto;
 
+import com.wg.banking.model.Role;
 import com.wg.banking.model.User;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +23,8 @@ public class UserResponseDto {
 		this.email = user.getEmail();
 		this.phoneNumber = user.getPhoneNo();
 		this.address = user.getAddress();
-		this.accountNumber = user.getAccount().getAccountNumber();
+		if (user.getRole().equals(Role.CUSTOMER))
+			this.accountNumber = user.getAccount().getAccountNumber();
 	}
 
 }
