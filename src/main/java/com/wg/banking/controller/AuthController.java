@@ -58,7 +58,9 @@ public class AuthController {
 			authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 			UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-			String jwtToken = jwtUtil.generateToken(userDetails.getUsername());
+			String role = userDetails.getAuthorities().toString();
+			role = role.substring(1, role.length() - 1);
+			String jwtToken = jwtUtil.generateToken(userDetails.getUsername(), role);
 			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
 					ApiMessages.LOGGED_IN_SUCCESSFULLY, Map.of("JWT Token", jwtToken));
 		} catch (Exception e) {

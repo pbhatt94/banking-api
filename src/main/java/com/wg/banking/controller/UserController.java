@@ -1,6 +1,7 @@
 package com.wg.banking.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class UserController {
 	}
 
 	@GetMapping("/users")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> findAllUsers(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "limit", defaultValue = "5", required = false) Integer limit) {
@@ -43,6 +45,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/{userId}")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> findUserById(@PathVariable String userId) {
 		User user = userService.findUserById(userId);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,

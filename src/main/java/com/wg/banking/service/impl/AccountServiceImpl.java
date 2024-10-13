@@ -1,13 +1,19 @@
 package com.wg.banking.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.wg.banking.constants.ApiMessages;
+import com.wg.banking.dto.TransactionDTO;
 import com.wg.banking.exception.AccountNotFoundException;
+import com.wg.banking.exception.CustomerNotFoundException;
+import com.wg.banking.exception.InActiveAccountException;
 import com.wg.banking.exception.InvalidAmountException;
+import com.wg.banking.exception.ResourceAccessDeniedException;
 import com.wg.banking.exception.SourceSameAsTargetException;
+import com.wg.banking.exception.UserNotFoundException;
 import com.wg.banking.helper.AccountNumberGenerator;
 import com.wg.banking.exception.InsufficientBalanceException;
 import com.wg.banking.model.Account;
@@ -36,15 +42,13 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account deposit(String accountNumber, double amount) {
+	public Account deposit(String accountId, TransactionDTO transactionDto, User user) {
+		double amount = transactionDto.getAmount();
 		validateAmount(amount);
 
-		Optional<Account> existingAccount = accountRepository.findByAccountNumber(accountNumber);
-		if (!existingAccount.isPresent()) {
-			throw new AccountNotFoundException(ApiMessages.INVALID_ACCOUNT_NUMBER + ": " + accountNumber);
-		}
-
-		Account account = existingAccount.get();
+		validateUser(user);
+		Account account = user.getAccount();
+		validateAccount(accountId, account);
 		double currentBalance = account.getBalance();
 		double newBalance = currentBalance + amount;
 		account.setBalance(newBalance);
@@ -60,14 +64,13 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account withdraw(String accountNumber, double amount) {
+	public Account withdraw(String accountId, TransactionDTO transactionDto, User user) {
+		double amount = transactionDto.getAmount();
 		validateAmount(amount);
-		Optional<Account> existingAccount = accountRepository.findByAccountNumber(accountNumber);
-		if (!existingAccount.isPresent()) {
-			throw new AccountNotFoundException(ApiMessages.INVALID_ACCOUNT_NUMBER + ": " + accountNumber);
-		}
 
-		Account account = existingAccount.get();
+		validateUser(user);
+		Account account = user.getAccount();
+		validateAccount(accountId, account);
 		double currentBalance = account.getBalance();
 		validateFunds(currentBalance, amount);
 		double newBalance = currentBalance - amount;
@@ -84,19 +87,27 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account transfer(String sourceAccountNumber, String targetAccountNumber, double amount) {
+	public Account transfer(String accountId, TransactionDTO transactionDto, User user) {
+		double amount = transactionDto.getAmount();
 		validateAmount(amount);
-		Optional<Account> existingSourceAccount = accountRepository.findByAccountNumber(sourceAccountNumber);
-		Optional<Account> existingTargetAccount = accountRepository.findByAccountNumber(targetAccountNumber);
-		if (isAccountNull(existingSourceAccount, existingTargetAccount)) {
-			throw new AccountNotFoundException(ApiMessages.INVALID_ACCOUNT_NUMBER);
-		}
-		if (isSourceSameAsTarget(sourceAccountNumber, targetAccountNumber)) {
+
+		validateUser(user);
+		Account sourceAccount = user.getAccount();
+		validateAccount(accountId, sourceAccount);
+
+		if (isSourceSameAsTarget(sourceAccount.getAccountNumber(), transactionDto.getTargetAccountNumber())) {
 			throw new SourceSameAsTargetException(ApiMessages.SOURCE_CANNOT_BE_SAME_AS_TARGET_ERROR);
 		}
 
-		Account sourceAccount = existingSourceAccount.get();
+		Optional<Account> existingTargetAccount = accountRepository
+				.findByAccountNumber(transactionDto.getTargetAccountNumber());
+		if (existingTargetAccount.isEmpty()) {
+			throw new AccountNotFoundException(ApiMessages.INVALID_ACCOUNT_NUMBER);
+		}
+
 		Account targetAccount = existingTargetAccount.get();
+		checkAccountActivity(targetAccount);
+
 		double currentSourceAccountBalance = sourceAccount.getBalance();
 		validateFunds(currentSourceAccountBalance, amount);
 		double newSourceAccountBalance = currentSourceAccountBalance - amount;
@@ -112,17 +123,52 @@ public class AccountServiceImpl implements AccountService {
 		transaction.setTransactionType(TransactionType.TRANSFER);
 		transaction.setAmount(amount);
 		transaction.setSourceAccount(sourceAccount);
+		transaction.setTargetAccount(targetAccount);
 		transactionRepository.save(transaction);
 
 		return savedAccount;
+	}
+
+	@Override
+	public Account getAccountById(String accountId) {
+		Optional<Account> account = accountRepository.findById(accountId);
+		if (account.isEmpty()) {
+			throw new AccountNotFoundException(ApiMessages.ACCOUNT_NOT_FOUND_MESSAGE);
+		}
+		return account.get();
+	}
+
+	@Override
+	public List<Account> getAllAccounts() {
+		return accountRepository.findAll();
 	}
 
 	private boolean isSourceSameAsTarget(String sourceAccountNumber, String targetAccountNumber) {
 		return sourceAccountNumber.equals(targetAccountNumber);
 	}
 
-	private boolean isAccountNull(Optional<Account> existingAccount, Optional<Account> existingTargetAccount) {
-		return !existingAccount.isPresent() || !existingTargetAccount.isPresent();
+	private void validateUser(User user) {
+		if (user == null) {
+			throw new UserNotFoundException(ApiMessages.USER_NOT_FOUND_ERROR);
+		}
+		if (user.getAccount() == null) {
+			throw new CustomerNotFoundException(ApiMessages.NOT_A_CUSTOMER_ERROR);
+		}
+	}
+
+	private void validateAccount(String accountId, Account account) {
+		checkAccountActivity(account);
+		validateAccountOwner(accountId, account);
+	}
+
+	private void checkAccountActivity(Account account) {
+		if (!account.isActive())
+			throw new InActiveAccountException(ApiMessages.INACTIVE_ACCOUNT_ERROR);
+	}
+
+	private void validateAccountOwner(String accountId, Account account) {
+		if (!account.getId().equals(accountId))
+			throw new ResourceAccessDeniedException(ApiMessages.ACESS_DENIED_ERROR);
 	}
 
 	private void validateAmount(double amount) {
@@ -136,5 +182,4 @@ public class AccountServiceImpl implements AccountService {
 			throw new InsufficientBalanceException(ApiMessages.INSUFFICIENT_BALANCE_ERROR);
 		}
 	}
-
 }

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.wg.banking.model.Account;
 
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, String> {
 	public Optional<Account> findByAccountNumber(String accountNumber);
 }

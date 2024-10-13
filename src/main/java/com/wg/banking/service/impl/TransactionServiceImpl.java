@@ -23,23 +23,28 @@ public class TransactionServiceImpl implements TransactionService {
 	private final UserService userService;
 
 	@Override
-	public List<Transaction> getAllTransactionsByUserId(String userId, Integer pageNumber, Integer pageSize) {
+	public List<Transaction> getAllTransactionsByUserId(String accountId, Integer pageNumber, Integer pageSize) {
 		User user = userService.getCurrentUser();
-		validateUser(userId, user);
-		String accountNumber = user.getAccount().getAccountNumber();
-		List<Transaction> transactions = transactionRepository
-				.findBySourceAccount_AccountNumberOrTargetAccount_AccountNumber(accountNumber, accountNumber);
+		validateUser(accountId, user);
+		List<Transaction> transactions = transactionRepository.findAllByAccountId(accountId);
 		transactions = transactions.stream().sorted((t1, t2) -> t2.getCreatedAt().compareTo(t1.getCreatedAt()))
 				.collect(Collectors.toList());
 		return transactions;
 	}
+	
+	@Override
+	public List<Transaction> getAllTransactions() {
+		return transactionRepository.findAll();
+	}
 
-	private void validateUser(String userId, User user) {
+	private void validateUser(String accountId, User user) {
 		if (user == null) {
 			throw new UserNotFoundException(ApiMessages.USER_NOT_FOUND_ERROR);
 		}
-		if (!user.getUserId().equalsIgnoreCase(userId)) {
+		if (!user.getAccount().getId().equalsIgnoreCase(accountId)) {
 			throw new ResourceAccessDeniedException(ApiMessages.ACESS_DENIED_ERROR);
 		}
 	}
+
+	
 }

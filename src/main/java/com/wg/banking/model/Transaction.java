@@ -1,12 +1,11 @@
 package com.wg.banking.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,8 +16,7 @@ import lombok.Data;
 @Entity
 public class Transaction {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
 	private double amount;
 	@Enumerated(EnumType.STRING)
 	private TransactionType transactionType;
@@ -31,9 +29,10 @@ public class Transaction {
 	private Account targetAccount;
 
 	private LocalDateTime createdAt;
-	
+
 	@PrePersist
 	protected void onCreate() {
+		this.id = UUID.randomUUID().toString();
 		this.createdAt = LocalDateTime.now();
 	}
 }

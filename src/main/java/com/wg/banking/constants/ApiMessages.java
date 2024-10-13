@@ -4,7 +4,7 @@ public final class ApiMessages {
 	public static final String AMOUNT_NEGATIVE_ERROR = "Amount must be greater than 0.";
 	public static final String INSUFFICIENT_BALANCE_ERROR = "Not Sufficient Balance in account.";
 	public static final String NOT_A_CUSTOMER_ERROR = "Must be a customer for performing withdrawal.";
-	public static final String INVALID_ACCOUNT_NUMBER = "Invalid Account Number.";
+	public static final String INVALID_ACCOUNT_NUMBER = "Account not found. Enter a valid account number.";
 	public static final String SOURCE_CANNOT_BE_SAME_AS_TARGET_ERROR = "Source account can't be same as target.";
 	public static final String INVALID_CREDENTIALS_MESSAGE = "Incorrect username or password.";
 	public static final String USER_NOT_FOUND_ERROR = "User not found.";
@@ -32,4 +32,7 @@ public final class ApiMessages {
 	public static final String ACESS_DENIED_ERROR = "You do not have permission to access this resouce.";
 	public static final String INVALID_PAGE_NUMBER_OR_LIMIT = "Invalid page number or limit.";
 	public static final String PAGE_NUMBER_AND_LIMIT_MUST_BE_POSITIVE = "Page number and limit must be greater than 0.";
+	public static final String ACCOUNTS_FETCHED_SUCCESSFULLY_MESSAGE = "Accounts fetched successfully.";
+	public static final String INACTIVE_ACCOUNT_ERROR = "Account is inactive.";
+	public static final String ACCOUNT_FETCHED_SUCCESSFULLY_MESSAGE = "Account fetched successfully";
 }
