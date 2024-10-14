@@ -1,6 +1,6 @@
 package com.wg.banking.mapper;
 
-import com.wg.banking.dto.UserDto;
+import com.wg.banking.dto.UserDto; 
 import com.wg.banking.model.User;
 
 public class UserMapper {
@@ -16,5 +16,5 @@ public class UserMapper {
 		userDto.setRole(user.getRole());
 		userDto.setAccount(user.getAccount());
 		return userDto;
-	}
+	} 
 }
