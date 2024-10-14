@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wg.banking.constants.ApiMessages;
 import com.wg.banking.dto.ApiResponseHandler;
+import com.wg.banking.dto.UserDto;
 import com.wg.banking.model.ApiResponseStatus;
 import com.wg.banking.model.User;
 import com.wg.banking.service.UserService;
@@ -36,7 +38,7 @@ public class UserController {
 	public ResponseEntity<Object> findAllUsers(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "limit", defaultValue = "5", required = false) Integer limit) {
-		List<User> users = userService.findAllUsers(pageNumber, limit);
+		List<UserDto> users = userService.findAllUsers(pageNumber, limit);
 		int totalCount = (int) userService.countAllUsers();
 		int totalPages = (int) (totalCount + limit - 1) / limit;
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
@@ -47,7 +49,7 @@ public class UserController {
 	@GetMapping("/user/{userId}")
 //	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> findUserById(@PathVariable String userId) {
-		User user = userService.findUserById(userId);
+		UserDto user = userService.findUserById(userId);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
 				ApiMessages.USER_FOUND_SUCCESSFULLY, user);
 	}

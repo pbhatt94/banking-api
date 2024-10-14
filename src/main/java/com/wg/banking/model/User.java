@@ -12,6 +12,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -48,6 +49,7 @@ public class User {
 
 	@Column(nullable = false)
 	@Min(value = 18, message = "Age must be at least 18.")
+	@Max(value=120, message = "Age must be less than 120.")
 	private int age;
 
 	@NotBlank(message="Phone number must not be null.")

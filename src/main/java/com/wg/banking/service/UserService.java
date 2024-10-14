@@ -1,13 +1,15 @@
 package com.wg.banking.service;
 
 import java.util.List;
+
+import com.wg.banking.dto.UserDto;
 import com.wg.banking.dto.UserResponseDto;
 import com.wg.banking.model.User;
 
 public interface UserService {
-	public List<User> findAllUsers(Integer pageNumber, Integer pageSize);
+	public List<UserDto> findAllUsers(Integer pageNumber, Integer pageSize);
 
-	public User findUserById(String userId);
+	public UserDto findUserById(String userId);
 
 	public UserResponseDto createUser(User user);
 
