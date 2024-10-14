@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wg.banking.config.JwtConfig;
+import com.wg.banking.service.impl.TokenBlacklistService;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -19,9 +21,12 @@ public class JwtUtil {
 
 	private final String SECRET_KEY;
 
+	private final TokenBlacklistService blacklistService;
+
 	@Autowired
-	public JwtUtil(JwtConfig jwtConfig) {
+	public JwtUtil(JwtConfig jwtConfig, TokenBlacklistService blacklistService) {
 		this.SECRET_KEY = jwtConfig.getSecret();
+		this.blacklistService = blacklistService;
 	}
 
 	private SecretKey getSigningKey() {
@@ -58,7 +63,16 @@ public class JwtUtil {
 	}
 
 	public Boolean validateToken(String token) {
+		if (blacklistService.isTokenBlacklisted(token)) {
+			return false; // Token is invalid if it’s blacklisted
+		}
 		return !isTokenExpired(token);
+	}
+
+	public void blacklistToken(String token) {
+		Claims claims = extractAllClaims(token);
+		long expirationTime = claims.getExpiration().getTime();
+		blacklistService.blacklistToken(token);
 	}
 
 }

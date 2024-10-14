@@ -35,4 +35,5 @@ public final class ApiMessages {
 	public static final String ACCOUNTS_FETCHED_SUCCESSFULLY_MESSAGE = "Accounts fetched successfully.";
 	public static final String INACTIVE_ACCOUNT_ERROR = "Account is inactive.";
 	public static final String ACCOUNT_FETCHED_SUCCESSFULLY_MESSAGE = "Account fetched successfully";
+	public static final String LOG_OUT_SUCCESSFUL_MESSAGE = "Logged out successfully.";
 }
