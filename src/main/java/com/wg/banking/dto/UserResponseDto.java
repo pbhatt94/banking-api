@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponseDto {
 
+	private String userId;
 	private String name;
 	private String email;
 	private String phoneNumber;
@@ -22,6 +23,7 @@ public class UserResponseDto {
 	private Role role;
 
 	public UserResponseDto(User user) {
+		this.userId = user.getUserId();
 		this.name = user.getName();
 		this.email = user.getEmail();
 		this.phoneNumber = user.getPhoneNo();

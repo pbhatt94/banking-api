@@ -72,7 +72,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean deleteUserById(String userId) {
-		if (!userRepository.existsById(userId))
+		Optional<User> user = userRepository.findById(userId);
+		if (user.isEmpty())
+			return false;
+		else if (isAdmin(user))
 			return false;
 		userRepository.deleteById(userId);
 		return true;
@@ -117,6 +120,10 @@ public class UserServiceImpl implements UserService {
 		user.setPhoneNo(userDetails.getPhoneNo());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setUsername(userDetails.getUsername());
+	}
+
+	private boolean isAdmin(Optional<User> user) {
+		return user.get().getRole().equals(Role.ADMIN);
 	}
 
 	private boolean isCustomer(User user) {

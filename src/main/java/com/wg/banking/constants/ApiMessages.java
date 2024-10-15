@@ -36,4 +36,7 @@ public final class ApiMessages {
 	public static final String INACTIVE_ACCOUNT_ERROR = "Account is inactive.";
 	public static final String ACCOUNT_FETCHED_SUCCESSFULLY_MESSAGE = "Account fetched successfully";
 	public static final String LOG_OUT_SUCCESSFUL_MESSAGE = "Logged out successfully.";
+	public static final String JWT_EXPIRED_MESSAGE = "JWT token has expired. Please log in again.";
+	public static final String REQUESTED_RESOURCE_NOT_FOUND_MESSAGE = "Requested resource not found. Please check the URL.";
+	public static final String CONFLICT_MESSAGE = "This entry already exists. Please check your data.";
 }

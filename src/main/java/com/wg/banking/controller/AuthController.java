@@ -69,20 +69,20 @@ public class AuthController {
 					ApiMessages.INVALID_CREDENTIALS_MESSAGE, null);
 		}
 	}
-	
+
 	@PostMapping("/logout")
 	public ResponseEntity<Object> logoutUser(@RequestHeader("Authorization") String authorizationHeader) {
 		// Check if the header is present and well-formed
 		if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-			return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST, ApiMessages.BAD_REQUEST_MESSAGE,
-					null);
+			return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
+					ApiMessages.BAD_REQUEST_MESSAGE, null);
 		}
 		// Extract the JWT token (removing "Bearer " prefix)
 		String jwtToken = authorizationHeader.substring(7);
 		// Add the token to the blacklist
 		jwtUtil.blacklistToken(jwtToken);
 		// Respond with success message
-		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.LOG_OUT_SUCCESSFUL_MESSAGE,
-				null);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
+				ApiMessages.LOG_OUT_SUCCESSFUL_MESSAGE, null);
 	}
 }

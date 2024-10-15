@@ -3,7 +3,10 @@ package com.wg.banking.exception;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,6 +24,8 @@ import com.wg.banking.dto.ApiError;
 import com.wg.banking.dto.ApiResponseHandler;
 import com.wg.banking.model.ApiResponseStatus;
 import com.wg.banking.service.impl.InvalidInputException;
+
+import io.jsonwebtoken.ExpiredJwtException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -122,6 +127,32 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				ApiMessages.INVALID_REQUEST, null, apiError);
 	}
 
+	@ExceptionHandler(ExpiredJwtException.class)
+	public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex) {
+		ApiError apiError = new ApiError(LocalDateTime.now(), ApiMessages.INVALID_REQUEST, ex.getMessage(),
+				List.of(ex.getMessage()));
+
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.UNAUTHORIZED,
+				ApiMessages.JWT_EXPIRED_MESSAGE, null, apiError);
+	}
+
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+		String conflictMessage = extractConflictMessage(ex.getMessage());
+		ApiError apiError = new ApiError(LocalDateTime.now(), conflictMessage, null, null);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.CONFLICT, conflictMessage, null,
+				apiError);
+	}
+
+	private String extractConflictMessage(String message) {
+		Pattern pattern = Pattern.compile("Duplicate entry '(.*?)' for key '(.*?)'");
+		Matcher matcher = pattern.matcher(message);
+		if (matcher.find()) {
+			return "A conflict occurred with entry: " + matcher.group(1);
+		}
+		return ApiMessages.CONFLICT_MESSAGE;
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleGenericException(Exception ex) {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ApiMessages.INTERNAL_SERVER_ERROR,
@@ -129,5 +160,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.INTERNAL_SERVER_ERROR,
 				ApiMessages.INTERNAL_SERVER_ERROR, null, apiError);
 	}
-
 }

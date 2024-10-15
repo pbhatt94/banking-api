@@ -31,7 +31,7 @@ public class User {
 
 	@Column(nullable = false)
 	@Size(min = 1, message = "Name must not be empty.")
-	@Pattern(regexp = "^[A-Za-z ]+$", message = "Name must not contain digits or special characters.")
+//	@Pattern(regexp = "^[A-Za-z ]+$", message = "Name must not contain digits or special characters.")
 	private String name;
 
 	@NotBlank(message="Email must not be null.")
@@ -39,7 +39,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String email; 
 
-	@NotBlank(message="Username must not be null.")
+	@NotBlank(message="Username must not be null.") 
 	@Column(nullable = false, unique = true)
 	@Size(min = 5, message="Username must be unique and atleast 5 characters long.")  
 	private String username;
