@@ -44,7 +44,7 @@ public class User {
 	@Size(min = 5, message="Username must be unique and atleast 5 characters long.")  
 	private String username;
 
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Password must be at least 8 characters long and contain upper and lower case letters, numbers, and special characters.")
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message = "Password must be at least 8 characters long and contain upper and lower case letters, numbers, and special characters.")
 	private String password;
 
 	@Column(nullable = false)

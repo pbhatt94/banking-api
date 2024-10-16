@@ -1,10 +1,12 @@
 package com.wg.banking.exception;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -26,40 +28,50 @@ import com.wg.banking.model.ApiResponseStatus;
 import com.wg.banking.service.impl.InvalidInputException;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
 	@ExceptionHandler(CustomerNotFoundException.class)
-	public ResponseEntity<Object> handleCustomerNotFound(CustomerNotFoundException ex) {
+	public ResponseEntity<Object> handleCustomerNotFound(CustomerNotFoundException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.CUSTOMER_NOT_FOUND_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
 				ApiMessages.CUSTOMER_NOT_FOUND_MESSAGE, null, apiError);
 	}
 
 	@ExceptionHandler(AccountNotFoundException.class)
-	public ResponseEntity<Object> handleAccountNotFound(AccountNotFoundException ex) {
+	public ResponseEntity<Object> handleAccountNotFound(AccountNotFoundException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.ACCOUNT_NOT_FOUND_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
 				ApiMessages.ACCOUNT_NOT_FOUND_MESSAGE, null, apiError);
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex) {
+	public ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.USER_NOT_FOUND_ERROR);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
 				ApiMessages.USER_NOT_FOUND_ERROR, null, apiError);
 	}
 
 	@ExceptionHandler(InsufficientBalanceException.class)
-	public ResponseEntity<Object> handleInsufficientBalance(InsufficientBalanceException ex) {
+	public ResponseEntity<Object> handleInsufficientBalance(InsufficientBalanceException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.INSUFFICIENT_BALANCE_ERROR);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
 				ApiMessages.INSUFFICIENT_BALANCE_ERROR, null, apiError);
 	}
 
 	@ExceptionHandler(MissingTransactionDetailsException.class)
-	public ResponseEntity<Object> handleMissingTransactionDetails(MissingTransactionDetailsException ex) {
+	public ResponseEntity<Object> handleMissingTransactionDetails(MissingTransactionDetailsException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(),
 				ApiMessages.MISSING_TRANSACTION_DETAILS_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
@@ -67,14 +79,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(InvalidAmountException.class)
-	public ResponseEntity<Object> handleInvalidAmount(InvalidAmountException ex) {
+	public ResponseEntity<Object> handleInvalidAmount(InvalidAmountException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.ENTER_VALID_AMOUNT_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
 				ApiMessages.ENTER_VALID_AMOUNT_MESSAGE, null, apiError);
 	}
 
 	@ExceptionHandler(InvalidInputException.class)
-	public ResponseEntity<Object> handleInvalidInput(InvalidInputException ex) {
+	public ResponseEntity<Object> handleInvalidInput(InvalidInputException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(),
 				ApiMessages.PAGE_NUMBER_AND_LIMIT_MUST_BE_POSITIVE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
@@ -82,7 +96,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(SourceSameAsTargetException.class)
-	public ResponseEntity<Object> handleSourceSameAsTarget(SourceSameAsTargetException ex) {
+	public ResponseEntity<Object> handleSourceSameAsTarget(SourceSameAsTargetException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(),
 				ApiMessages.ENTER_A_VALID_ACCOUNT_NUMBER);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
@@ -90,14 +105,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(BadCredentialsException.class)
-	public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex) {
+	public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.INVALID_CREDENTIALS_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.UNAUTHORIZED,
 				ApiMessages.INVALID_CREDENTIALS_MESSAGE, null, apiError);
 	}
 
 	@ExceptionHandler(ResourceAccessDeniedException.class)
-	public ResponseEntity<Object> handleAccessDeniedException(ResourceAccessDeniedException ex) {
+	public ResponseEntity<Object> handleAccessDeniedException(ResourceAccessDeniedException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.ACESS_DENIED_ERROR);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.UNAUTHORIZED,
 				ApiMessages.ACESS_DENIED_ERROR, null, apiError);
@@ -119,7 +136,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex) {
+	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ApiMessages.INVALID_REQUEST, ex.getMessage(),
 				List.of(ex.getMessage()));
 
@@ -128,7 +146,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(ExpiredJwtException.class)
-	public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex) {
+	public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		ApiError apiError = new ApiError(LocalDateTime.now(), ApiMessages.INVALID_REQUEST, ex.getMessage(),
 				List.of(ex.getMessage()));
 
@@ -137,7 +156,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
-	public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+	public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
 		String conflictMessage = extractConflictMessage(ex.getMessage());
 		ApiError apiError = new ApiError(LocalDateTime.now(), conflictMessage, null, null);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.CONFLICT, conflictMessage, null,
@@ -154,10 +174,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<Object> handleGenericException(Exception ex) {
+	public ResponseEntity<Object> handleGenericException(Exception ex, HttpServletRequest request) throws IOException {
+		logError(ex, request);
+
 		ApiError apiError = new ApiError(LocalDateTime.now(), ApiMessages.INTERNAL_SERVER_ERROR,
 				ApiMessages.UNEXPECTED_ERROR_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.INTERNAL_SERVER_ERROR,
 				ApiMessages.INTERNAL_SERVER_ERROR, null, apiError);
+	}
+
+	private void logError(Exception ex, HttpServletRequest request) throws IOException {
+		logger.error("Error occurred: {}, URL: {}, Method: {}, User: {}, Params: {}, Body: {}", ex.getMessage(),
+				request.getRequestURL(), request.getMethod(),
+				request.getUserPrincipal() != null ? request.getUserPrincipal().getName() : "Anonymous",
+				request.getParameterMap(),
+				request.getContentLength() > 0
+						? request.getReader().lines().collect(Collectors.joining(System.lineSeparator()))
+						: "N/A",
+				ex);
 	}
 }

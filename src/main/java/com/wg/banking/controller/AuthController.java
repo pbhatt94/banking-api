@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wg.banking.constants.ApiMessages;
 import com.wg.banking.dto.ApiResponseHandler;
 import com.wg.banking.dto.JwtRequest;
-import com.wg.banking.dto.UserResponseDto;
+import com.wg.banking.dto.UserDto;
 import com.wg.banking.model.ApiResponseStatus;
 import com.wg.banking.model.User;
 import com.wg.banking.security.JwtUtil;
@@ -48,13 +48,13 @@ public class AuthController {
 	public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
 		String encodedPass = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPass);
-		UserResponseDto userResponseDto = userService.createUser(user);
+		UserDto userResponseDto = userService.createUser(user);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.CREATED,
 				ApiMessages.USER_CREATED_SUCCESSFULLY, userResponseDto);
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestBody JwtRequest user) {
+	public ResponseEntity<Object> login(@Valid @RequestBody JwtRequest user) {
 		try {
 			authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));

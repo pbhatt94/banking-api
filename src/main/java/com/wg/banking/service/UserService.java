@@ -3,7 +3,6 @@ package com.wg.banking.service;
 import java.util.List;
 
 import com.wg.banking.dto.UserDto;
-import com.wg.banking.dto.UserResponseDto;
 import com.wg.banking.model.User;
 
 public interface UserService {
@@ -11,7 +10,7 @@ public interface UserService {
 
 	public UserDto findUserById(String userId);
 
-	public UserResponseDto createUser(User user);
+	public UserDto createUser(User user);
 
 	public boolean deleteUserById(String userId);
 

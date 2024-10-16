@@ -51,15 +51,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserResponseDto createUser(User user) {
+	public UserDto createUser(User user) {
 		User savedUser = userRepository.save(user);
 		if (isCustomer(savedUser)) {
 			Account account = accountService.createAccount(savedUser);
 			savedUser.setAccount(account);
 			savedUser = userRepository.save(savedUser);
 		}
-		UserResponseDto userResponse = new UserResponseDto(savedUser);
-		return userResponse;
+		UserDto userDto = UserMapper.mapUser(savedUser);
+		return userDto;
 	}
 
 	@Override
