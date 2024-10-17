@@ -39,4 +39,7 @@ public final class ApiMessages {
 	public static final String JWT_EXPIRED_MESSAGE = "JWT token has expired. Please log in again.";
 	public static final String REQUESTED_RESOURCE_NOT_FOUND_MESSAGE = "Requested resource not found. Please check the URL.";
 	public static final String CONFLICT_MESSAGE = "This entry already exists. Please check your data.";
+	public static final String NOTIFICATION_SENT_SUCCESSFUL_MESSAGE = "Notification sent successfully.";
+	public static final String NOTIFICATION_FETCHED_SUCCESSFUL_MESSAGE = "Notifications fetched successfully.";
+	public static final String ADMIN_ALREADY_EXISTS_MESSAGE = "Admin already exists.";
 }

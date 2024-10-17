@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.wg.banking.constants.ApiMessages;
 import com.wg.banking.dto.UserDto;
-import com.wg.banking.dto.UserResponseDto;
+import com.wg.banking.exception.AdminAccountExistsException;
 import com.wg.banking.exception.UserNotFoundException;
 import com.wg.banking.mapper.UserMapper;
 import com.wg.banking.model.Account;
@@ -52,6 +52,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto createUser(User user) {
+		if (isRoleAdmin(user)) {
+			throw new AdminAccountExistsException(ApiMessages.ADMIN_ALREADY_EXISTS_MESSAGE);
+		}
 		User savedUser = userRepository.save(user);
 		if (isCustomer(savedUser)) {
 			Account account = accountService.createAccount(savedUser);
@@ -60,6 +63,10 @@ public class UserServiceImpl implements UserService {
 		}
 		UserDto userDto = UserMapper.mapUser(savedUser);
 		return userDto;
+	}
+
+	private boolean isRoleAdmin(User user) {
+		return user.getRole() == null ? false : user.getRole().equals(Role.ADMIN);
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import com.wg.banking.exception.CustomerNotFoundException;
 import com.wg.banking.exception.MissingTransactionDetailsException;
 import com.wg.banking.model.Account;
 import com.wg.banking.model.ApiResponseStatus;
+import com.wg.banking.model.Role;
 import com.wg.banking.model.User;
 import com.wg.banking.service.AccountService;
 import com.wg.banking.service.UserService;
@@ -42,7 +43,7 @@ public class AccountController {
 	@PostMapping("/account/{accountId}/deposit")
 	public ResponseEntity<Object> deposit(@PathVariable String accountId, @Valid @RequestBody TransactionDTO transaction) {
 		User user = userService.getCurrentUser();
-		if (user.getAccount() == null) {
+		if (!user.getRole().name().equals(Role.CUSTOMER.name())) {
 			throw new CustomerNotFoundException(ApiMessages.NOT_A_CUSTOMER_ERROR);
 		}
 		if (transaction == null) {
