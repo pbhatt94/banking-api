@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wg.banking.constants.ApiMessages;
 import com.wg.banking.dto.TransactionDTO;
 import com.wg.banking.exception.CustomerNotFoundException;
+import com.wg.banking.exception.GlobalExceptionHandler;
 import com.wg.banking.model.Account;
 import com.wg.banking.model.Role;
 import com.wg.banking.model.User;
@@ -47,7 +48,8 @@ public class AccountControllerTest {
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(accountController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(accountController).setControllerAdvice(new GlobalExceptionHandler())
+				.build();
 	}
 
 	@Test
