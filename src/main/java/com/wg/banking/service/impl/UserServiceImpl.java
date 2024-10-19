@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,7 @@ import com.wg.banking.constants.ApiMessages;
 import com.wg.banking.dto.UserDto;
 import com.wg.banking.exception.AdminAccountExistsException;
 import com.wg.banking.exception.UserNotFoundException;
+import com.wg.banking.filter.UsersFilter;
 import com.wg.banking.mapper.UserMapper;
 import com.wg.banking.model.Account;
 import com.wg.banking.model.Role;
@@ -24,6 +26,7 @@ import com.wg.banking.model.User;
 import com.wg.banking.repository.UserRepository;
 import com.wg.banking.service.AccountService;
 import com.wg.banking.service.UserService;
+import com.wg.banking.specification.UserSpec;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,13 +38,13 @@ public class UserServiceImpl implements UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
-	public List<UserDto> findAllUsers(Integer pageNumber, Integer pageSize) {
+	public List<UserDto> findAllUsers(UsersFilter filter, Integer pageNumber, Integer pageSize) {
 		if (pageNumber <= 0 || pageSize <= 0)
 			throw new InvalidInputException(ApiMessages.INVALID_PAGE_NUMBER_OR_LIMIT);
 		pageNumber--;
-		pageNumber = Math.max(0, pageNumber);
-		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		Page<User> page = userRepository.findAll(pageable);
+		
+		Specification<User> spec = UserSpec.filterBy(filter);
+		Page<User> page = userRepository.findAll(spec, (Pageable) PageRequest.of(pageNumber, pageSize));
 		List<User> users = page.getContent();
 		List<UserDto> userDtos = new ArrayList<>();
 		for (User user : users) {

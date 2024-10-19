@@ -1,6 +1,8 @@
 package com.wg.banking.mapper;
 
-import com.wg.banking.dto.UserDto; 
+import com.wg.banking.controller.criteria.UsersFilterCriteria;
+import com.wg.banking.dto.UserDto;
+import com.wg.banking.filter.UsersFilter;
 import com.wg.banking.model.User;
 
 public class UserMapper {
@@ -17,4 +19,14 @@ public class UserMapper {
 		userDto.setAccount(user.getAccount());
 		return userDto;
 	} 
+	
+	public static UsersFilter toFilter(UsersFilterCriteria criteria) {
+		return UsersFilter.builder()
+			.name(criteria.getName())
+			.address(criteria.getAddress())
+			.age(criteria.getAge())
+			.username(criteria.getUsername())
+			.role(criteria.getRole())
+			.build();
+	}
 }

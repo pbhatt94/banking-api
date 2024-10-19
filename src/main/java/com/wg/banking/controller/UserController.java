@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wg.banking.constants.ApiMessages;
+import com.wg.banking.controller.criteria.UsersFilterCriteria;
 import com.wg.banking.dto.ApiResponseHandler;
 import com.wg.banking.dto.UserDto;
+import com.wg.banking.mapper.UserMapper;
 import com.wg.banking.model.ApiResponseStatus;
 import com.wg.banking.model.User;
 import com.wg.banking.service.UserService;
@@ -31,17 +32,16 @@ public class UserController {
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-
+	
 	@GetMapping("/users")
 //	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> findAllUsers(
-			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "limit", defaultValue = "5", required = false) Integer limit) {
-		List<UserDto> users = userService.findAllUsers(pageNumber, limit);
+	public ResponseEntity<Object> getAllUsers(UsersFilterCriteria criteria) {
+		List<UserDto> users = userService.findAllUsers(UserMapper.toFilter(criteria), criteria.getPage(), criteria.getSize());
+		int limit = criteria.getSize();
 		int totalCount = (int) userService.countAllUsers();
 		int totalPages = (int) (totalCount + limit - 1) / limit;
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
-				ApiMessages.USERS_FETCHED_SUCCESSFULLY, users, pageNumber, limit, Integer.valueOf(totalCount),
+				ApiMessages.USERS_FETCHED_SUCCESSFULLY, users, criteria.getPage(), criteria.getSize(), Integer.valueOf(totalCount),
 				Integer.valueOf(totalPages));
 	}
 
