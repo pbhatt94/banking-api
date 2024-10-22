@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,14 +36,16 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
-//	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> getAllUsers(UsersFilterCriteria criteria) {
-		List<UserDto> users = userService.findAllUsers(UserMapper.toFilter(criteria), criteria.getPage(), criteria.getSize());
-		int limit = criteria.getSize();
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Object> getAllUsers(@Nullable UsersFilterCriteria criteria) {
+		int page = criteria.getPage() == null ? 1 : criteria.getPage();
+		int size = criteria.getSize() == null ? 10 : criteria.getSize();
+		List<UserDto> users = userService.findAllUsers(UserMapper.toFilter(criteria), page, size);
+		int limit = size;
 		int totalCount = (int) userService.countAllUsers();
 		int totalPages = (int) (totalCount + limit - 1) / limit;
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
-				ApiMessages.USERS_FETCHED_SUCCESSFULLY, users, criteria.getPage(), criteria.getSize(), Integer.valueOf(totalCount),
+				ApiMessages.USERS_FETCHED_SUCCESSFULLY, users, page, size, Integer.valueOf(totalCount),
 				Integer.valueOf(totalPages));
 	}
 

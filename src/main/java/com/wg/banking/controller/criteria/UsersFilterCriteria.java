@@ -12,6 +12,6 @@ public class UsersFilterCriteria {
 	private Integer age;
 	private String username;
 	private String address;
-	private int page;
-	private int size;
+	private Integer page;
+	private Integer size;
 }

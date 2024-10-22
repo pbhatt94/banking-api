@@ -1,0 +1,1874 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Server URL"
+    }
+  ],
+  "paths": {
+    "/api/user": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created a new User.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCreatedSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Please check your input data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict has occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The name of the user to filter by."
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CUSTOMER",
+                "BRANCH_MANAGER",
+                "ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "age",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The age of the user to filter by."
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The username of the user to filter by."
+          },
+          {
+            "name": "address",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The address of the user to filter by."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The page number/offset for pagination."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The number of users to return per page. If not specified, default value will be used."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/{userId}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "findUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "description": "ID of the specific user.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserByIdSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          
+          "404": {
+            "description": "The user with given ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "updateUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "description": "ID of the user to be updated.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserUpdateSuccess"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The user with given ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDeletionSuccess"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The user with given ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginSuccess"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login credentials are incorrect.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginFailure"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "/api/auth/logout": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "logoutUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutSuccess"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    
+    "/api/notifications": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getAllNotifications",
+        "responses": {
+          "200": {
+            "description": "Notifications retrieved successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationsRetrievalSuccess"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "sendNotification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSentSuccess"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/{accountId}/withdraw": {
+      "post": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "withdraw",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WithdrawSuccess"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+          
+        }
+      }
+    },
+    "/api/account/{accountId}/transfer": {
+      "post": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "transfer",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferSuccess"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/{accountId}/deposit": {
+      "post": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "deposit",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DepositSuccess"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/{userId}/notifications": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getAllNotificationsByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notifications retrieved successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationsRetrievalSuccess"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          
+          "404": {
+            "description": "The user with given ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getAllTransactions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts": {
+      "get": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "getAllAccounts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountsListResponse"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/{accountId}": {
+      "get": {
+        "tags": [
+          "account-controller"
+        ],
+        "operationId": "getAccountById",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountByIdResponse"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          
+          "404": {
+            "description": "The account with given ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/{accountId}/transactions": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getAllTransactionsByUserId",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user is not logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user does not have necessary permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "required": [
+          "accountNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "accountNumber": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "number",
+            "format": "double"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "address",
+          "email",
+          "phoneNo",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 2147483647,
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "maxLength": 2147483647,
+            "minLength": 5,
+            "type": "string"
+          },
+          "password": {
+            "pattern": "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+            "type": "string"
+          },
+          "age": {
+            "maximum": 120,
+            "minimum": 18,
+            "type": "integer",
+            "format": "int32"
+          },
+          "phoneNo": {
+            "maxLength": 10,
+            "minLength": 10,
+            "pattern": "^\\d{10}$",
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CUSTOMER",
+              "BRANCH_MANAGER",
+              "ADMIN"
+            ]
+          }
+        },
+        "example": {
+          "name": "Dummy User",
+          "username": "dummy123",
+          "password": "DummyUser@12345",
+          "email": "dummy123@gmail.com",
+          "address": "Dummy address",
+          "phoneNo": "9192392339"
+        }
+      },
+      "NotificationDto": {
+        "required": [
+          "message",
+          "receiverId"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Password update required."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ACCOUNT_ACTIVITY",
+              "SYSTEM_ALERT"
+            ]
+          },
+          "receiverId": {
+            "type": "string",
+            "example": "ba621f99-d3c5-4600-924c-7686b7ae4b7c"
+          }
+        }
+      },
+      "UserCredentials": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "TransactionDTO": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "targetAccountNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "UserCreatedSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {},
+          "data": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string",
+                "example": "12345abc-de67-8901-fghi-234567890jkl"
+              },
+              "username": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "name": {
+                "type": "string",
+                "example": "Demo User"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe@gmail.com"
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "message": {
+            "type": "string",
+            "example": "Bad Request. Please check your input data."
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "INVALID_DATA"
+              },
+              "details": {
+                "type": "string",
+                "example": "The 'email' field must be a valid email address."
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "message": {
+            "type": "string",
+            "example": "Unauthorized. Please provide valid authentication credentials."
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "UNAUTHORIZED ACCESS"
+              },
+              "details": {
+                "type": "string",
+                "example": "You need to log in to access this resource."
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "message": {
+            "type": "string",
+            "example": "Forbidden. You do not have permission to access this resource."
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "FORBIDDEN"
+              },
+              "details": {
+                "type": "string",
+                "example": "Your account does not have the necessary permissions."
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "message": {
+            "type": "string",
+            "example": "User not found."
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "NOT_FOUND"
+              },
+              "details": {
+                "type": "string",
+                "example": "User not found. Please enter a valid user ID."
+              }
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "message": {
+            "type": "string",
+            "example": "Conflict. A user with this email already exists."
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "EMAIL_EXISTS"
+              },
+              "details": {
+                "type": "string",
+                "example": "The email 'johndoe@gmail.com' is already registered."
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "message": {
+            "type": "string",
+            "example": "Internal Server Error. Please try again later."
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "SERVER_ERROR"
+              },
+              "details": {
+                "type": "string",
+                "example": "An unexpected error occurred while processing your request."
+              }
+            }
+          }
+        }
+      },
+      
+      "GetUserByIdSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "User fetched successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      
+      "UserUpdateSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "User updated successfully."
+          }
+        }
+      },
+      
+      "UserDeletionSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS."
+          },
+          "message": {
+            "type": "string",
+            "example": "User deleted successfully."
+          }
+        }
+      },
+      
+      "NotificationsRetrievalSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "Notifications fetched successfully."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationDto"
+            }
+          }
+        }
+      },
+      
+      "NotificationSentSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "Notification sent successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/NotificationDto"
+          }
+        }
+      },
+      
+      "LoginSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "Logged in successfully."
+          },
+          "jwt-token": {
+            "type": "string",
+            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9DVVNUT01FUiIsInN1YiI6InBvc3RtYW4iLCJpYXQiOjE3Mjk0ODIzMTksImV4cCI6MTcyOTQ4NTkxOX0.Ec3QzN3RPCsGsizbPoWhNzR6ZQl3icvCVqNJD10CyMw"
+          }
+        }
+      },
+      
+      "LoginFailure": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "Incorrect username or password."
+          }
+        }
+      },
+      
+      "LogoutSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "Logged out successfully."
+          }
+        }
+      },
+      
+      "AccountDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "accountNumber": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": "db37bf87-63a8-400d-8fda-4638a5fb3635",
+          "accountNumber": "197083240808",
+          "balance": 8720.0
+        }
+      },
+      
+      "WithdrawSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": 'string',
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": 'string',
+            "example": "Money withdrawal was successful."
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccountDetails"
+          }
+        }
+      },
+      
+      "DepositSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": 'string',
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": 'string',
+            "example": "Money was successfully deposited."
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccountDetails"
+          }
+        }
+      },
+      
+      "TransferSuccess": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": 'string',
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": 'string',
+            "example": "Money was successfully transferred."
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccountDetails"
+          }
+        }
+      },
+      
+      "AccountsListResponse": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "SUCCESS"
+            },
+            "message": {
+              "type": "string",
+              "example": "Accounts fetched successfully."
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AccountDetails"
+              }
+            }
+        }
+      },
+      
+      "AccountByIdResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "Account fetched successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccountDetails"
+          }
+      }
+      },
+      
+      
+      
+      "UserListResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "example": "Users fetched successfully."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "example": 10
+          },
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 2
+          },
+          "total pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data",
+          "total",
+          "page",
+          "limit",
+          "total pages"
+        ]
+      }
+    }
+  }
+}

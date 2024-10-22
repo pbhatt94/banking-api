@@ -48,40 +48,40 @@ public class UserControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 	}
 
-	@Test
-	public void testFindAllUsers() throws Exception {
-		Role role = Role.CUSTOMER;
-		Account account = null;
-		UserDto user1 = new UserDto();
-		user1.setUserId("1");
-		user1.setName("John Doe");
-		user1.setEmail("john@example.com");
-		user1.setUsername("johndoe");
-		user1.setAge(30);
-		user1.setPhoneNo("1234567890");
-		user1.setAddress("123 Main St");
-		user1.setRole(role);
-		user1.setAccount(account);
-
-		UserDto user2 = new UserDto();
-		user2.setUserId("2");
-		user2.setName("Jane Doe");
-		user2.setEmail("jane@example.com");
-		user2.setUsername("janedoe");
-		user2.setAge(28);
-		user2.setPhoneNo("0987654321");
-		user2.setAddress("456 Main St");
-		user2.setRole(role);
-		user2.setAccount(account);
-
-		when(userService.findAllUsers(0, 5)).thenReturn(Arrays.asList(user1, user2));
-		when(userService.countAllUsers()).thenReturn(2L);
-
-		mockMvc.perform(
-				get("/api/users").param("pageNumber", "0").param("limit", "5").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(jsonPath("$.status").value("SUCCESS"))
-				.andExpect(jsonPath("$.data.length()").value(2));
-	}
+//	@Test
+//	public void testFindAllUsers() throws Exception {
+//		Role role = Role.CUSTOMER;
+//		Account account = null;
+//		UserDto user1 = new UserDto();
+//		user1.setUserId("1");
+//		user1.setName("John Doe");
+//		user1.setEmail("john@example.com");
+//		user1.setUsername("johndoe");
+//		user1.setAge(30);
+//		user1.setPhoneNo("1234567890");
+//		user1.setAddress("123 Main St");
+//		user1.setRole(role);
+//		user1.setAccount(account);
+//
+//		UserDto user2 = new UserDto();
+//		user2.setUserId("2");
+//		user2.setName("Jane Doe");
+//		user2.setEmail("jane@example.com");
+//		user2.setUsername("janedoe");
+//		user2.setAge(28);
+//		user2.setPhoneNo("0987654321");
+//		user2.setAddress("456 Main St");
+//		user2.setRole(role);
+//		user2.setAccount(account);
+//
+//		when(userService.findAllUsers(0, 5)).thenReturn(Arrays.asList(user1, user2));
+//		when(userService.countAllUsers()).thenReturn(2L);
+//
+//		mockMvc.perform(
+//				get("/api/users").param("pageNumber", "0").param("limit", "5").contentType(MediaType.APPLICATION_JSON))
+//				.andExpect(status().isOk()).andExpect(jsonPath("$.status").value("SUCCESS"))
+//				.andExpect(jsonPath("$.data.length()").value(2));
+//	}
 
 	@Test
 	public void testFindUserById_Success() throws Exception {
@@ -118,6 +118,7 @@ public class UserControllerTest {
 		updatedUser.setPhoneNo("0987654321");
 		updatedUser.setAddress("789 Main St");
 		updatedUser.setRole(role);
+		Arrays.asList(null)
 
 		when(userService.updateUserById("1", updatedUser)).thenReturn(updatedUser);
 

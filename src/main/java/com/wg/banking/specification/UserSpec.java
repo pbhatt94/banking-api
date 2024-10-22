@@ -8,11 +8,11 @@ import com.wg.banking.model.User;
 
 public class UserSpec {
 
-	public static final String NAME = "name";
-    public static final String USERNAME = "username";
-    public static final String AGE = "age";
-    public static final String ADDRESS = "address";
-    public static final String ROLE = "role";
+	private static final String NAME = "name";
+	private static final String USERNAME = "username";
+	private static final String AGE = "age";
+	private static final String ADDRESS = "address";
+	private static final String ROLE = "role";
 
     private UserSpec() {
     }
