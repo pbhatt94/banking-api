@@ -118,7 +118,7 @@ public class UserControllerTest {
 		updatedUser.setPhoneNo("0987654321");
 		updatedUser.setAddress("789 Main St");
 		updatedUser.setRole(role);
-		Arrays.asList(null)
+
 
 		when(userService.updateUserById("1", updatedUser)).thenReturn(updatedUser);
 

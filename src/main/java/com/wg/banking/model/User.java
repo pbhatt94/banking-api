@@ -35,7 +35,6 @@ public class User {
 
 	@Column(nullable = false)
 	@Size(min = 1, message = "Name must not be empty.")
-//	@Pattern(regexp = "^[A-Za-z ]+$", message = "Name must not contain digits or special characters.")
 	private String name;
 
 	@NotBlank(message="Email must not be null.")

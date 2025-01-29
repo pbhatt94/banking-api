@@ -1,5 +1,6 @@
 package com.wg.banking.security;
 
+import com.wg.banking.config.CorsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,13 +28,16 @@ public class SecurityConfig {
 	@Autowired 
 	private JwtFilter filter;
 
+	@Autowired
+	private CorsConfig corsConfig;
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests((authorize) -> {
 			authorize.requestMatchers("/api/auth/**", "/v3/api-docs", "/swagger-ui.html").permitAll();
 			authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 			authorize.anyRequest().authenticated();
-		}).httpBasic(Customizer.withDefaults());
+		}).cors(c -> c.configurationSource(corsConfig)).httpBasic(Customizer.withDefaults());
 
 		http.exceptionHandling(exception -> exception.authenticationEntryPoint(point)).sessionManagement(management -> {
 			management.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

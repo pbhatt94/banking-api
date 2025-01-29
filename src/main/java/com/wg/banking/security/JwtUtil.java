@@ -22,6 +22,7 @@ public class JwtUtil {
 	private final String SECRET_KEY;
 
 	private final TokenBlacklistService blacklistService;
+	
 
 	@Autowired
 	public JwtUtil(JwtConfig jwtConfig, TokenBlacklistService blacklistService) {
@@ -64,9 +65,13 @@ public class JwtUtil {
 
 	public Boolean validateToken(String token) {
 		if (blacklistService.isTokenBlacklisted(token)) {
-			return false; // Token is invalid if it’s blacklisted
+			return false; 
 		}
-		return !isTokenExpired(token);
+		String username = extractUsername(token);
+		if(blacklistService.isUserBlacklisted(username)) {
+			return false;
+		}
+		return !isTokenExpired(token); 
 	}
 
 	public void blacklistToken(String token) {

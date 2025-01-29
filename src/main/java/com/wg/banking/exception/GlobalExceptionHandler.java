@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +44,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.CUSTOMER_NOT_FOUND_MESSAGE);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
 				ApiMessages.CUSTOMER_NOT_FOUND_MESSAGE, null, apiError);
+	}
+	
+	@ExceptionHandler(IssueNotFoundException.class)
+	public ResponseEntity<Object> handleIssueNotFound(IssueNotFoundException ex, HttpServletRequest request)
+			throws IOException {
+		logError(ex, request);
+		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(), ApiMessages.ISSUE_NOT_FOUND);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.NOT_FOUND,
+				ApiMessages.ISSUE_NOT_FOUND, null, apiError);
 	}
 
 	@ExceptionHandler(AccountNotFoundException.class)
@@ -130,6 +140,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				ApiMessages.ADMIN_ALREADY_EXISTS_MESSAGE, null, apiError);
 	}
 
+	@ExceptionHandler(IllegalResourceException.class)
+	public ResponseEntity<Object> handleAdminAlreadyExists(IllegalResourceException ex, HttpServletRequest request)
+			throws IOException {
+		logError(ex, request);
+		ApiError apiError = new ApiError(LocalDateTime.now(), ex.getMessage(),
+				ApiMessages.ADMIN_ALREADY_EXISTS_MESSAGE);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST,
+				ApiMessages.ADMIN_ALREADY_EXISTS_MESSAGE, null, apiError);
+	}
+
 	@ExceptionHandler(ResourceAccessDeniedException.class)
 	public ResponseEntity<Object> handleAccessDeniedException(ResourceAccessDeniedException ex,
 			HttpServletRequest request) throws IOException {
@@ -193,6 +213,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			return "A conflict occurred with entry: " + matcher.group(1);
 		}
 		return ApiMessages.CONFLICT_MESSAGE;
+	}
+	
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	protected ResponseEntity<ApiError> handleAuthorizationDeniedException(AuthorizationDeniedException ex,
+			WebRequest request) {
+		ApiError errorDetails = new ApiError(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity<ApiError>(errorDetails, HttpStatus.FORBIDDEN);
 	}
 
 	@ExceptionHandler(Exception.class)

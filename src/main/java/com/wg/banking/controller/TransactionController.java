@@ -29,16 +29,24 @@ public class TransactionController {
 
 	@GetMapping("/account/{accountId}/transactions")
 	public ResponseEntity<Object> getAllTransactionsByUserId(@PathVariable String accountId,
-			@RequestParam(value = "pageNumber", defaultValue = "1", required = false) Integer pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "1", required = false) Integer pageSize) {
-		List<Transaction> transactions = transactionService.getAllTransactionsByUserId(accountId, pageNumber, pageSize);
+			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "100", required = false) Integer pageSize,
+			@RequestParam(value = "transactionType", required = false) String transactionType,
+	        @RequestParam(value = "minAmount", required = false) Double minAmount,
+	        @RequestParam(value = "maxAmount", required = false) Double maxAmount) {
+		List<Transaction> transactions = transactionService.getAllTransactionsByUserId(accountId, pageNumber, pageSize, transactionType, minAmount, maxAmount);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
 				ApiMessages.TRANSACTIONS_FETCHED_SUCCESSFULLY_MESSAGE, transactions);
 	}
 
-	@GetMapping("/transactions")
-	public ResponseEntity<Object> getAllTransactions() {
-		List<Transaction> transactions = transactionService.getAllTransactions();
+	@GetMapping("/transactions") 
+	public ResponseEntity<Object> getAllTransactions(
+			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+			@RequestParam(value = "transactionType", required = false) String transactionType,
+	        @RequestParam(value = "minAmount", required = false) Double minAmount,
+	        @RequestParam(value = "maxAmount", required = false) Double maxAmount) {
+		List<Transaction> transactions = transactionService.getAllTransactions(pageNumber, pageSize, transactionType, minAmount, maxAmount);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
 				ApiMessages.TRANSACTIONS_FETCHED_SUCCESSFULLY_MESSAGE, transactions);
 	}

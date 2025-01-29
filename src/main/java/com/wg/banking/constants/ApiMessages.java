@@ -31,7 +31,7 @@ public final class ApiMessages {
 	public static final String INVALID_REQUEST = "Invalid Request.";
 	public static final String ACESS_DENIED_ERROR = "You do not have permission to access this resouce.";
 	public static final String INVALID_PAGE_NUMBER_OR_LIMIT = "Invalid page number or limit.";
-	public static final String PAGE_NUMBER_AND_LIMIT_MUST_BE_POSITIVE = "Page number and limit must be greater than 0.";
+	public static final String PAGE_NUMBER_AND_LIMIT_MUST_BE_POSITIVE = "Page number and limit must be greater than or equal to 0.";
 	public static final String ACCOUNTS_FETCHED_SUCCESSFULLY_MESSAGE = "Accounts fetched successfully.";
 	public static final String INACTIVE_ACCOUNT_ERROR = "Account is inactive.";
 	public static final String ACCOUNT_FETCHED_SUCCESSFULLY_MESSAGE = "Account fetched successfully";
@@ -42,4 +42,10 @@ public final class ApiMessages {
 	public static final String NOTIFICATION_SENT_SUCCESSFUL_MESSAGE = "Notification sent successfully.";
 	public static final String NOTIFICATION_FETCHED_SUCCESSFUL_MESSAGE = "Notifications fetched successfully.";
 	public static final String ADMIN_ALREADY_EXISTS_MESSAGE = "Admin already exists.";
+	public static final String ACTION_NOT_ALLOWED = "Unauthorized";
+	public static final String ISSUE_NOT_FOUND = "Issue not found.";
+	public static final String ISSUE_RAISED_SUCCESSFULLY = "Issue raised successfully.";
+	public static final String ISSUES_FETCHED_SUCCESSFUL_MESSAGE = "Issues fetched successfully.";
+	public static final String ISSUE_UPDATED_SUCCESSFUL_MESSAGE = "Issue updated successfully.";
+	public static final String AMOUNT_EXCEEDED_TRANSACTION_LIMIT = "Amount exceeded transaction limit. Please keep it under 20000.";
 }

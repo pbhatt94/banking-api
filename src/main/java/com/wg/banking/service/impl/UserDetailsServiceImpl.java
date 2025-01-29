@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<User> userRes = userRepository.findByUsername(username);
 		if (userRes.isEmpty())
-			throw new UsernameNotFoundException("Could not findUser with username = " + username);
+			throw new UsernameNotFoundException("Could not find User with username = " + username);
 		User user = userRes.get();
 		return new org.springframework.security.core.userdetails.User(username, user.getPassword(),
 				Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole())));

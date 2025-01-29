@@ -54,8 +54,13 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@Valid @RequestBody JwtRequest user) {
+	public ResponseEntity<Object> login(@Valid @RequestBody JwtRequest userRequest) {
 		try {
+			JwtRequest user = userRequest;
+			User existingUser = userService.findByUsername(user.getUsername());
+			if(existingUser == null) {
+				throw new Exception();
+			}
 			authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 			UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());

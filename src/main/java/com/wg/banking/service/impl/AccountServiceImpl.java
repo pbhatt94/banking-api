@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountServiceImpl implements AccountService {
 	private final AccountRepository accountRepository;
 	private final TransactionRepository transactionRepository;
+	private final double TRANSACTION_LIMIT = 20000;
 
 	@Override
 	public Account createAccount(User user) {
@@ -175,6 +176,9 @@ public class AccountServiceImpl implements AccountService {
 		if (amount <= 0) {
 			throw new InvalidAmountException(ApiMessages.AMOUNT_NEGATIVE_ERROR);
 		}
+		if(amount > this.TRANSACTION_LIMIT) {
+			throw new InvalidAmountException(ApiMessages.AMOUNT_EXCEEDED_TRANSACTION_LIMIT);
+		} 
 	}
 
 	private void validateFunds(double sourceAccountBalance, double amount) {

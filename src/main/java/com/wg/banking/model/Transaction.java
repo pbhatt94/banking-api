@@ -3,13 +3,7 @@ package com.wg.banking.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -18,13 +12,15 @@ public class Transaction {
 	@Id
 	private String id;
 	private double amount;
+
 	@Enumerated(EnumType.STRING)
 	private TransactionType transactionType;
-	@ManyToOne
+
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "source_account_id")
 	private Account sourceAccount;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "target_account_id")
 	private Account targetAccount;
 
