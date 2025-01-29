@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.wg.banking.model.BlockedUser;
 import com.wg.banking.repository.BlockedUserRepository;
+import com.wg.banking.service.TokenBlacklistService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class TokenBlacklistService {
+public class TokenBlacklistServiceImpl implements TokenBlacklistService {
 
 	private final Set<String> blacklistedTokens = new HashSet<>();
 	private final BlockedUserRepository repo;

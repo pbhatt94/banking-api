@@ -27,6 +27,7 @@ import com.wg.banking.model.Role;
 import com.wg.banking.model.User;
 import com.wg.banking.repository.UserRepository;
 import com.wg.banking.service.AccountService;
+import com.wg.banking.service.TokenBlacklistService;
 import com.wg.banking.service.UserService; 
 import com.wg.banking.specification.UserSpec;
 

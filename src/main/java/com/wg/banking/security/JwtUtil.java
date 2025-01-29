@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wg.banking.config.JwtConfig;
-import com.wg.banking.service.impl.TokenBlacklistService;
+import com.wg.banking.service.TokenBlacklistService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
